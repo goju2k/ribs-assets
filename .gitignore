@@ -1,0 +1,13 @@
+# Blender 자동 백업·임시
+*.blend1
+*.blend2
+*.blend@
+/tmp/
+
+# Aseprite 임시
+*.aseprite~
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
