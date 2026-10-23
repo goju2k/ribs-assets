@@ -11,3 +11,6 @@
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# 임시 미리보기 (커밋 안 함)
+/scratch/
