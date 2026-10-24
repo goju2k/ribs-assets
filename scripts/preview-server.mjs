@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const PORT = Number(process.argv[2] || process.env.PORT || 3208);
-const DIRS = [ 'scratch', 'blender', 'aseprite', 'research' ]; // scratch = 커밋 안 하는 임시 미리보기
+const DIRS = [ 'scratch', 'blender', 'aseprite', 'export', 'research' ]; // scratch = 커밋 안 하는 임시 미리보기
 const SKIP = /(^|[\\/])(\.git|node_modules|tmp)([\\/]|$)|\.blend\d$|~$/;
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.json': 'application/json; charset=utf-8', '.md': 'text/plain; charset=utf-8',
@@ -97,7 +97,7 @@ pre{margin:0;padding:10px;height:300px;overflow:auto;white-space:pre-wrap;font-s
 .empty{color:var(--mut);padding:40px 16px}
 </style></head><body>
 <header><b>ribs-assets</b>
-<select id="dir"><option value="">전체</option><option>scratch</option><option>blender</option><option>aseprite</option><option>research</option></select>
+<select id="dir"><option value="">전체</option><option>scratch</option><option>blender</option><option>aseprite</option><option>export</option><option>research</option></select>
 <input id="q" placeholder="검색" size="10"><label><input type="checkbox" id="big"> 크게</label><span id="st" style="color:var(--mut)">●</span></header>
 <main id="m"></main>
 <script>
@@ -139,8 +139,16 @@ async function render(){
     else if(['md','txt','py'].includes(e)){v=document.createElement('pre');fetch(url).then(r=>r.text()).then(t=>v.textContent=t)}
     else if(e==='mp4'||e==='webm'){v=document.createElement('div');v.className='view';v.innerHTML='<video src="'+url+'" controls loop muted autoplay style="max-width:100%;max-height:100%"></video>'}
     else{v=document.createElement('div');v.className='view';
-      const js=f.path.replace(/\\.[^.]+$/,'.json');
-      if(e==='png'&&paths.has(js)){const cv=document.createElement('canvas'),sel=document.createElement('select');v.append(cv);
+      const js=f.path.replace(/\\.[^.]+$/,'.json'),aj=f.path.replace(/\\.[^.]+$/,'.anim.json');
+      if(e==='png'&&paths.has(aj)){const cv=document.createElement('canvas'),sel=document.createElement('select');v.append(cv);
+        // 계약 형식(.anim.json): clip마다 프레임을 Aseprite 형식으로 바꿔 같은 재생기로
+        fetch('/'+aj+'?t='+Date.now()).then(r=>r.json()).then(a=>{const frames=[],tags=[];const [W,H]=a.frameSize;
+          for(const [name,clip] of Object.entries(a.clips)){const from=frames.length;
+            for(const fr of clip.frames)frames.push({frame:{x:fr.sx,y:fr.sy,w:fr.sWidth,h:fr.sHeight},spriteSourceSize:{x:0,y:0},sourceSize:{w:W,h:H},duration:fr.durationMs});
+            tags.push({name:name+(clip.loop?'':' ·1회'),from,to:frames.length-1})}
+          const box=v;anim(cv,url,{frames,meta:{frameTags:tags}},sel,()=>Math.max(1,Math.floor(Math.min((box.clientWidth-8)/W,(box.clientHeight-8)/H))))}).catch(()=>{});
+        c._sel=sel}
+      else if(e==='png'&&paths.has(js)){const cv=document.createElement('canvas'),sel=document.createElement('select');v.append(cv);
         fetch('/'+js+'?t='+Date.now()).then(r=>r.json()).then(meta=>{if(!meta.frames||!Array.isArray(meta.frames)){v.innerHTML='<img src="'+url+'" onload="fit(this)">';return}
           const box=v;anim(cv,url,meta,sel,()=>{const W=meta.frames[0].sourceSize.w,H=meta.frames[0].sourceSize.h;return Math.max(1,Math.floor(Math.min((box.clientWidth-8)/W,(box.clientHeight-8)/H)))})}).catch(()=>{});
         c._sel=sel}
