@@ -13,6 +13,10 @@ scripts/             일괄 내보내기 도구
 
 에셋 폴더마다 `README.md`에 용도, 크기 기준(미터·픽셀), 원본 출처를 적는다.
 
+## 게임(g-game-farm)과 주고받기
+
+요청 → 제작 → 공유 폴더로 전달 → 엔진 점검 → 양쪽 반영. 형식·흐름·브랜치 규칙은 [docs/asset-contract.md](docs/asset-contract.md), 형식 검사용 스키마는 [schema/anim.schema.json](schema/anim.schema.json). 요청은 이슈 양식 "에셋 요청"으로.
+
 ## 원격 미리보기 — http://home.ribs.kr:3108
 
 ```bash
