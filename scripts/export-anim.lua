@@ -68,4 +68,5 @@ lines[#lines+1] = '  "clips": {'
 lines[#lines+1] = table.concat(clips, ",\n")
 lines[#lines+1] = "  }"
 lines[#lines+1] = "}"
-local f = io.open(P.out .. "/" .. id .. ".anim.json", "wb") -- LF 줄바꿈 (Windows에서 "w"는 CRLF); f:write(table.concat(lines, "\n") .. "\n"); f:close()
+-- "wb": LF 줄바꿈 (Windows에서 "w"는 CRLF)
+local f = io.open(P.out .. "/" .. id .. ".anim.json", "wb"); f:write(table.concat(lines, "\n") .. "\n"); f:close()
