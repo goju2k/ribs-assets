@@ -89,19 +89,19 @@ for i = 1, 6 do
   end }
 end
 CLIPS[#CLIPS+1] = { "float", true, F }
--- dash: 대시 B (불씨 꼬리), 멈춤 중간 — 전투 명세 v1 구간: charge 330ms / travel 167ms / recover 233ms (전체 730ms)
+-- dash (D-021): 출발 멈춤 없음 — 누르는 즉시 흩어지며 튀어 나감. charge 83ms / travel 167ms(48px) / recover 233ms (전체 483ms)
+-- recover가 어린이 폼의 무게: 불씨가 크게 퍼졌다가 몸이 아래부터 차오르고, 마지막에 1px 내려앉음
+local function dots(i, list) for _, d in ipairs(list) do px(i, OX + d[1], OY + d[2], E[d[3]]) end end
 CLIPS[#CLIPS+1] = { "dash", false, {
-  { 70, "dash:charge", function(i) body(i, { dy = 1, flame = 2 }) end },
-  { 70, nil, function(i) body(i, { skip = function(y) return y > 11 end, flame = 3 }); body(i, { skip = function(y) return y <= 11 end, color = dither(P.M), flame = 0 }); core(i, OX + 2, OY + 11, 2, 0) end },
-  { 70, nil, function(i) body(i, { skip = function(y) return y > 8 end, color = dither(P.D), flame = 0 }); core(i, OX + 6, OY + 11, 3, 1) end },
-  { 60, nil, function(i) core(i, OX + 7, OY + 11, 3, 1) end },
-  { 60, nil, function(i) core(i, OX + 7, OY + 11, 2, 2) end },
-  { 56, "dash:travel", function(i) ember(i, OX + 6, OY + 11, 10) end },
+  { 42, "dash:charge", function(i) body(i, { skip = function(y) return y > 9 end, flame = 2 }); body(i, { skip = function(y) return y <= 9 end, color = dither(P.D), flame = 0 }); core(i, OX + 2, OY + 11, 2, 0) end },
+  { 41, nil, function(i) body(i, { skip = function(y) return y > 5 end, color = dither(P.D), flame = 0 }); core(i, OX + 6, OY + 11, 3, 1); dots(i, { {11,7,"y"}, {12,13,"r"}, {3,6,"r"} }) end },
+  { 56, "dash:travel", function(i) ember(i, OX + 6, OY + 11, 10); for y = 6, 12 do for x = 13, 15 do if (x + y) % 2 == 0 and (x * 7 + y * 3) % 5 ~= 0 then px(i, OX + x, OY + y, P.D) end end end end },
   { 56, nil, function(i) ember(i, OX + 6, OY + 10, 16) end },
   { 55, nil, function(i) ember(i, OX + 6, OY + 10, 13) end },
-  { 52, "dash:recover", function(i) body(i, { skip = function(y) return y < 8 end, color = dither(P.M), flame = 0 }); ember(i, OX + 6, OY + 11, 5) end },
-  { 61, nil, function(i) body(i, { skip = function(y) return y < 4 end, flame = 2 }); body(i, { skip = function(y) return y >= 4 end, color = dither(P.M), flame = 0 }) end },
-  { 120, nil, function(i) body(i, { flame = 3 }) end },
+  { 50, "dash:recover", function(i) core(i, OX + 7, OY + 11, 4, 0); dots(i, { {7,4,"y"}, {12,9,"y"}, {7,17,"r"}, {2,12,"r"} }) end },
+  { 60, nil, function(i) body(i, { skip = function(y) return y < 10 end, color = dither(P.M), flame = 0 }); core(i, OX + 7, OY + 10, 3, 1) end },
+  { 60, nil, function(i) body(i, { skip = function(y) return y < 5 end, flame = 2 }); body(i, { skip = function(y) return y >= 5 end, color = dither(P.M), flame = 0 }) end },
+  { 63, nil, function(i) body(i, { dy = 1, flame = 3 }) end },
 } }
 -- parry: 패링 A (섬광 고리, 방어 계열 색), 1~2px 뒤로 밀림
 CLIPS[#CLIPS+1] = { "parry", false, {
