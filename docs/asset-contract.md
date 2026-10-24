@@ -1,6 +1,6 @@
 # 에셋 계약 (ribs-assets → g-game-farm)
 
-contract: **1** (초안, 2026-10-24) — 바뀌면 숫자를 올리고 아래 변경 기록에 적는다.
+contract: **2** (2026-10-24) — 바뀌면 숫자를 올리고 아래 변경 기록에 적는다. 캐릭터 애니메이션(`.anim.json`)의 `"contract"` 값은 형식이 바뀌지 않아 1 그대로.
 
 ribs-assets가 만든 픽셀 애니메이션을 g-game-farm 엔진이 그대로 쓰기 위한 약속과, 두 저장소가 주고받는 흐름. 기계 검사용 스키마: [`schema/anim.schema.json`](../schema/anim.schema.json).
 
@@ -94,14 +94,44 @@ ribs-assets가 만든 픽셀 애니메이션을 g-game-farm 엔진이 그대로 
 
 Aseprite에서는 태그 이름 = clip 이름, 프레임 User Data에 쉼표로 태그를 적는다 (예: `dash:travel`). 변환 스크립트가 읽는다.
 
+## 타일셋 (contract 2)
+
+맵(방) 그림용. 레벨 설계(실제 방 배치·충돌 칠하기)는 게임 쪽 몫이고, 에셋 방은 "Tiled에서 바로 칠할 수 있는 타일셋"과 견본 방 하나까지 만든다.
+
+### 전달물
+
+| 파일 | 내용 |
+|---|---|
+| `<id>.png` | 타일 그림. 16×16 칸, 간격·여백 없음, 투명(0) 아니면 불투명(255)만 |
+| `<id>.tsj` | Tiled 외부 타일셋(JSON). 타일 애니메이션 포함. 편집용 자동 타일(Wang 세트)·타일 이름은 있으면 넣음 (선택) |
+| `<id>-sample.tmj` | 견본 방 하나 (게임 `maps/README.md` 규칙대로). 타일셋이 실제로 쓰인다는 증명이자 출발점 |
+
+### `.tsj` 규칙
+
+- `tilewidth`/`tileheight` 16, `margin`/`spacing` 0, `columns`·`tilecount`·`imagewidth`/`imageheight`는 png와 일치.
+- `image`: 같은 폴더의 `<id>.png` (상대 경로). 파일 이름은 반드시 `<id>.tsj` — 게임은 확장자를 뺀 파일 이름을 타일셋 이름으로 쓴다.
+- `columns`는 자유 (게임이 빌드 때 `.tsj`에서 읽는다).
+- **타일 애니메이션 (필수 지원)**: Tiled 기본 형식 `tiles[].animation = [{ "tileid", "duration" }]`.
+  - 지도에 놓는 타일 = 애니메이션 첫 프레임 타일. 프레임 타일은 모두 같은 타일셋 안.
+  - `duration`은 ms 정수. 같은 타일의 애니메이션은 지도 전체에서 같은 시계로 돈다 (Tiled 편집기와 같음).
+- 편집용 정보(Wang 세트, 타일 `type`/이름)는 게임에 의미 없음 — 게임은 무시해도 된다. 게임적 의미(충돌 등)는 지금처럼 별도 레이어.
+- 뒤집기·회전 타일은 쓰지 않는다 (변환기가 거부).
+
+### 견본 방 레이어 (아래가 먼저 그려짐)
+
+`floor` → `wall` → `props` (모두 그 타일셋) → `collision` (`collision` 타일셋) → `markers` (오브젝트: `entryPoint` 등). 벽은 2칸 높이(윗면+벽면 2줄)이고, 벽면 두 줄 모두 충돌 칸.
+
+- 견본은 같은 폴더 기준으로 `<id>.tsj`와 `collision.tsj`를 가리킨다. `collision.tsj/png`는 게임 `maps/collision.tsj`(16×16 1칸, 이름 `collision`)를 그대로 복사해 함께 보낸다.
+- 한 방에서 그림 타일셋 여러 개를 써도 되지만, 레이어 하나에는 타일셋 하나만.
+
 ## 위치
 
 | 어디 | 경로 |
 |---|---|
 | ribs-assets (원본) | `aseprite/<id>/<id>.aseprite` |
-| ribs-assets (변환 결과) | `export/<id>/<id>.png`, `<id>.anim.json` |
+| ribs-assets (변환 결과) | `export/<id>/` — 캐릭터: `<id>.png`, `<id>.anim.json` / 타일셋: `<id>.png`, `<id>.tsj`, `<id>-sample.tmj` |
 | 공유 폴더 (전달) | `C:\github-clones\_asset-drop\<id>\v<n>\` |
-| g-game-farm (복사 위치) | `libs/games/roguelite/public/game/characters/<id>/` |
+| g-game-farm (복사 위치) | 캐릭터: `libs/games/roguelite/public/game/characters/<id>/` / 타일셋: `.tsj`·png는 `libs/games/roguelite/public/game/map/<id>/` (받은 그대로, 바이트 동일), 견본은 `maps/<id>-sample.tmj` (엔진 방이 `tilesets[].source`만 고침) |
 
 ## 색 의미 (참고)
 
@@ -113,8 +143,15 @@ Aseprite에서는 태그 이름 = clip 이름, 프레임 User Data에 쉼표로 
 2. **복사 위치**: `libs/games/roguelite/public/game/characters/<id>/` (게임 `ASSET_BASE_URL` `/game/` 아래). png와 `.anim.json`을 같은 폴더에 두고 게임이 런타임에 불러옴.
 3. **아틀라스 패킹**: 지금은 안 함 (캐릭터 단위 시트). 텍스처 전환 비용이 실제로 측정되면 g-game-farm 빌드 단계에서 패킹 — `sx/sy`와 `texture`만 바뀌고 형식은 그대로.
 
+## 엔진 쪽과 정한 것 (contract 2, 2026-10-24 엔진 방 결론)
+
+4. **위치·경로**: 위 표대로. `.tsj`·png는 수정 없이 두고, 견본 `.tmj`의 타일셋 경로만 게임 쪽에서 바꾼다.
+5. **그림 타일셋 여러 개**: 게임이 타일셋 이름으로 텍스처를, `.tsj`의 `columns`로 열 수를 고른다.
+6. **타일 애니메이션**: 빌드 때 `.tsj`의 `tiles[].animation`을 읽어 TileMap에 넣고, 렌더는 방 전체가 시계 하나(시뮬레이션 시간 — 게임을 멈추면 같이 멈춤)로 프레임을 고른다. 프레임 `tileid`가 범위 밖이거나 `duration` ≤ 0이면 빌드 에러. 애니메이션 프레임 타일이 지도에 직접 놓이면, 그 타일 자체에 애니메이션이 없으면 정지 그림. Wang 세트·타일 type/이름은 무시.
+
 ## 변경 기록
 
 | contract | 날짜 | 내용 |
 |---|---|---|
 | 1 | 2026-10-24 | 초안 → 엔진 방 검토 반영 (anchor 필수, 방향 규칙, 검사 스크립트, 0번 프레임 태그, 1픽셀=1단위) |
+| 2 | 2026-10-24 | 타일셋 전달 형식 추가 (png + .tsj + 견본 .tmj, 타일 애니메이션 필수), 미정 4~6 |
