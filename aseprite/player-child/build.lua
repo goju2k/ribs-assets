@@ -62,15 +62,17 @@ local function ring(img, cx, cy, r, c, gaps)
 end
 local function silhouette(col) return function() return col end end
 local function dither(col) return function(x, y) if (x + y) % 2 == 0 then return col end end end
+-- 대시 중 불씨 = 불씨 모습 색 (D-015, 비교 시안 ① 하늘색→흰색). 손불꽃(FLAME)은 붉은색 그대로
+local E = { Y=H"ffffff", y=H"bfeaff", r=H"6fb8f2" }
 local function ember(i, cx, cy, tail)
-  for k = 1, tail do local c = (k < 3) and P.Y or (k < 6) and P.y or P.r
+  for k = 1, tail do local c = (k < 3) and E.Y or (k < 6) and E.y or E.r
     if k % 3 ~= 0 or k < 4 then px(i, cx + k, cy + ((k > 4 and k % 2 == 1) and 1 or 0), c) end end
-  for _, d in ipairs({ {0,0,"Y"}, {-1,0,"y"}, {0,-1,"y"}, {0,1,"y"}, {1,0,"Y"}, {-1,-1,"r"}, {-1,1,"r"}, {-2,0,"r"} }) do px(i, cx + d[1], cy + d[2], P[d[3]]) end
+  for _, d in ipairs({ {0,0,"Y"}, {-1,0,"y"}, {0,-1,"y"}, {0,1,"y"}, {1,0,"Y"}, {-1,-1,"r"}, {-1,1,"r"}, {-2,0,"r"} }) do px(i, cx + d[1], cy + d[2], E[d[3]]) end
 end
 local function core(i, cx, cy, r, k)
   for y = -r, r do for x = -r, r do local d = math.sqrt(x * x + y * y)
-    if d <= r + 0.3 then px(i, cx + x, cy + y, d < r * 0.45 and P.Y or d < r * 0.8 and P.y or P.r) end end end
-  if k % 2 == 0 then px(i, cx, cy - r - 1, P.y) else px(i, cx - 1, cy - r - 2, P.r) end
+    if d <= r + 0.3 then px(i, cx + x, cy + y, d < r * 0.45 and E.Y or d < r * 0.8 and E.y or E.r) end end end
+  if k % 2 == 0 then px(i, cx, cy - r - 1, E.y) else px(i, cx - 1, cy - r - 2, E.r) end
 end
 
 -- clip 정의: { 이름, loop, { {ms, "태그,태그" 또는 nil, 그리기} ... } }
