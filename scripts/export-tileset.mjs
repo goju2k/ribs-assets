@@ -66,7 +66,10 @@ if (existsSync(samplePath)) {
     layers: [
       layer('floor', L.floor), layer('wall', L.wall), layer('props', L.props), layer('collision', L.collision, 0.5),
       { draworder: 'topdown', id: ++lid, name: 'markers', opacity: 1, type: 'objectgroup', visible: true, x: 0, y: 0,
-        objects: S.MARKERS.map(m => ({ height: 0, id: ++oid, name: m.id, point: true, properties: [{ name: 'id', type: 'string', value: m.id }], rotation: 0, type: m.type, visible: true, width: 0, x: m.x, y: m.y })) },
+        objects: [
+          ...S.MARKERS.map(m => ({ height: 0, id: ++oid, name: m.id, point: true, properties: [{ name: 'id', type: 'string', value: m.id }], rotation: 0, type: m.type, visible: true, width: 0, x: m.x, y: m.y })),
+          ...(S.EXITS || []).map(x => ({ height: x.height, id: ++oid, name: x.id, properties: ['id', 'targetRoomId', 'targetEntryId'].map(k => ({ name: k, type: 'string', value: x[k] })), rotation: 0, type: 'exit', visible: true, width: x.width, x: x.x, y: x.y })),
+        ] },
     ],
     nextlayerid: lid + 1, nextobjectid: oid + 1, orientation: 'orthogonal', renderorder: 'right-down', tiledversion: '1.12.2',
     tileheight: T, tilesets: [{ firstgid: 1, source: `${id}.tsj` }, { firstgid: COL_FIRST, source: 'collision.tsj' }],

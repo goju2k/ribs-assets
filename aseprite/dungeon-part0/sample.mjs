@@ -1,4 +1,4 @@
-// dungeon-part0 견본 방: Part 0 봉인탑 통로 + 위로 열린 안전지대 (30x13칸).
+// dungeon-part0 견본 방: Part 0 봉인탑 통로 + 위로 열린 안전지대 + 북쪽 아치 문 + 동쪽 열린 출구 (30x13칸).
 // export-tileset.mjs가 읽어 <id>-sample.tmj로 만든다. 레이어: floor → wall → props → collision → markers.
 // 문자 지도: 공백 = 비움(허공), 벽 문자는 collision에도 칠해짐.
 export const MAP = [
@@ -6,8 +6,8 @@ export const MAP = [
   '           LUUUUUUR           ',
   '           LFFFFFFR           ',
   'TTTTTTTTTTTLqssssQRTTTTTTTTTTT',
-  'UUUUUUUuUUULl....rRUUUUUUUUuUU',
-  'FFFFFFKFFFFLl....rRFFFFFFKFFFF',
+  'UUUUDEUuUUULl....rRUUUUUUUUuUU',
+  'FFFFGHKFFFFLl....rRFFFFFFKFFFF',
   'sssssssssssss....sssssssssssss',
   '..............................',
   '..............................',
@@ -27,6 +27,10 @@ export const LEGEND = {
   u: { tile: 21, layer: 'wall', solid: true },
   F: { tile: 22, layer: 'wall', solid: true },
   K: { tile: 24, layer: 'wall', solid: true },
+  D: { tile: 25, layer: 'wall', solid: true },   // 아치 문 위 (벽면 위 줄)
+  E: { tile: 26, layer: 'wall', solid: true },
+  G: { tile: 27, layer: 'wall' },                // 아치 문 아래 = 열린 입구 (충돌 없음)
+  H: { tile: 28, layer: 'wall' },
   s: { tile: 6, layer: 'floor' },
   l: { tile: 7, layer: 'floor' },
   r: { tile: 8, layer: 'floor' },
@@ -48,6 +52,11 @@ export const PROPS = [
   [30, 24, 5], [30, 7, 5],                              // 긁힌 자국
   [31, 6, 9], [31, 26, 10], [32, 18, 10], [33, 9, 7],   // 파편, 잔해, 해골
 ];
-// 통로 양 끝은 이 견본에선 막아 둠 (다른 방과 잇는 출구는 게임 쪽에서)
-export const EXTRA_SOLID = [[0, 7], [0, 8], [0, 9], [0, 10], [0, 11], [29, 7], [29, 8], [29, 9], [29, 10], [29, 11]];
+// 통로 서쪽 끝은 막고, 동쪽 끝은 열린 출구
+export const EXTRA_SOLID = [[0, 7], [0, 8], [0, 9], [0, 10], [0, 11]];
+// 출구 (Class "exit" 사각형): 들어서면 방이 바뀜. 연결할 방이 아직 없어 자기 자신(room-d)의 start로
+export const EXITS = [
+  { id: 'northDoor', x: 64, y: 80, width: 32, height: 16, targetRoomId: 'room-d', targetEntryId: 'start' }, // 아치 문 아래 칸 (4·5열, 5행)
+  { id: 'eastEnd', x: 464, y: 112, width: 16, height: 80, targetRoomId: 'room-d', targetEntryId: 'start' }, // 통로 동쪽 끝 (29열, 7~11행)
+];
 export const MARKERS = [{ type: 'entryPoint', id: 'start', x: 216, y: 136 }];
