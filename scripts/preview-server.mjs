@@ -104,8 +104,10 @@ pre{margin:0;padding:10px;height:300px;overflow:auto;white-space:pre-wrap;font-s
 const $=s=>document.querySelector(s), m=$('#m');
 const kb=n=>n>1e6?(n/1e6).toFixed(1)+'MB':(n/1e3).toFixed(0)+'KB';
 const ext=p=>p.slice(p.lastIndexOf('.')+1).toLowerCase();
-const SHOW=['glb','gltf','png','jpg','jpeg','gif','webp','svg','md','txt','py','mp4','webm'];
+const SHOW=['html','glb','gltf','png','jpg','jpeg','gif','webp','svg','md','txt','py','mp4','webm'];
 let files=[], changed='';
+// 작은 도트 이미지는 정수배로 키워 카드에 맞춤 (픽셀 그대로)
+window.fit=img=>{const b=img.parentElement,w=img.naturalWidth,h=img.naturalHeight;const s=Math.floor(Math.min((b.clientWidth-8)/w,(b.clientHeight-8)/h));if(s>1)img.style.width=w*s+'px'};
 const players=[];
 function anim(cv,src,meta,sel,scale){
   const img=new Image();img.src=src;const fr=meta.frames,tags=meta.meta.frameTags||[];
@@ -133,15 +135,16 @@ async function render(){
     const c=document.createElement('div');c.className='card'+(f.path===changed?' new':'');
     let v;
     if(e==='glb'||e==='gltf'){v=document.createElement('div');v.className='view';v.innerHTML='<model-viewer src="'+url+'" camera-controls auto-rotate shadow-intensity="1" exposure="1"></model-viewer>'}
+    else if(e==='html'){v=document.createElement('div');v.className='view';v.innerHTML='<iframe src="'+url+'" style="width:100%;height:100%;border:0;background:#16181d"></iframe>'}
     else if(['md','txt','py'].includes(e)){v=document.createElement('pre');fetch(url).then(r=>r.text()).then(t=>v.textContent=t)}
     else if(e==='mp4'||e==='webm'){v=document.createElement('div');v.className='view';v.innerHTML='<video src="'+url+'" controls loop muted autoplay style="max-width:100%;max-height:100%"></video>'}
     else{v=document.createElement('div');v.className='view';
       const js=f.path.replace(/\\.[^.]+$/,'.json');
       if(e==='png'&&paths.has(js)){const cv=document.createElement('canvas'),sel=document.createElement('select');v.append(cv);
-        fetch('/'+js+'?t='+Date.now()).then(r=>r.json()).then(meta=>{if(!meta.frames||!Array.isArray(meta.frames)){v.innerHTML='<img src="'+url+'">';return}
+        fetch('/'+js+'?t='+Date.now()).then(r=>r.json()).then(meta=>{if(!meta.frames||!Array.isArray(meta.frames)){v.innerHTML='<img src="'+url+'" onload="fit(this)">';return}
           const box=v;anim(cv,url,meta,sel,()=>{const W=meta.frames[0].sourceSize.w,H=meta.frames[0].sourceSize.h;return Math.max(1,Math.floor(Math.min((box.clientWidth-8)/W,(box.clientHeight-8)/H)))})}).catch(()=>{});
         c._sel=sel}
-      else v.innerHTML='<img src="'+url+'">'}
+      else v.innerHTML='<img src="'+url+'" onload="fit(this)">'}
     if(big)v.style.height='70vh';
     c.append(v);const mt=document.createElement('div');mt.className='meta';
     mt.innerHTML='<a href="'+url+'" target="_blank"></a><span>'+kb(f.size)+' · '+new Date(f.mtime).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+'</span>';
