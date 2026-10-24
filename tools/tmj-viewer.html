@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tiled 지도 보기</title>
+<style>
+:root { color-scheme: dark; --bg:#0b0910; --fg:#e6e6e6; --mut:#8a8f9c; --acc:#6cb6ff; --card:#20232b; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 system-ui, sans-serif; }
+header { padding: 8px 16px; display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; border-bottom: 1px solid #22252d; }
+button { background: var(--card); color: var(--fg); border: 1px solid #3a3f4b; border-radius: 6px; padding: 3px 9px; font: inherit; font-size: 13px; cursor: pointer; }
+button.on { border-color: var(--acc); color: var(--acc); }
+small { color: var(--mut); }
+#wrap { padding: 12px 16px; overflow: auto; }
+canvas { image-rendering: pixelated; display: block; max-width: 100%; }
+</style>
+</head>
+<body>
+<header>
+  <b id="title">지도</b>
+  <span id="opts"></span>
+  <small id="info"></small>
+</header>
+<div id="wrap"><canvas id="c"></canvas></div>
+<script>
+// 사용: tmj-viewer.html?map=/export/<id>/<id>-sample.tmj&anim=/export/player-child/player-child.anim.json
+const q = new URLSearchParams(location.search);
+const MAP = q.get('map') || '/export/dungeon-part0/dungeon-part0-sample.tmj';
+const ANIM = q.get('anim') ?? '/export/player-child/player-child.anim.json';
+const st = { dark: true, collision: false, char: true, zoom: 3 };
+try { Object.assign(st, JSON.parse(localStorage.getItem('tmjv') || '{}')); } catch {}
+const save = () => { try { localStorage.setItem('tmjv', JSON.stringify(st)); } catch {} };
+const load = src => new Promise((r, e) => { const i = new Image(); i.onload = () => r(i); i.onerror = e; i.src = src; });
+const j = async u => (await fetch(u + (u.includes('?') ? '&' : '?') + 't=' + Date.now())).json();
+const dir = u => u.slice(0, u.lastIndexOf('/') + 1);
+
+function opt(label, key, vals) {
+  const box = document.getElementById('opts');
+  for (const [l, v] of vals) { const b = document.createElement('button'); b.textContent = l;
+    const s = () => b.classList.toggle('on', st[key] === v); s(); b._s = s;
+    b.onclick = () => { st[key] = v; save(); box.querySelectorAll('button').forEach(x => x._s()); size(); }; box.append(b); }
+}
+
+let map, sets = [], anim, sheet, cv = document.getElementById('c'), ctx = cv.getContext('2d');
+function size() { cv.width = map.width * map.tilewidth; cv.height = map.height * map.tileheight; cv.style.width = cv.width * st.zoom + 'px'; }
+
+(async () => {
+  map = await j(MAP);
+  document.getElementById('title').textContent = MAP.split('/').pop();
+  for (const ref of map.tilesets) {
+    const url = dir(MAP) + ref.source, ts = await j(url);
+    const img = await load(dir(url) + ts.image + '?t=' + Date.now());
+    const animOf = new Map((ts.tiles || []).filter(t => t.animation).map(t => [t.id, { frames: t.animation, total: t.animation.reduce((a, f) => a + f.duration, 0) }]));
+    sets.push({ first: ref.firstgid, ts, img, animOf, name: ts.name });
+  }
+  sets.sort((a, b) => b.first - a.first);
+  if (ANIM) try { anim = await j(ANIM); sheet = await load(dir(ANIM) + anim.texture + '?t=' + Date.now()); } catch { anim = null; }
+  opt('', 'dark', [['어둠+빛', true], ['밝게', false]]);
+  opt('', 'collision', [['충돌 숨김', false], ['충돌 보기', true]]);
+  if (anim) opt('', 'char', [['캐릭터', true], ['캐릭터 없음', false]]);
+  opt('', 'zoom', [['2x', 2], ['3x', 3], ['4x', 4]]);
+  const n = sets.reduce((a, s) => a + s.animOf.size, 0);
+  document.getElementById('info').textContent = `${map.width}×${map.height}칸 · 타일셋 ${sets.map(s => s.name).join(', ')} · 애니메이션 타일 ${n}`;
+  size(); requestAnimationFrame(draw);
+})();
+
+function tileAt(gid, t) {
+  const s = sets.find(x => x.first <= gid); const id = gid - s.first;
+  const a = s.animOf.get(id); let tid = id;
+  if (a) { let k = t % a.total; for (const f of a.frames) { if (k < f.duration) { tid = f.tileid; break; } k -= f.duration; } }
+  return { s, tid };
+}
+function draw(t) {
+  const T = map.tilewidth, cols = map.width;
+  ctx.imageSmoothingEnabled = false; ctx.fillStyle = '#0b0910'; ctx.fillRect(0, 0, cv.width, cv.height);
+  const lights = [];
+  for (const L of map.layers) {
+    if (L.type === 'tilelayer') {
+      if (L.name === 'collision' && !st.collision) continue;
+      ctx.globalAlpha = L.name === 'collision' ? 0.45 : 1;
+      L.data.forEach((gid, i) => { if (!gid) return;
+        const { s, tid } = tileAt(gid, t); const c = s.ts.columns;
+        const x = (i % cols) * T, y = Math.floor(i / cols) * T;
+        ctx.drawImage(s.img, (tid % c) * T, Math.floor(tid / c) * T, T, T, x, y, T, T);
+        // 빛 내는 소품: 봉인등·인장·잔해 가슴 (이름으로)
+        const nm = (s.ts.tiles || []).find(z => z.id === gid - s.first)?.properties?.find(p => p.name === 'name')?.value || '';
+        if (nm.startsWith('봉인등')) lights.push([x + 8, y + 9, 38, 'cool']);
+        if (nm === '봉인 인장 오른아래') lights.push([x, y, 30, 'cool']);
+        if (nm === '수호자 잔해 오른아래') lights.push([x + 6, y + 5, 14, 'cool']);
+      });
+      ctx.globalAlpha = 1;
+    }
+  }
+  // 캐릭터: entryPoint 자리에 float (anchor 기준)
+  const ep = map.layers.find(l => l.type === 'objectgroup')?.objects.find(o => o.type === 'entryPoint');
+  if (anim && st.char && ep) {
+    const c = anim.clips.float, tot = c.frames.reduce((a, f) => a + f.durationMs, 0); let k = t % tot, f = c.frames[0];
+    for (const fr of c.frames) { if (k < fr.durationMs) { f = fr; break; } k -= fr.durationMs; }
+    const ox = Math.round(ep.x - anim.anchor[0]), oy = Math.round(ep.y - anim.anchor[1]);
+    ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fillRect(ep.x - 4, ep.y, 8, 1); ctx.fillRect(ep.x - 3, ep.y + 1, 6, 1);
+    ctx.drawImage(sheet, f.sx, f.sy, f.sWidth, f.sHeight, ox, oy, f.sWidth, f.sHeight);
+    lights.push([ep.x + 8, ep.y - 9, 50, 'warm']);
+  }
+  if (st.dark) {
+    // 계단식 빛: 주변 어둠 + 빛 둘레 3단계 (게임 쪽 조명 흉내 — 그림 자체는 팔레트 그대로)
+    const lm = document.createElement('canvas'); lm.width = cv.width; lm.height = cv.height; const g = lm.getContext('2d');
+    g.fillStyle = 'rgba(4,3,8,0.72)'; g.fillRect(0, 0, lm.width, lm.height);
+    g.globalCompositeOperation = 'destination-out';
+    const ring = (x, y, r, a) => { g.fillStyle = `rgba(0,0,0,${a})`; for (let dy = -r; dy <= r; dy++) { const hw = Math.round(Math.sqrt(r * r - dy * dy)); g.fillRect(Math.round(x - hw), Math.round(y + dy * 0.75), hw * 2, 1); } };
+    const pulse = 1 + 0.05 * Math.sin(t / 140);
+    for (const [x, y, r] of lights) { ring(x, y, r * pulse, 0.35); ring(x, y, r * 0.7 * pulse, 0.45); ring(x, y, r * 0.4 * pulse, 0.6); }
+    ctx.drawImage(lm, 0, 0);
+    ctx.globalCompositeOperation = 'lighter';
+    for (const [x, y, r, kind] of lights) { ctx.fillStyle = kind === 'warm' ? 'rgba(255,110,40,0.06)' : 'rgba(80,200,230,0.05)';
+      for (let dy = -r * 0.6; dy <= r * 0.6; dy++) { const hw = Math.round(Math.sqrt((r * 0.6) ** 2 - dy * dy)); ctx.fillRect(Math.round(x - hw), Math.round(y + dy * 0.75), hw * 2, 1); } }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  requestAnimationFrame(draw);
+}
+try { new EventSource('/events').onmessage = e => { if (/export\/|tools\//.test(e.data)) location.reload(); }; } catch {}
+</script>
+</body>
+</html>

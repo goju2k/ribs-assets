@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const PORT = Number(process.argv[2] || process.env.PORT || 3208);
-const DIRS = [ 'scratch', 'blender', 'aseprite', 'export', 'research' ]; // scratch = 커밋 안 하는 임시 미리보기
+const DIRS = [ 'scratch', 'blender', 'aseprite', 'export', 'research', 'tools' ]; // scratch = 커밋 안 하는 임시 미리보기
 const SKIP = /(^|[\\/])(\.git|node_modules|tmp)([\\/]|$)|\.blend\d$|~$/;
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.json': 'application/json; charset=utf-8', '.md': 'text/plain; charset=utf-8',
