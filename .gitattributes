@@ -17,3 +17,6 @@
 *.sh   text eol=lf
 *.md   text eol=lf
 *.json text eol=lf
+*.tsj  text eol=lf
+*.tmj  text eol=lf
+*.mjs  text eol=lf
