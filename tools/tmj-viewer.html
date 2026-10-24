@@ -83,11 +83,11 @@ function draw(t) {
         const { s, tid } = tileAt(gid, t); const c = s.ts.columns;
         const x = (i % cols) * T, y = Math.floor(i / cols) * T;
         ctx.drawImage(s.img, (tid % c) * T, Math.floor(tid / c) * T, T, T, x, y, T, T);
-        // 빛 내는 소품: 봉인등·인장·잔해 가슴 (이름으로)
+        // 빛 내는 소품: 봉인등·봉인 문양·잔해 가슴 (이름으로)
         const nm = (s.ts.tiles || []).find(z => z.id === gid - s.first)?.properties?.find(p => p.name === 'name')?.value || '';
         if (nm.startsWith('봉인등')) lights.push([x + 8, y + 9, 38, 'cool']);
-        if (nm === '봉인 인장 오른아래') lights.push([x, y, 30, 'cool']);
-        if (nm === '수호자 잔해 오른아래') lights.push([x + 6, y + 5, 14, 'cool']);
+        if (nm === '봉인 문양 오른아래') lights.push([x, y, 30, 'cool']);
+        if (nm === '수호체 잔해 오른아래') lights.push([x + 6, y + 5, 14, 'cool']);
       });
       ctx.globalAlpha = 1;
     }
