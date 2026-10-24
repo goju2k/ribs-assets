@@ -4,9 +4,9 @@
 --  0 바닥        1 금         2 자갈        3 이음새       4 이끼 바닥     5 큰 금        6 벽 아래 그늘   7 왼벽 옆 그늘  8 오른벽 옆 그늘 9 왼위 모서리 그늘
 -- 10 오른위 모서리 그늘 11 윗면    12 윗면(아래 테) 13 윗면(오른 테) 14 윗면(왼 테) 15 윗면(위 테) 16 윗면(아래+오른 테) 17 윗면(아래+왼 테) 18 허공   19 -
 -- 20 벽면 위     21 벽면 위 금  22 벽면 아래   23 벽면 아래 금 24 벽면 아래 이끼 25,26 문 위 왼/오  27,28 문 아래 왼/오  29 -
--- 30 긁힌 자국   31 유물 파편   32 잔해       33 해골        34,35 인장 위   36,37 수호자 잔해 위  38,39 봉인등 프레임0,1
--- 40,41 봉인등 2,3  44,45 인장 아래  46,47 잔해 아래  48 잔해 아래(가슴 빛)
--- 50,51 / 60,61 인장 중간 밝기   52,53 / 62,63 인장 밝음
+-- 30 긁힌 자국   31 유물 파편   32 잔해       33 해골        34,35 문양 위   36,37 수호체 잔해 위  38,39 봉인등 프레임0,1
+-- 40,41 봉인등 2,3  44,45 문양 아래  46,47 잔해 아래  48 잔해 아래(가슴 빛)
+-- 50,51 / 60,61 문양 중간 밝기   52,53 / 62,63 문양 밝음
 local function H(h) return Color{r=tonumber(h:sub(1,2),16), g=tonumber(h:sub(3,4),16), b=tonumber(h:sub(5,6),16)} end
 local C = { f0=H"2a2433", f1=H"3a3245", f2=H"463d52", f3=H"584d66", cap=H"4a4058", mor=H"241e2c", br=H"4a4058", bh=H"5e536e", bs=H"362e40" }
 local IRON = { o=H"141018", m=H"3c3644", h=H"5c5468" }
@@ -108,7 +108,7 @@ for _, s in ipairs({ {2,10,3}, {6,12,2}, {11,9,2}, {9,13,1}, {4,6,1} }) do for x
 local SK = { ".ww.....", "wwww....", "wkwk..w.", ".ws..wws", "....ww..", "...ws...", "..sw...." }
 for dy, r in ipairs(SK) do for dx = 1, #r do local ch = r:sub(dx, dx); local c = ch == "k" and C.f0 or BONE[ch]; if c then px(33, 4 + dx, 5 + dy, c) end end end
 
--- 봉인 인장 2x2, 밝기 단계 0(어두움)/1(중간)/2(밝음) — 맥동 애니메이션
+-- 봉인 문양 2x2, 밝기 단계 0(어두움)/1(중간)/2(밝음) — 맥동 애니메이션
 local function sigil(ids, lv)
   local function L(c) if lv == 0 then return c end
     if c == S1 then return lv == 1 and S1 or S2 elseif c == S2 then return lv == 1 and S2 or S3 end; return c end
@@ -125,7 +125,7 @@ local function sigil(ids, lv)
 end
 sigil({ 34, 35, 44, 45 }, 0); sigil({ 50, 51, 60, 61 }, 1); sigil({ 52, 53, 62, 63 }, 2)
 
--- 쓰러진 수호자 잔해 2x2 (가슴의 꺼져 가는 인장: 48은 빛나는 프레임)
+-- 쓰러진 수호체 잔해 2x2 (가슴의 꺼져 가는 문양: 48은 빛나는 프레임)
 local function debris(ids, glow)
   for y = 0, 31 do for x = 0, 31 do
     local dx, dy = x - 9, (y - 19) * 1.1; local d = math.sqrt(dx * dx + dy * dy)
