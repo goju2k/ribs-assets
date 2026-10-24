@@ -87,19 +87,19 @@ for i = 1, 6 do
   end }
 end
 CLIPS[#CLIPS+1] = { "float", true, F }
--- dash: 대시 B (불씨 꼬리), 멈춤 중간 — 출발 전 330ms, 전체 735ms, 이동은 스킬 데이터(48px 기준)
+-- dash: 대시 B (불씨 꼬리), 멈춤 중간 — 전투 명세 v1 구간: charge 330ms / travel 167ms / recover 233ms (전체 730ms)
 CLIPS[#CLIPS+1] = { "dash", false, {
   { 70, "dash:charge", function(i) body(i, { dy = 1, flame = 2 }) end },
   { 70, nil, function(i) body(i, { skip = function(y) return y > 11 end, flame = 3 }); body(i, { skip = function(y) return y <= 11 end, color = dither(P.M), flame = 0 }); core(i, OX + 2, OY + 11, 2, 0) end },
   { 70, nil, function(i) body(i, { skip = function(y) return y > 8 end, color = dither(P.D), flame = 0 }); core(i, OX + 6, OY + 11, 3, 1) end },
   { 60, nil, function(i) core(i, OX + 7, OY + 11, 3, 1) end },
   { 60, nil, function(i) core(i, OX + 7, OY + 11, 2, 2) end },
-  { 45, "dash:travel", function(i) ember(i, OX + 6, OY + 11, 10) end },
-  { 45, nil, function(i) ember(i, OX + 6, OY + 10, 16) end },
-  { 45, nil, function(i) ember(i, OX + 6, OY + 10, 13) end },
-  { 60, "dash:recover", function(i) body(i, { skip = function(y) return y < 8 end, color = dither(P.M), flame = 0 }); ember(i, OX + 6, OY + 11, 5) end },
-  { 70, nil, function(i) body(i, { skip = function(y) return y < 4 end, flame = 2 }); body(i, { skip = function(y) return y >= 4 end, color = dither(P.M), flame = 0 }) end },
-  { 140, nil, function(i) body(i, { flame = 3 }) end },
+  { 56, "dash:travel", function(i) ember(i, OX + 6, OY + 11, 10) end },
+  { 56, nil, function(i) ember(i, OX + 6, OY + 10, 16) end },
+  { 55, nil, function(i) ember(i, OX + 6, OY + 10, 13) end },
+  { 52, "dash:recover", function(i) body(i, { skip = function(y) return y < 8 end, color = dither(P.M), flame = 0 }); ember(i, OX + 6, OY + 11, 5) end },
+  { 61, nil, function(i) body(i, { skip = function(y) return y < 4 end, flame = 2 }); body(i, { skip = function(y) return y >= 4 end, color = dither(P.M), flame = 0 }) end },
+  { 120, nil, function(i) body(i, { flame = 3 }) end },
 } }
 -- parry: 패링 A (섬광 고리, 방어 계열 색), 1~2px 뒤로 밀림
 CLIPS[#CLIPS+1] = { "parry", false, {
