@@ -9,6 +9,8 @@
 -- 50,51 / 60,61 문양 중간 밝기   52,53 / 62,63 문양 밝음
 local function H(h) return Color{r=tonumber(h:sub(1,2),16), g=tonumber(h:sub(3,4),16), b=tonumber(h:sub(5,6),16)} end
 local C = { f0=H"2a2433", f1=H"3a3245", f2=H"463d52", f3=H"584d66", cap=H"4a4058", mor=H"241e2c", br=H"4a4058", bh=H"5e536e", bs=H"362e40" }
+-- 팔레트 바꿔 끼우기 (다른 층·분위기): --script-param pal="f0=2b2c38,f1=3b3d4c,..."
+for k, v in (app.params.pal or ""):gmatch("(%w+)=(%x%x%x%x%x%x)") do C[k] = H(v) end
 local IRON = { o=H"141018", m=H"3c3644", h=H"5c5468" }
 local S1, S2, S3 = H"2f4a66", H"5fcde4", H"cbdbfc"   -- 봉인 빛 (어두움/중간/반짝) = 방어 계열
 local CY = H"306082"                                -- 꺼져 가는 봉인 빛
