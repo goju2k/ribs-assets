@@ -397,6 +397,81 @@
   ]
  },
  {
+  "id": "fire-fan",
+  "group": "콤보",
+  "label": "불꽃 3갈래 발사 (세 발이 겹쳐 퍼짐)",
+  "note": "",
+  "candidate": null,
+  "ms": 370,
+  "sources": [
+   "whoosh",
+   "crackleA"
+  ]
+ },
+ {
+  "id": "pillar-big",
+  "group": "콤보",
+  "label": "큰 불기둥 (묵직하게 솟고 타오름)",
+  "note": "",
+  "candidate": null,
+  "ms": 3590,
+  "sources": [
+   "whoosh",
+   "punchH",
+   "softH",
+   "crackleA"
+  ]
+ },
+ {
+  "id": "pillar-quick",
+  "group": "콤보",
+  "label": "빠른 불기둥 (짧고 날렵)",
+  "note": "",
+  "candidate": null,
+  "ms": 440,
+  "sources": [
+   "whoosh",
+   "crackleB"
+  ]
+ },
+ {
+  "id": "combo-focus",
+  "group": "콤보",
+  "label": "집중 강화 (무게감 — 마무리에 겹침)",
+  "note": "",
+  "candidate": null,
+  "ms": 1660,
+  "sources": [
+   "whoosh",
+   "punchH",
+   "crackleC"
+  ]
+ },
+ {
+  "id": "combo-switch",
+  "group": "콤보",
+  "label": "전환 자동 대시 (빠르게 빠짐)",
+  "note": "",
+  "candidate": null,
+  "ms": 430,
+  "sources": [
+   "whoosh",
+   "cloth3"
+  ]
+ },
+ {
+  "id": "combo-slot",
+  "group": "콤보",
+  "label": "콤보 칸 채움 (아주 작게)",
+  "note": "",
+  "candidate": null,
+  "ms": 160,
+  "sources": [
+   "crackleB",
+   "woodL1"
+  ]
+ },
+ {
   "id": "parry-success",
   "group": "패링",
   "label": "패링 성공 — 칼날 \"챙\" + 판 울림 (선택: A)",
