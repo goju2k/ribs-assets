@@ -308,6 +308,14 @@ add('robe-flutter', '폼체인지', '천 펄럭임 — 휘감기고 마지막에
   { src: 'cloth1', rate: 1.3, delay: 1000, gain: -7 },
   { src: 'softM', rate: 1.4, lp: 2500, delay: 1250, gain: -6 },
 ], { reverb: 'room', peak: -5 });
+add('robe-rise', '폼체인지', '로브가 천천히 일어섬 — 천이 느리게 스침 (2.8초, rise-slow:start에서, D-039)', [
+  { src: 'cloth2', rate: 0.6, lp: 2500, fi: 0.15, delay: 300, gain: -6 },        // 자락이 들썩
+  { src: 'cloth1', rate: 0.55, lp: 2200, fi: 0.2, delay: 800, gain: -3 },         // 땅에서 들림
+  { src: 'cloth3', rate: 0.6, lp: 2400, fi: 0.2, delay: 1300, gain: -3 },         // 아랫단·몸
+  { src: 'cloth2', rate: 0.65, lp: 2600, fi: 0.15, delay: 1800, gain: -2 },
+  { src: 'cloth1', rate: 0.75, lp: 3000, fi: 0.1, delay: 2050, gain: -1 },        // 후드가 솟음
+  { src: 'softM', rate: 1.3, lp: 1800, delay: 2550, gain: -10 },                  // 다 일어섬 (아주 작게)
+], { reverb: 'room', peak: -7 });
 add('handflame-ignite', '폼체인지', '손불꽃 점화 "화륵" — 처음으로 따뜻한 불', [
   { src: 'whoosh', ss: 0.5, t: 0.45, rate: 1.4, hp: 300, fo: 0.15 },
   { src: 'crackleA', ss: 12.4, t: 0.8, hp: 700, delay: 60, gain: -3, fo: 0.4 },

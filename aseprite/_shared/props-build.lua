@@ -140,6 +140,32 @@ elseif WHICH == "prop-skill-pedestal" then
   } }
   CL[#CL+1] = { "empty", false, { { 200, nil, function(i) pedestal(i, false) end } } }
 end
+if WHICH == "prop-wall-crystal" then
+  -- D-039 벽 장식 광원: 벽면에 박힌 돌 선반 + 봉인 수정 조각 (차가운 빛). 16×16, 기준점 [8,15] = 선반 아래 가운데
+  -- 벽면 위 칸(타일 20 자리)에 겹쳐 둠. 봉인등(타일 38)을 대신하거나 함께 씀. 횃불은 쓰지 않음(따뜻한 빛 = 주인공·화로 전용)
+  FW, FH, ANCHOR = 16, 16, { 8, 15 }
+  local SHARD = { "..o..", ".oao.", ".oabo", "oaabo", "oabbo", "oaabo", ".oao.", "..o.." }
+  local SMALL = { ".o", "ab", "oo" }
+  local function sconce(i, a, b, spark)
+    for x = 4, 11 do px(i, x, 10, K.l) end                                   -- 선반 윗면 (밝은 테)
+    px(i, 3, 11, K.o); for x = 4, 11 do px(i, x, 11, K.m) end; px(i, 12, 11, K.o)
+    px(i, 4, 12, K.o); for x = 5, 10 do px(i, x, 12, K.s) end; px(i, 11, 12, K.o)
+    for x = 5, 10 do px(i, x, 13, K.o) end; for x = 6, 9 do px(i, x, 14, K.d) end    -- 벽으로 들어가는 받침 + 그늘
+    local pal = { o=K.o, a=a, b=b }
+    for y, r in ipairs(SHARD) do for x = 1, 5 do px(i, 4 + x, 1 + y, pal[r:sub(x, x)]) end end
+    for y, r in ipairs(SMALL) do for x = 1, 2 do px(i, 9 + x, 6 + y, pal[r:sub(x, x)]) end end
+    if spark then px(i, 7, 1, S.W); px(i, spark, 3, S.c) end
+  end
+  -- 은은한 맥동 1.8초: 어두움 → 중간 → 밝음(끝에 반짝) → 중간 → 어두움
+  CL[#CL+1] = { "loop", true, {
+    { 320, nil, function(i) sconce(i, S.b, S.B) end },
+    { 280, nil, function(i) sconce(i, S.B, S.C) end },
+    { 300, nil, function(i) sconce(i, S.C, S.c) end },
+    { 240, nil, function(i) sconce(i, S.C, S.W, 9) end },
+    { 300, nil, function(i) sconce(i, S.B, S.C) end },
+    { 360, nil, function(i) sconce(i, S.b, S.B) end },
+  } }
+end
 assert(#CL > 0, "which=" .. tostring(WHICH) .. " 모름")
 
 local total = 0; for _, c in ipairs(CL) do total = total + #c[3] end

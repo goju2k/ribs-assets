@@ -62,27 +62,42 @@ shade(9, 19, function(x, y) return top(x, y) or edge(x, y) end)
 shade(10, 21, function(x, y) return top(x, y) or edge(15 - x, y) end)
 for _, t in ipairs({ 6, 9, 10 }) do for x = 0, 15 do px(t, x, 0, C.bs) end end
 
--- ===== 벽 윗면 (테 = 바닥 쪽 가장자리 밝은 줄) =====
+-- ===== 벽 윗면 (테 = 바닥 쪽 가장자리 밝은 줄) — D-039: 바닥 점무늬 대신 매끈한 큰 판석(16px 줄눈) =====
 local CAPS = { [11]="", [12]="b", [13]="r", [14]="l", [15]="t", [16]="br", [17]="bl" }
 for t, lip in pairs(CAPS) do seed = 71 + t
   for y = 0, 15 do for x = 0, 15 do
-    local c = rnd() < 0.08 and C.bs or C.cap
+    local c = C.cap
+    if x == 0 or y == 0 then c = C.bs elseif (x == 1 or y == 1) and rnd() < 0.5 then c = C.br end   -- 판석 줄눈 + 살짝 깎인 모서리
     if (lip:find("b") and y == 15) or (lip:find("r") and x == 15) or (lip:find("l") and x == 0) or (lip:find("t") and y == 0) then c = C.bh end
     px(t, x, y, c) end end
 end
 for y = 0, 15 do for x = 0, 15 do px(18, x, y, VOID) end end
 
--- ===== 벽면 (2칸 높이: 위·아래) =====
+-- ===== 벽면 (2칸 높이: 위·아래) — D-039: 바닥과 확실히 다르게 =====
+-- 큰 돌 블록(16×8, 줄마다 8px 엇갈림) · 가로 줄눈 · 블록 윗테 밝게 · 몸은 바닥보다 어둡게 + 세로 결 · 아래 그림자 띠
+-- 위 칸 첫 줄 = 벽 윗면과 만나는 밝은 테. base = 아래 칸(줄 16~31로 이어 셈)
 local function brickWall(t, gx0, base, hole)
   seed = 140 + t
   for y = 0, 15 do
-    local ry = y % 4; local off = ((y // 4) % 2) * 4
+    local gy = y + (base and 16 or 0)
+    local ry = gy % 8; local row = gy // 8; local off = (row % 2) * 8
     for x = 0, 15 do
       local gx = gx0 + x
-      local bx = (gx + off) % 8
+      local bx = (gx + off) % 16
+      local blk = (gx + off) // 16 + row * 3          -- 블록마다 결 위치를 다르게
       local c
-      if ry == 3 or bx == 7 then c = C.mor elseif ry == 0 then c = C.bh elseif ry == 2 then c = C.bs else c = (rnd() < 0.1) and C.bs or C.br end
-      if base and y >= 14 then c = (y == 15) and C.mor or C.bs end
+      if gy == 0 then c = C.bh                          -- 윗면과 만나는 밝은 테
+      elseif ry == 7 then c = C.mor                     -- 가로 줄눈 (굵게 읽히게 아래 줄과 함께)
+      elseif bx == 15 then c = C.mor                    -- 세로 줄눈
+      elseif ry == 0 then c = (bx == 0) and C.bs or C.br  -- 블록 윗테
+      elseif ry == 6 then c = C.f0                      -- 블록 아랫면 그늘
+      elseif (bx + blk * 5) % 6 == 2 and ry >= 2 then c = C.f0                 -- 세로 결 (끊긴 홈)
+      elseif (bx + blk * 5) % 6 == 3 and ry >= 2 and rnd() < 0.5 then c = C.f0
+      else c = (rnd() < 0.06) and C.f0 or C.bs end      -- 몸: 바닥(f1)보다 어두운 bs
+      if base and y >= 12 then                          -- 아래 그림자 띠
+        if y >= 14 then c = (y == 15) and VOID or C.mor
+        elseif (x + y) % 2 == 0 then c = C.mor end
+      end
       local half = hole and hole(y) or -1
       local d = math.abs(gx - 15.5)
       if half > 0 and d < half then c = VOID elseif half > 0 and d < half + 1 then c = (gx < 16) and C.bh or C.bs end
