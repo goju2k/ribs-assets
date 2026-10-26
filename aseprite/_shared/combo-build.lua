@@ -166,7 +166,9 @@ elseif WHICH == "fx-fire-pillar-big" or WHICH == "fx-fire-pillar-quick" then
     local fade = seq(6, 83, 0, 0.45, function(u) return { hs = 1 - u * 0.85, is = 1 - u * 0.55, ring = 1 - u * 0.6, sp = 1 - u * 0.5 } end)
     fade[1][2] = "pillar:end"
     CL[#CL+1] = { "fade", false, fade }
-    CL[#CL+1] = { "smolder", true, seq(8, 125, 0, 1, function() return { low = true, is = 0.72, ring = 0.45, sp = 0.25 } end) }
+    local low = function() return { low = true, is = 0.72, ring = 0.45, sp = 0.25 } end
+    CL[#CL+1] = { "embers", true, seq(8, 125, 0, 1, low) }    -- 잦아든 뒤 바닥 잔불 (엔진이 1000ms로 자름)
+    CL[#CL+1] = { "smolder", true, seq(8, 125, 0, 1, low) }   -- 대상이 불탈 때 (같은 그림)
   else
     -- 빠른 불기둥 0.6초: 오름 0.1(2장) → 이글 0.3(4장) → 잦아듦 0.2(3장)
     local L = {}
