@@ -90,7 +90,7 @@ for i = 1, 6 do
   end }
 end
 CLIPS[#CLIPS+1] = { "float", true, F }
--- dash (D-021): 출발 멈춤 없음 — 누르는 즉시 흩어지며 튀어 나감. charge 83ms / travel 167ms(48px) / recover 233ms (전체 483ms)
+-- dash (D-021, 회복은 D-044로 100ms): 출발 멈춤 없음 — 누르는 즉시 흩어지며 튀어 나감. charge 83ms / travel 167ms(48px) / recover 233ms (전체 483ms)
 -- recover가 어린이 폼의 무게: 불씨가 크게 퍼졌다가 몸이 아래부터 차오르고, 마지막에 1px 내려앉음
 local function dots(i, list) for _, d in ipairs(list) do px(i, OX + d[1], OY + d[2], E[d[3]]) end end
 CLIPS[#CLIPS+1] = { "dash", false, {
@@ -99,10 +99,9 @@ CLIPS[#CLIPS+1] = { "dash", false, {
   { 56, "dash:travel", function(i) ember(i, OX + 6, OY + 11, 10); for y = 6, 12 do for x = 13, 15 do if (x + y) % 2 == 0 and (x * 7 + y * 3) % 5 ~= 0 then px(i, OX + x, OY + y, P.D) end end end end },
   { 56, nil, function(i) ember(i, OX + 6, OY + 10, 16) end },
   { 55, nil, function(i) ember(i, OX + 6, OY + 10, 13) end },
-  { 50, "dash:recover", function(i) core(i, OX + 7, OY + 11, 4, 0); dots(i, { {7,4,"y"}, {12,9,"y"}, {7,17,"r"}, {2,12,"r"} }) end },
-  { 60, nil, function(i) body(i, { skip = function(y) return y < 10 end, color = dither(P.M), flame = 0 }); core(i, OX + 7, OY + 10, 3, 1) end },
-  { 60, nil, function(i) body(i, { skip = function(y) return y < 5 end, flame = 2 }); body(i, { skip = function(y) return y >= 5 end, color = dither(P.M), flame = 0 }) end },
-  { 63, nil, function(i) body(i, { dy = 1, flame = 3 }) end },
+  -- D-044: 회복 2장 100ms — 털썩 내려앉음 없이 불씨가 몸으로 빠르게 모이고 바로 float 자세
+  { 50, "dash:recover", function(i) body(i, { skip = function(y) return y < 8 end, color = dither(P.M), flame = 0 }); core(i, OX + 7, OY + 9, 3, 0); dots(i, { {7,4,"y"}, {12,8,"y"}, {2,11,"r"} }) end },
+  { 50, nil, function(i) body(i, { flame = 2 }) end },
 } }
 -- parry: 패링 A (섬광 고리, 방어 계열 색), 1~2px 뒤로 밀림
 CLIPS[#CLIPS+1] = { "parry", false, {
@@ -124,8 +123,7 @@ CLIPS[#CLIPS+1] = { "fire", false, {
 CLIPS[#CLIPS+1] = { "dash-quick", false, {
   { 40, "dash:travel", function(i) body(i, { skip = function(y) return y > 7 end, color = dither(P.D), flame = 0 }); ember(i, OX + 6, OY + 11, 6) end },
   { 50, nil, function(i) ember(i, OX + 6, OY + 10, 10) end },
-  { 50, "dash:recover", function(i) core(i, OX + 7, OY + 11, 3, 0); dots(i, { {7,5,"y"}, {11,10,"r"} }) end },
-  { 60, nil, function(i) body(i, { skip = function(y) return y < 9 end, color = dither(P.M), flame = 0 }); core(i, OX + 7, OY + 10, 2, 1) end },
+  { 50, "dash:recover", function(i) body(i, { skip = function(y) return y < 8 end, color = dither(P.M), flame = 0 }); core(i, OX + 7, OY + 9, 2, 1); dots(i, { {7,5,"y"}, {11,9,"r"} }) end },
   { 50, nil, function(i) body(i, { flame = 2 }) end },
 } }
 
