@@ -207,50 +207,111 @@
   ]
  },
  {
+  "id": "sentinel-windup-a",
+  "group": "수호체",
+  "label": "장전 A — 돌 긁힘 + 거꾸로 감기는 싱잉볼 (빨려 들어감)",
+  "note": "",
+  "candidate": "sentinel-windup",
+  "ms": 600,
+  "sources": [
+   "scrapeC",
+   "bowl"
+  ]
+ },
+ {
+  "id": "sentinel-windup-b",
+  "group": "수호체",
+  "label": "장전 B — 돌 끌림 + 세 계단으로 높아지는 울림",
+  "note": "",
+  "candidate": "sentinel-windup",
+  "ms": 600,
+  "sources": [
+   "scrapeV",
+   "bowl"
+  ]
+ },
+ {
+  "id": "sentinel-windup-easy-a",
+  "group": "수호체",
+  "label": "장전 (쉬운 판 900ms) A — 돌 긁힘 + 거꾸로 감기는 싱잉볼 (빨려 들어감)",
+  "note": "",
+  "candidate": "sentinel-windup-easy",
+  "ms": 900,
+  "sources": [
+   "scrapeC",
+   "bowl"
+  ]
+ },
+ {
+  "id": "sentinel-windup-easy-b",
+  "group": "수호체",
+  "label": "장전 (쉬운 판 900ms) B — 돌 끌림 + 세 계단으로 높아지는 울림",
+  "note": "",
+  "candidate": "sentinel-windup-easy",
+  "ms": 900,
+  "sources": [
+   "scrapeV",
+   "bowl"
+  ]
+ },
+ {
   "id": "sentinel-cue-a",
   "group": "수호체",
-  "label": "예비동작 신호 A — 봉인이 울림 (싱잉볼, 높게)",
+  "label": "신호 \"팅\" A — 맑은 유리 + 높은 종 (짧게)",
   "note": "",
   "candidate": "sentinel-cue",
-  "ms": 510,
+  "ms": 260,
   "sources": [
-   "bowl"
+   "glass0",
+   "bell2"
   ]
  },
  {
   "id": "sentinel-cue-b",
   "group": "수호체",
-  "label": "예비동작 신호 B — 돌 긁힘 경고 (짧고 날카롭게)",
+  "label": "신호 \"팅\" B — 도자기 팅 (가장 짧고 단단함)",
   "note": "",
   "candidate": "sentinel-cue",
-  "ms": 520,
+  "ms": 390,
   "sources": [
-   "scrapeAxe",
-   "glass2"
+   "ceramic"
   ]
  },
  {
   "id": "sentinel-cue-c",
   "group": "수호체",
-  "label": "예비동작 신호 C — 돌 딱 + 종 울림",
+  "label": "신호 \"팅\" C — 와인잔 팅 (맑게 울림)",
   "note": "",
   "candidate": "sentinel-cue",
-  "ms": 920,
+  "ms": 420,
   "sources": [
-   "mine1",
-   "bell0"
+   "wine"
   ]
  },
  {
-  "id": "sentinel-attack",
+  "id": "sentinel-attack-a",
   "group": "수호체",
-  "label": "근접 공격 (무거운 돌 휘두름)",
+  "label": "공격 A — 묵직한 휙 + 쿵",
   "note": "",
-  "candidate": null,
-  "ms": 1620,
+  "candidate": "sentinel-attack",
+  "ms": 1860,
   "sources": [
-   "cloth1",
+   "whoosh",
+   "punchH",
    "mine0"
+  ]
+ },
+ {
+  "id": "sentinel-attack-b",
+  "group": "수호체",
+  "label": "공격 B — 돌덩이 쿵 (휘두름 없이 충돌만)",
+  "note": "",
+  "candidate": "sentinel-attack",
+  "ms": 1930,
+  "sources": [
+   "softH",
+   "mine0",
+   "scrapeV"
   ]
  },
  {
@@ -562,14 +623,52 @@
   ]
  },
  {
+  "id": "sentinel-windup",
+  "group": "수호체",
+  "label": "장전 — 돌 긁힘 + 거꾸로 감기는 싱잉볼 (빨려 들어감) (선택: A)",
+  "note": "후보 sentinel-windup-a와 같은 소리",
+  "candidate": null,
+  "ms": 600,
+  "sources": [
+   "scrapeC",
+   "bowl"
+  ]
+ },
+ {
+  "id": "sentinel-windup-easy",
+  "group": "수호체",
+  "label": "장전 (쉬운 판 900ms) — 돌 긁힘 + 거꾸로 감기는 싱잉볼 (빨려 들어감) (선택: A)",
+  "note": "후보 sentinel-windup-easy-a와 같은 소리",
+  "candidate": null,
+  "ms": 900,
+  "sources": [
+   "scrapeC",
+   "bowl"
+  ]
+ },
+ {
   "id": "sentinel-cue",
   "group": "수호체",
-  "label": "예비동작 신호 — 봉인이 울림 (싱잉볼, 높게) (선택: A)",
+  "label": "신호 \"팅\" — 맑은 유리 + 높은 종 (짧게) (선택: A)",
   "note": "후보 sentinel-cue-a와 같은 소리",
   "candidate": null,
-  "ms": 510,
+  "ms": 260,
   "sources": [
-   "bowl"
+   "glass0",
+   "bell2"
+  ]
+ },
+ {
+  "id": "sentinel-attack",
+  "group": "수호체",
+  "label": "공격 — 묵직한 휙 + 쿵 (선택: A)",
+  "note": "후보 sentinel-attack-a와 같은 소리",
+  "candidate": null,
+  "ms": 1860,
+  "sources": [
+   "whoosh",
+   "punchH",
+   "mine0"
   ]
  }
 ]
