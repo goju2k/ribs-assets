@@ -18,11 +18,11 @@ export const MAP = [
 ];
 // 문자 → 타일 번호 (tileset.json의 names 참고). layer: 어느 레이어에 놓는지
 export const LEGEND = {
-  C: { tile: 11, layer: 'wall', solid: true },
-  T: { tile: 12, layer: 'wall', solid: true },
-  L: { tile: 13, layer: 'wall', solid: true },
-  R: { tile: 14, layer: 'wall', solid: true },
-  B: { tile: 15, layer: 'wall', solid: true },
+  C: { autotile: 'walltop', layer: 'wall', solid: true },   // 벽 윗면 (D-041 자동 연결)
+  T: { autotile: 'walltop', layer: 'wall', solid: true },   // 벽 윗면 (D-041 자동 연결)
+  L: { autotile: 'walltop', layer: 'wall', solid: true },   // 벽 윗면 (D-041 자동 연결)
+  R: { autotile: 'walltop', layer: 'wall', solid: true },   // 벽 윗면 (D-041 자동 연결)
+  B: { autotile: 'walltop', layer: 'wall', solid: true },   // 벽 윗면 (D-041 자동 연결)
   U: { tile: 20, layer: 'wall', solid: true },
   u: { tile: 21, layer: 'wall', solid: true },
   F: { tile: 22, layer: 'wall', solid: true },
@@ -35,8 +35,8 @@ export const LEGEND = {
   '[': { tile: 55, layer: 'wall', solid: true },   //   왼쪽 이웃이 벽면이 아니면 55/65 (양쪽 다 아니면 57/67 한 칸 기둥)
   '}': { tile: 64, layer: 'wall', solid: true },
   '{': { tile: 65, layer: 'wall', solid: true },
-  '<': { tile: 58, layer: 'wall', solid: true },   // 옆벽 끝: 왼쪽 벽(L) 줄이 아래로 끝나는 칸
-  '>': { tile: 59, layer: 'wall', solid: true },   //   오른쪽 벽(R)
+  '<': { tile: 58, layer: 'wall', solid: true, joins: ['walltop'] },   // 옆벽 끝: 왼쪽 벽(L) 줄이 아래로 끝나는 칸
+  '>': { tile: 59, layer: 'wall', solid: true, joins: ['walltop'] },   //   오른쪽 벽(R)
   '=': { tile: 56, layer: 'floor' },               // 문턱: 통로 입구 바닥 (벽면 아래 줄 바로 아래 행, 통로 폭만큼)
   s: { tile: 6, layer: 'floor' },
   l: { tile: 7, layer: 'floor' },

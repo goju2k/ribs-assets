@@ -316,6 +316,13 @@ add('robe-rise', '폼체인지', '로브가 천천히 일어섬 — 천이 느�
   { src: 'cloth1', rate: 0.75, lp: 3000, fi: 0.1, delay: 2050, gain: -1 },        // 후드가 솟음
   { src: 'softM', rate: 1.3, lp: 1800, delay: 2550, gain: -10 },                  // 다 일어섬 (아주 작게)
 ], { reverb: 'room', peak: -7 });
+add('form-radiance', '폼체인지', '빛줄기 울림 — 높게 울리는 싱잉볼 + 유리 공명 + 반짝임 (약 3초, fx-radiance loop:start에서, D-041)', [
+  { src: 'bowl', ss: 1.42, t: 4.5, rate: 1.5, hp: 400, fi: 0.35, fo: 1.0 },
+  { src: 'bowl', ss: 1.42, t: 3.6, rate: 2.0, hp: 900, fi: 0.6, fo: 0.9, delay: 150, gain: -7 },
+  { src: 'wine', ss: 0.56, t: 2.2, rate: 1.25, hp: 1500, fi: 0.3, fo: 0.8, delay: 400, gain: -8 },
+  { src: 'tinkle', ss: 0.2, t: 0.7, rate: 1.5, hp: 3000, delay: 600, gain: -11, fo: 0.4 },
+  { src: 'tinkle', ss: 0.2, t: 0.7, rate: 1.8, hp: 3000, delay: 1700, gain: -12, fo: 0.4 },
+], { reverb: 'hall', peak: -5, len: 3.2 });
 add('handflame-ignite', '폼체인지', '손불꽃 점화 "화륵" — 처음으로 따뜻한 불', [
   { src: 'whoosh', ss: 0.5, t: 0.45, rate: 1.4, hp: 300, fo: 0.15 },
   { src: 'crackleA', ss: 12.4, t: 0.8, hp: 700, delay: 60, gain: -3, fo: 0.4 },
