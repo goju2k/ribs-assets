@@ -21,15 +21,28 @@ button.play:active, button.play.on { background: var(--acc); color: #0f1015; }
 .txt small { display: block; color: var(--mut); font-size: 12px; word-break: break-all; }
 .ms { color: var(--mut); font-size: 12px; flex: none; }
 .ctx { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.flow { margin-top: 10px; background: var(--card); border-radius: 10px; padding: 10px 12px; }
+.flow p { margin: 2px 0 8px; }
+.sel { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 6px; }
+.sel span { width: 40px; color: var(--mut); font-size: 13px; }
+.sel button, .go { background: #2b2f3a; color: var(--fg); border: 0; border-radius: 6px; padding: 7px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+.sel button.on { background: var(--warm); color: #0f1015; }
+.go { background: var(--acc); color: #0f1015; font-weight: 600; margin-top: 4px; }
 .ctx button { background: #2b2f3a; color: var(--fg); border: 0; border-radius: 6px; padding: 6px 10px; font: inherit; font-size: 13px; cursor: pointer; }
 </style>
 </head>
 <body>
 <header>
-  <b>효과음 보드 — Demo 0 (리얼 사운드 v3)</b>
+  <b>효과음 보드 — Demo 0 (리얼 사운드)</b>
   <p>눌러서 들어 보세요. 주황 줄이 후보입니다(같은 자리에 하나만 남김). 휴대폰은 무음 모드를 꺼 주세요.</p>
-  <div class="ctx">
-    <button id="seqParry">흐름 듣기: 수호체 신호 → 0.13초 뒤 패링 성공 (신호 3 × 성공 4 조합 차례로)</button>
+  <div class="flow">
+    <b>흐름 듣기 — 수호체 공격 (D-036)</b>
+    <p>장전 → 팅(공격 8f 전) → 결과. 패링은 팅에 맞춰 눌렀다고 치고 0.1초 뒤 성공음이 납니다.</p>
+    <div class="sel" data-k="mode"><span>속도</span><button data-v="n" class="on">보통 600ms</button><button data-v="e">쉬운 판 900ms</button></div>
+    <div class="sel" data-k="w"><span>장전</span><button data-v="a" class="on">A</button><button data-v="b">B</button></div>
+    <div class="sel" data-k="c"><span>팅</span><button data-v="a" class="on">A</button><button data-v="b">B</button><button data-v="c">C</button></div>
+    <div class="sel" data-k="r"><span>결과</span><button data-v="parry-success-a" class="on">패링 A</button><button data-v="parry-success-b">패링 B</button><button data-v="parry-success-c">패링 C</button><button data-v="parry-success-d">패링 D</button><button data-v="sentinel-attack-a">맞음: 공격 A</button><button data-v="sentinel-attack-b">맞음: 공격 B</button></div>
+    <button id="go" class="go">▶ 들어 보기</button> <button id="go3" class="go">▶ 세 번 연속 (공격 간격 1초)</button>
   </div>
 </header>
 <main id="m"></main>
@@ -49,12 +62,21 @@ const play = id => { const a = cache[id] || (cache[id] = new Audio(BASE + id + '
     const ms = document.createElement('span'); ms.className = 'ms'; ms.textContent = s.ms + 'ms';
     r.append(b, t, ms); m.append(r);
   }
-  // 실제 흐름: 신호음(windup:cue) 시작 후 ~133ms 안에 공격이 오고, 그때 패링 → 성공음
-  document.getElementById('seqParry').onclick = async () => {
-    for (const cue of ['a', 'b', 'c']) for (const ps of ['a', 'b', 'c', 'd']) {
-      play('sentinel-cue-' + cue); await new Promise(r => setTimeout(r, 130)); play('parry-success-' + ps); await new Promise(r => setTimeout(r, 900));
-    }
+  // 흐름: Web Audio로 정확한 시점에 예약. 장전 시작 0 → 팅 = 장전 길이 − 신호 길이(보통 8f=133ms / 쉬운 판 12f=200ms) → 결과 = 장전 끝
+  const ac = new AudioContext(); const buf = {};
+  const load = async id => buf[id] || (buf[id] = await ac.decodeAudioData(await (await fetch(BASE + id + ".wav")).arrayBuffer()));
+  const at = (b, t) => { const n = ac.createBufferSource(); n.buffer = b; n.connect(ac.destination); n.start(t); };
+  const pick = {}; for (const g of document.querySelectorAll(".sel")) { pick[g.dataset.k] = g.querySelector(".on").dataset.v;
+    g.onclick = e => { if (e.target.tagName !== "BUTTON") return; g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === e.target)); pick[g.dataset.k] = e.target.dataset.v; }; }
+  const flow = async times => {
+    await ac.resume(); const easy = pick.mode === "e";
+    const W = easy ? 0.9 : 0.6, C = easy ? 0.2 : 8 / 60, parry = pick.r.startsWith("parry");
+    const [w, c, r] = await Promise.all([load((easy ? "sentinel-windup-easy-" : "sentinel-windup-") + pick.w), load("sentinel-cue-" + pick.c), load(pick.r)]);
+    let t0 = ac.currentTime + 0.05;
+    for (let i = 0; i < times; i++) { at(w, t0); at(c, t0 + W - C); at(r, parry ? t0 + W - C + 0.1 : t0 + W); t0 += W + 1; }
   };
+  document.getElementById("go").onclick = () => flow(1);
+  document.getElementById("go3").onclick = () => flow(3);
 })();
 </script>
 </body>
