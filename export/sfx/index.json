@@ -472,26 +472,28 @@
  {
   "id": "pillar-big",
   "group": "콤보",
-  "label": "큰 불기둥 (묵직하게 솟고 타오름)",
+  "label": "큰 불기둥 — \"화르륵\" 솟고 이글거리다 잦아듦 (D-043, 그림 오름 0.2 + 이글 0.9 + 잦아듦 0.5에 맞춤)",
   "note": "",
   "candidate": null,
-  "ms": 3590,
+  "ms": 1900,
   "sources": [
    "whoosh",
    "punchH",
-   "softH",
-   "crackleA"
+   "torch",
+   "crackleA",
+   "crackleC"
   ]
  },
  {
   "id": "pillar-quick",
   "group": "콤보",
-  "label": "빠른 불기둥 (짧고 날렵)",
+  "label": "빠른 불기둥 — 짧은 \"확\" (D-043, 0.6초 그림에 맞춤)",
   "note": "",
   "candidate": null,
-  "ms": 440,
+  "ms": 560,
   "sources": [
    "whoosh",
+   "torch",
    "crackleB"
   ]
  },
