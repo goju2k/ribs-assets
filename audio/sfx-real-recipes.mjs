@@ -130,26 +130,46 @@ add('parry-fail', '패링', '패링 실패 (둔탁)', [
   { src: 'woodM', rate: 0.8, lp: 1500 },
 ], { reverb: 'room', peak: -8 });
 
-// ── 수호체·봉인 (돌과 금속, 차가운 공명) — 예비동작 신호 후보 3 ──
+// ── 수호체·봉인 (돌과 금속, 차가운 공명) ──
 add('sentinel-awaken', '수호체', '각성 (돌이 끌리며 봉인이 울림)', [
   { src: 'scrapeC', ss: 3, t: 0.7, rate: 0.9, lp: 2000, fi: 0.08, fo: 0.25 },
   { src: 'bowl', ss: 1.4, t: 1.0, rate: 0.7, gain: -6, fi: 0.2, fo: 0.4 },
 ], { reverb: 'stone', peak: -4 });
-add('sentinel-cue-a', '수호체', '예비동작 신호 A — 봉인이 울림 (싱잉볼, 높게)', [
-  { src: 'bowl', ss: 1.42, t: 0.45, rate: 1.6, fo: 0.2 },
-], { reverb: 'stone', peak: -3, candidate: 'sentinel-cue' });
-add('sentinel-cue-b', '수호체', '예비동작 신호 B — 돌 긁힘 경고 (짧고 날카롭게)', [
-  { src: 'scrapeAxe', ss: 0.0, t: 0.35, rate: 1.2, hp: 900, fo: 0.1 },
-  { src: 'glass2', rate: 0.8, gain: -8 },
-], { reverb: 'stone', peak: -3, candidate: 'sentinel-cue' });
-add('sentinel-cue-c', '수호체', '예비동작 신호 C — 돌 딱 + 종 울림', [
-  { src: 'mine1', rate: 1.3 },
-  { src: 'bell0', rate: 2.2, hp: 1200, gain: -4, delay: 20, fo: 0.2 },
-], { reverb: 'stone', peak: -3, candidate: 'sentinel-cue' });
-add('sentinel-attack', '수호체', '근접 공격 (무거운 돌 휘두름)', [
-  { src: 'cloth1', rate: 0.6, lp: 1800 },
-  { src: 'mine0', rate: 0.7, delay: 60, gain: -3 },
-], { reverb: 'stone', peak: -3 });
+// D-036: 공격 소리 3단계 — 장전(낮게 차오름) → 신호 "팅"(가장 또렷, = 지금 패링) → 공격(휙/쿵).
+// 장전은 2kHz 아래(lp)에만, 신호는 2kHz 위(hp)에만 둬서 겹쳐도 팅이 묻히지 않게. 장전은 len으로 정확히 자름(600/900ms).
+const windup = (sfx, L, lab) => {
+  add(`${sfx}-a`, '수호체', `장전${lab} A — 돌 긁힘 + 거꾸로 감기는 싱잉볼 (빨려 들어감)`, [
+    { src: 'scrapeC', ss: 11.25, t: L * 0.85 + 0.05, rate: 0.85, lp: 1500, hp: 80, fi: L * 0.8, gain: -3 },
+    { src: 'bowl', ss: 1.42, t: L * 0.9 * 0.7, rev: true, rate: 0.7, lp: 1800, delay: Math.round(L * 100) },
+  ], { reverb: 'stone', peak: -6, len: L, candidate: sfx });
+  const seg = L / 3 + 0.05;
+  add(`${sfx}-b`, '수호체', `장전${lab} B — 돌 끌림 + 세 계단으로 높아지는 울림`, [
+    { src: 'scrapeV', ss: 3.72, t: L * 0.9 + 0.05, rate: 0.9, lp: 1800, hp: 80, fi: L * 0.7, gain: -3 },
+    ...[0.5, 0.63, 0.8].map((r, i) => ({ src: 'bowl', ss: 1.42, t: seg * r, rate: r, lp: 2000, fi: 0.06, fo: 0.08, gain: -6 + i * 2, delay: Math.round(i * L / 3 * 1000) })),
+  ], { reverb: 'stone', peak: -6, len: L, candidate: sfx });
+};
+windup('sentinel-windup', 0.6, '');
+windup('sentinel-windup-easy', 0.9, ' (쉬운 판 900ms)');
+add('sentinel-cue-a', '수호체', '신호 "팅" A — 맑은 유리 + 높은 종 (짧게)', [
+  { src: 'glass0', rate: 1.6, hp: 2500 },
+  { src: 'bell2', t: 0.3, rate: 3.2, hp: 3000, gain: -8, fo: 0.15 },
+], { reverb: 'room', peak: -1, candidate: 'sentinel-cue' });
+add('sentinel-cue-b', '수호체', '신호 "팅" B — 도자기 팅 (가장 짧고 단단함)', [
+  { src: 'ceramic', ss: 0.17, t: 0.35, rate: 1.3, hp: 2000, fo: 0.15 },
+], { reverb: 'room', peak: -1, candidate: 'sentinel-cue' });
+add('sentinel-cue-c', '수호체', '신호 "팅" C — 와인잔 팅 (맑게 울림)', [
+  { src: 'wine', ss: 0.56, t: 0.45, rate: 1.5, hp: 2000, fo: 0.2 },
+], { reverb: 'room', peak: -1, candidate: 'sentinel-cue' });
+add('sentinel-attack-a', '수호체', '공격 A — 묵직한 휙 + 쿵', [
+  { src: 'whoosh', ss: 2.2, t: 0.35, rate: 0.6, lp: 1500, hp: 60, fo: 0.15, gain: -4 },
+  { src: 'punchH', rate: 0.55, lp: 600, delay: 60 },
+  { src: 'mine0', rate: 0.6, delay: 70, gain: -5 },
+], { reverb: 'stone', peak: -2, candidate: 'sentinel-attack' });
+add('sentinel-attack-b', '수호체', '공격 B — 돌덩이 쿵 (휘두름 없이 충돌만)', [
+  { src: 'softH', rate: 0.5, lp: 500 },
+  { src: 'mine0', rate: 0.55, gain: -2 },
+  { src: 'scrapeV', ss: 0.28, t: 0.3, rate: 1.2, hp: 300, gain: -10, fo: 0.2 },
+], { reverb: 'stone', peak: -2, candidate: 'sentinel-attack' });
 add('sentinel-hit', '수호체', '피격 (돌 딱 + 금속 판)', [
   { src: 'mine3', rate: 1.0 },
   { src: 'plateM0', rate: 0.85, gain: -6 },
@@ -256,7 +276,7 @@ add('wall-collapse', '길찾기', '벽 무너짐 (돌이 쏟아짐)', [
 ], { reverb: 'stone', peak: -1 });
 
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
-const PICK = { 'parry-success': 'a', 'sentinel-cue': 'a' };
+const PICK = { 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
 for (const [id, k] of Object.entries(PICK)) {
   const src = S.find(x => x.id === `${id}-${k}`);
   S.push({ ...src, id, candidate: null, label: src.label.replace(/ [A-D] — /, ' — ') + ` (선택: ${k.toUpperCase()})`, note: `후보 ${id}-${k}와 같은 소리` });

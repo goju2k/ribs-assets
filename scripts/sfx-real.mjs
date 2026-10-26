@@ -1,5 +1,6 @@
 // 리얼 사운드 효과음 만들기 (D-030): audio/sfx-real-recipes.mjs → export/sfx/<id>.wav + index.json
 // 녹음 재료(audio/sfx-src/, 모두 CC0)를 ffmpeg로 자르고·음높이·EQ·겹치기·지연·잔향 통일·음량 맞춤.
+// len(초)이 있으면 그 길이로 정확히 자름 (장전처럼 동작 길이에 맞출 소리).
 // 사용: node scripts/sfx-real.mjs [--only id,id] [--drop v<n>]
 import { execFileSync, spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -39,7 +40,7 @@ function render(s) {
   const parts = s.layers.map(chain);
   const mix = s.layers.length > 1 ? `${s.layers.map((_, i) => `[l${i}]`).join('')}amix=inputs=${s.layers.length}:normalize=0:duration=longest` : `[l0]anull`;
   const rv = REVERB[s.reverb ?? 'room'];
-  const graph = [...parts, `${mix}${rv ? ',' + rv : ''},apad=pad_dur=${s.tail ?? 0.05}[out]`].join(';');
+  const graph = [...parts, `${mix}${rv ? ',' + rv : ''},apad=pad_dur=${s.tail ?? 0.05}${s.len ? `,atrim=0:${s.len}` : ''}[out]`].join(';');
   ff([...inputs, '-filter_complex', graph, '-map', '[out]', '-ac', '1', '-c:a', 'pcm_s16le', tmp]);
   return tmp;
 }
