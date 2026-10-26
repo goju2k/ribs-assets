@@ -2,29 +2,38 @@
  {
   "id": "move-hum",
   "group": "플레이어",
-  "label": "이동 (부유 웅웅) — 이동 중 반복",
-  "note": "반복 재생용 (600ms)",
+  "label": "이동 — 작은 불꽃이 숨 쉬는 소리 (반복)",
+  "note": "반복 재생용",
   "candidate": null,
-  "ms": 620,
-  "peak": 0.53
+  "ms": 700,
+  "sources": [
+   "torch"
+  ]
  },
  {
   "id": "dash-scatter",
   "group": "플레이어",
-  "label": "대시 — 흩어짐 (출발)",
+  "label": "대시 — 불씨로 흩어짐 (바람 + 불꽃)",
   "note": "",
   "candidate": null,
-  "ms": 202,
-  "peak": 0.54
+  "ms": 470,
+  "sources": [
+   "whoosh",
+   "cloth2",
+   "crackleB"
+  ]
  },
  {
   "id": "dash-gather",
   "group": "플레이어",
-  "label": "대시 — 모임 (회복, 묵직하게)",
+  "label": "대시 — 다시 모임 (묵직하게)",
   "note": "",
   "candidate": null,
-  "ms": 292,
-  "peak": 0.53
+  "ms": 1050,
+  "sources": [
+   "whoosh",
+   "softH"
+  ]
  },
  {
   "id": "fire-shoot",
@@ -32,8 +41,11 @@
   "label": "불꽃탄 발사",
   "note": "",
   "candidate": null,
-  "ms": 142,
-  "peak": 0.48
+  "ms": 310,
+  "sources": [
+   "whoosh",
+   "crackleA"
+  ]
  },
  {
   "id": "fire-impact",
@@ -41,35 +53,49 @@
   "label": "불꽃탄 착탄",
   "note": "",
   "candidate": null,
-  "ms": 242,
-  "peak": 0.65
+  "ms": 520,
+  "sources": [
+   "softM",
+   "crackleC",
+   "whoosh"
+  ]
  },
  {
   "id": "pillar-charge",
   "group": "플레이어",
-  "label": "불기둥 — 시전 모음",
+  "label": "불기둥 — 시전 모음 (불이 빨려 들어감)",
   "note": "",
   "candidate": null,
-  "ms": 470,
-  "peak": 0.38
+  "ms": 1530,
+  "sources": [
+   "whoosh",
+   "crackleB"
+  ]
  },
  {
   "id": "pillar-burst",
   "group": "플레이어",
-  "label": "불기둥 — 발동",
+  "label": "불기둥 — 발동 (불길이 솟음)",
   "note": "",
   "candidate": null,
-  "ms": 622,
-  "peak": 0.75
+  "ms": 2490,
+  "sources": [
+   "whoosh",
+   "punchH",
+   "crackleA"
+  ]
  },
  {
   "id": "ember-gain",
   "group": "플레이어",
-  "label": "잔불 획득",
+  "label": "잔불 획득 (작은 불씨가 손에 붙음)",
   "note": "",
   "candidate": null,
-  "ms": 202,
-  "peak": 0.34
+  "ms": 310,
+  "sources": [
+   "crackleB",
+   "glass1"
+  ]
  },
  {
   "id": "player-hit",
@@ -77,17 +103,24 @@
   "label": "피격",
   "note": "",
   "candidate": null,
-  "ms": 172,
-  "peak": 0.6
+  "ms": 570,
+  "sources": [
+   "punchM",
+   "whoosh"
+  ]
  },
  {
   "id": "player-down",
   "group": "플레이어",
-  "label": "체력 0",
+  "label": "체력 0 (불이 사그라듦)",
   "note": "",
   "candidate": null,
-  "ms": 822,
-  "peak": 0.49
+  "ms": 1690,
+  "sources": [
+   "softH",
+   "crackleC",
+   "whoosh"
+  ]
  },
  {
   "id": "parry-try",
@@ -95,35 +128,60 @@
   "label": "패링 시도 (휙)",
   "note": "",
   "candidate": null,
-  "ms": 120,
-  "peak": 0.39
+  "ms": 460,
+  "sources": [
+   "cloth3"
+  ]
  },
  {
   "id": "parry-success-a",
   "group": "패링",
-  "label": "패링 성공 A — 금속 \"챙\" (배음 여러 개)",
+  "label": "패링 성공 A — 칼날 \"챙\" + 판 울림",
   "note": "",
   "candidate": "parry-success",
-  "ms": 522,
-  "peak": 0.85
+  "ms": 1310,
+  "sources": [
+   "knife1",
+   "plateL0",
+   "bell1"
+  ]
  },
  {
   "id": "parry-success-b",
   "group": "패링",
-  "label": "패링 성공 B — 밝은 종 + 위로 튐",
+  "label": "패링 성공 B — 맑은 종 \"챙\"",
   "note": "",
   "candidate": "parry-success",
-  "ms": 472,
-  "peak": 0.73
+  "ms": 1210,
+  "sources": [
+   "metalL0",
+   "bell0"
+  ]
  },
  {
   "id": "parry-success-c",
   "group": "패링",
-  "label": "패링 성공 C — 묵직한 \"챙\" (쿵 + 울림)",
+  "label": "패링 성공 C — 냄비 깡 + 높은 울림 (거친 금속)",
   "note": "",
   "candidate": "parry-success",
-  "ms": 522,
-  "peak": 0.93
+  "ms": 580,
+  "sources": [
+   "clang",
+   "bell2"
+  ]
+ },
+ {
+  "id": "parry-success-d",
+  "group": "패링",
+  "label": "패링 성공 D — 묵직한 판 \"쾅챙\" (무게 있음)",
+  "note": "",
+  "candidate": "parry-success",
+  "ms": 1150,
+  "sources": [
+   "plateH0",
+   "knife2",
+   "punchH"
+  ]
  },
  {
   "id": "parry-fail",
@@ -131,116 +189,156 @@
   "label": "패링 실패 (둔탁)",
   "note": "",
   "candidate": null,
-  "ms": 172,
-  "peak": 0.55
+  "ms": 530,
+  "sources": [
+   "woodM"
+  ]
  },
  {
   "id": "sentinel-awaken",
   "group": "수호체",
-  "label": "각성 (돌이 깨어남)",
+  "label": "각성 (돌이 끌리며 봉인이 울림)",
   "note": "",
   "candidate": null,
-  "ms": 522,
-  "peak": 0.48
+  "ms": 1650,
+  "sources": [
+   "scrapeC",
+   "bowl"
+  ]
  },
  {
   "id": "sentinel-cue-a",
   "group": "수호체",
-  "label": "예비동작 신호 A — 높은 종 \"핑\"",
+  "label": "예비동작 신호 A — 봉인이 울림 (싱잉볼, 높게)",
   "note": "",
   "candidate": "sentinel-cue",
-  "ms": 272,
-  "peak": 0.63
+  "ms": 510,
+  "sources": [
+   "bowl"
+  ]
  },
  {
   "id": "sentinel-cue-b",
   "group": "수호체",
-  "label": "예비동작 신호 B — 올라가는 두 음 \"띠링\"",
+  "label": "예비동작 신호 B — 돌 긁힘 경고 (짧고 날카롭게)",
   "note": "",
   "candidate": "sentinel-cue",
-  "ms": 212,
-  "peak": 0.35
+  "ms": 520,
+  "sources": [
+   "scrapeAxe",
+   "glass2"
+  ]
  },
  {
   "id": "sentinel-cue-c",
   "group": "수호체",
-  "label": "예비동작 신호 C — 반짝 + 위로 휨",
+  "label": "예비동작 신호 C — 돌 딱 + 종 울림",
   "note": "",
   "candidate": "sentinel-cue",
-  "ms": 230,
-  "peak": 0.45
+  "ms": 920,
+  "sources": [
+   "mine1",
+   "bell0"
+  ]
  },
  {
   "id": "sentinel-attack",
   "group": "수호체",
-  "label": "근접 공격 (휘두름)",
+  "label": "근접 공격 (무거운 돌 휘두름)",
   "note": "",
   "candidate": null,
-  "ms": 220,
-  "peak": 0.58
+  "ms": 1620,
+  "sources": [
+   "cloth1",
+   "mine0"
+  ]
  },
  {
   "id": "sentinel-hit",
   "group": "수호체",
-  "label": "피격 (돌 딱)",
+  "label": "피격 (돌 딱 + 금속 판)",
   "note": "",
   "candidate": null,
-  "ms": 82,
-  "peak": 0.62
+  "ms": 1220,
+  "sources": [
+   "mine3",
+   "plateM0"
+  ]
  },
  {
   "id": "sentinel-shutdown",
   "group": "수호체",
-  "label": "정지 (빛이 꺼지며 부서짐)",
+  "label": "정지 (봉인 빛이 꺼지며 부서짐)",
   "note": "",
   "candidate": null,
-  "ms": 622,
-  "peak": 0.44
+  "ms": 1870,
+  "sources": [
+   "bowl",
+   "scrapeV",
+   "wine"
+  ]
  },
  {
   "id": "artifact",
   "group": "이벤트",
-  "label": "아티팩트 (맥동 화음)",
+  "label": "아티팩트 (맑은 울림 + 반짝)",
   "note": "",
   "candidate": null,
-  "ms": 1170,
-  "peak": 0.66
+  "ms": 2360,
+  "sources": [
+   "bowl",
+   "tinkle",
+   "wine"
+  ]
  },
  {
   "id": "form-change",
   "group": "이벤트",
-  "label": "폼체인지 (처음으로 따뜻한 소리)",
+  "label": "폼체인지 (처음으로 터지는 따뜻한 불)",
   "note": "",
   "candidate": null,
-  "ms": 1540,
-  "peak": 0.45
+  "ms": 4230,
+  "sources": [
+   "whoosh",
+   "crackleA",
+   "bowl"
+  ]
  },
  {
   "id": "door-open",
   "group": "이벤트",
-  "label": "문 열림 (돌 미끄러짐)",
+  "label": "문 열림 (돌 문이 미끄러짐)",
   "note": "",
   "candidate": null,
-  "ms": 570,
-  "peak": 0.65
+  "ms": 1540,
+  "sources": [
+   "scrapeV",
+   "door1"
+  ]
  },
  {
   "id": "vine-burn",
   "group": "이벤트",
-  "label": "덩굴 탐 (탁탁)",
+  "label": "덩굴 탐 (탁탁 + 바스락)",
   "note": "",
   "candidate": null,
-  "ms": 422,
-  "peak": 0.49
+  "ms": 820,
+  "sources": [
+   "crackleB",
+   "cloth2",
+   "whoosh"
+  ]
  },
  {
   "id": "companion-blip-a",
   "group": "동반자·UI",
-  "label": "동반자 말소리 a (대사 글자마다, a·b·c를 번갈아)",
+  "label": "동반자 말소리 a (작은 유리 음절)",
   "note": "",
   "candidate": null,
-  "ms": 63,
-  "peak": 0.33
+  "ms": 70,
+  "sources": [
+   "glass0"
+  ]
  },
  {
   "id": "companion-blip-b",
@@ -248,8 +346,10 @@
   "label": "동반자 말소리 b",
   "note": "",
   "candidate": null,
-  "ms": 63,
-  "peak": 0.33
+  "ms": 70,
+  "sources": [
+   "glass2"
+  ]
  },
  {
   "id": "companion-blip-c",
@@ -257,52 +357,67 @@
   "label": "동반자 말소리 c",
   "note": "",
   "candidate": null,
-  "ms": 63,
-  "peak": 0.33
+  "ms": 80,
+  "sources": [
+   "glass3"
+  ]
  },
  {
   "id": "emote",
   "group": "동반자·UI",
-  "label": "감정 표시 (뿅)",
+  "label": "감정 표시 (작은 도자기 팅)",
   "note": "",
   "candidate": null,
-  "ms": 102,
-  "peak": 0.34
+  "ms": 420,
+  "sources": [
+   "ceramic"
+  ]
  },
  {
   "id": "ui-select",
   "group": "동반자·UI",
-  "label": "UI 선택",
+  "label": "UI 선택 (나무 톡)",
   "note": "",
   "candidate": null,
-  "ms": 62,
-  "peak": 0.21
+  "ms": 220,
+  "sources": [
+   "woodL0"
+  ]
  },
  {
   "id": "ui-confirm",
   "group": "동반자·UI",
-  "label": "UI 결정",
+  "label": "UI 결정 (나무 + 작은 종)",
   "note": "",
   "candidate": null,
-  "ms": 142,
-  "peak": 0.24
+  "ms": 430,
+  "sources": [
+   "woodL1",
+   "bell2"
+  ]
  },
  {
   "id": "parry-success",
   "group": "패링",
-  "label": "패링 성공 — 금속 \"챙\" (배음 여러 개) (선택: A)",
+  "label": "패링 성공 — 칼날 \"챙\" + 판 울림 (선택: A)",
   "note": "후보 parry-success-a와 같은 소리",
   "candidate": null,
-  "ms": 522,
-  "peak": 0.85
+  "ms": 1310,
+  "sources": [
+   "knife1",
+   "plateL0",
+   "bell1"
+  ]
  },
  {
   "id": "sentinel-cue",
   "group": "수호체",
-  "label": "예비동작 신호 — 높은 종 \"핑\" (선택: A)",
+  "label": "예비동작 신호 — 봉인이 울림 (싱잉볼, 높게) (선택: A)",
   "note": "후보 sentinel-cue-a와 같은 소리",
   "candidate": null,
-  "ms": 272,
-  "peak": 0.63
+  "ms": 510,
+  "sources": [
+   "bowl"
+  ]
  }
 ]
