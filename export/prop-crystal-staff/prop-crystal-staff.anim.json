@@ -4,7 +4,7 @@
   "texture": "prop-crystal-staff.png",
   "frameSize": [24, 32],
   "anchor": [12, 31],
-  "source": "ribs-assets@d62b75e",
+  "source": "ribs-assets@1a856bb",
   "clips": {
     "drop": { "loop": false, "frames": [
         { "sx": 0, "sy": 0, "sWidth": 24, "sHeight": 32, "durationMs": 60 },
@@ -36,12 +36,18 @@
         { "sx": 192, "sy": 64, "sWidth": 24, "sHeight": 32, "durationMs": 70 },
         { "sx": 216, "sy": 64, "sWidth": 24, "sHeight": 32, "durationMs": 60 }
     ] },
-    "fly": { "loop": false, "frames": [
-        { "sx": 0, "sy": 96, "sWidth": 24, "sHeight": 32, "durationMs": 100, "tags": ["fly:lift"] },
-        { "sx": 24, "sy": 96, "sWidth": 24, "sHeight": 32, "durationMs": 100 },
-        { "sx": 48, "sy": 96, "sWidth": 24, "sHeight": 32, "durationMs": 100 },
-        { "sx": 72, "sy": 96, "sWidth": 24, "sHeight": 32, "durationMs": 120 },
-        { "sx": 96, "sy": 96, "sWidth": 24, "sHeight": 32, "durationMs": 120 }
+    "rise": { "loop": false, "frames": [
+        { "sx": 0, "sy": 96, "sWidth": 24, "sHeight": 32, "durationMs": 150, "tags": ["rise:start"] },
+        { "sx": 24, "sy": 96, "sWidth": 24, "sHeight": 32, "durationMs": 150 },
+        { "sx": 48, "sy": 96, "sWidth": 24, "sHeight": 32, "durationMs": 150 }
+    ] },
+    "fly": { "loop": true, "frames": [
+        { "sx": 0, "sy": 128, "sWidth": 24, "sHeight": 32, "durationMs": 150 },
+        { "sx": 24, "sy": 128, "sWidth": 24, "sHeight": 32, "durationMs": 150 },
+        { "sx": 48, "sy": 128, "sWidth": 24, "sHeight": 32, "durationMs": 150 },
+        { "sx": 72, "sy": 128, "sWidth": 24, "sHeight": 32, "durationMs": 150 },
+        { "sx": 96, "sy": 128, "sWidth": 24, "sHeight": 32, "durationMs": 150 },
+        { "sx": 120, "sy": 128, "sWidth": 24, "sHeight": 32, "durationMs": 150 }
     ] }
   }
 }
