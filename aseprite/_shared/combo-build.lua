@@ -6,7 +6,7 @@
 --   fx-focus             "집중" 강화: ring (마무리에 덧입히는 불꽃 고리, 1회)
 --   ui-combo             콤보 UI 7×7: slot-empty / slot-l / slot-r (칸 5×5) / gain-focus / gain-switch / gain-rhythm (떠오름 3프레임)
 local function H(h) return Color{r=tonumber(h:sub(1,2),16), g=tonumber(h:sub(3,4),16), b=tonumber(h:sub(5,6),16)} end
-local F = { W=H"fff7d6", Y=H"fbf236", y=H"df7126", r=H"ac3232", d=H"7a2018", a=H"3a1a14" }   -- 손불꽃 (+ 거의 흰 심, 재)
+local F = { W=H"fff7d6", Y=H"fbf236", y=H"df7126", r=H"ac3232", d=H"7a2018", a=H"3a1a14", A=H"5a4a44" }   -- 손불꽃 (+ 거의 흰 심, 재)
 local U = { o=H"241e2c", e=H"3a3245", f=H"584d66", W=H"ffffff", c=H"cbdbfc" }               -- UI 테·빈 칸 (돌 팔레트) + 방어 계열
 local WHICH = app.params.which
 local seed = 3
@@ -60,43 +60,122 @@ if WHICH == "fx-fire-fan" then
     { 60, nil, function(i) blob(i, 12, 13, 3, { F.r, F.d, F.a }, 24, 1, 0.7); for k = 0, 5 do local a = k * 1.05; px(i, 12 + math.cos(a) * 9, 11 + math.sin(a) * 7 - 2, F.d) end end },
   } }
 
-elseif WHICH == "fx-fire-pillar-big" then
-  FW, FH, ANCHOR = 64, 80, { 32, 70 }   -- 바닥 중심, 반지름 26 → 바닥 타원 52×20
-  local cx, by = 32, 70
-  local function base(i, r, s, pal) blob(i, cx, by, r, pal or { F.y, F.r, F.d }, s, 0.4, 0.3) end
-  CL[#CL+1] = { "rise", false, {
-    { 50, "pillar:start", function(i) base(i, 10, 61, { F.W, F.Y, F.y }) end },
-    { 50, nil, function(i) base(i, 18, 62, { F.Y, F.y, F.r }); column(i, cx, by, 22, 14, 63) end },
-    { 50, nil, function(i) base(i, 26, 64); column(i, cx, by, 46, 22, 64) end },
-    { 60, nil, function(i) base(i, 26, 65); column(i, cx, by, 62, 26, 65); embers(i, cx, by, 8, 46, 66, 66) end },
-  } }
-  CL[#CL+1] = { "burn", true, {
-    { 70, nil, function(i) base(i, 26, 71); column(i, cx, by, 56, 24, 71); embers(i, cx, by, 7, 46, 64, 72) end },
-    { 70, nil, function(i) base(i, 26, 73); column(i, cx, by, 60, 26, 74); embers(i, cx, by, 7, 46, 64, 75) end },
-    { 70, nil, function(i) base(i, 26, 76); column(i, cx, by, 52, 24, 77); embers(i, cx, by, 7, 46, 64, 78) end },
-    { 70, nil, function(i) base(i, 26, 79); column(i, cx, by, 58, 26, 80); embers(i, cx, by, 7, 46, 64, 81) end },
-  } }
-  CL[#CL+1] = { "fade", false, {
-    { 70, "pillar:end", function(i) base(i, 24, 91, { F.r, F.d, F.d }); column(i, cx, by, 28, 16, 92); embers(i, cx, by, 8, 46, 48, 93) end },
-    { 80, nil, function(i) base(i, 20, 94, { F.d, F.d, F.a }); embers(i, cx, by, 7, 40, 36, 95) end },
-    { 90, nil, function(i) embers(i, cx, by, 5, 36, 24, 96) end },
-  } }
-  CL[#CL+1] = { "smolder", true, {   -- 연소: 바닥에 남는 낮은 불꽃 (지속 시간만큼 반복)
-    { 120, nil, function(i) base(i, 22, 101, { F.r, F.d, F.a }); for k = 0, 6 do local x = cx - 18 + k * 6; column(i, x, by + 1, 5 + (k % 3), 3, 102 + k) end end },
-    { 120, nil, function(i) base(i, 22, 103, { F.r, F.d, F.a }); for k = 0, 6 do local x = cx - 16 + k * 6; column(i, x, by + 1, 4 + ((k + 1) % 3), 3, 110 + k) end end },
-    { 120, nil, function(i) base(i, 22, 105, { F.r, F.d, F.a }); for k = 0, 6 do local x = cx - 18 + k * 6; column(i, x, by + 1, 6 - (k % 3), 3, 118 + k) end; embers(i, cx, by, 3, 40, 14, 125) end },
-  } }
-
-elseif WHICH == "fx-fire-pillar-quick" then
-  FW, FH, ANCHOR = 32, 40, { 16, 34 }   -- 바닥 중심, 반지름 12
-  local cx, by = 16, 34
-  CL[#CL+1] = { "burst", false, {
-    { 30, "pillar:start", function(i) blob(i, cx, by, 6, { F.W, F.Y, F.y }, 131, 0.4) end },
-    { 35, nil, function(i) blob(i, cx, by, 12, { F.Y, F.y, F.r }, 132, 0.4); column(i, cx, by, 20, 9, 133) end },
-    { 40, nil, function(i) blob(i, cx, by, 12, { F.y, F.r, F.d }, 134, 0.4); column(i, cx, by, 28, 10, 135) end },
-    { 45, nil, function(i) blob(i, cx, by, 10, { F.r, F.d, F.d }, 136, 0.4); column(i, cx, by, 14, 7, 137); embers(i, cx, by, 4, 20, 26, 138) end },
-    { 50, "pillar:end", function(i) embers(i, cx, by, 4, 18, 16, 139) end },
-  } }
+elseif WHICH == "fx-fire-pillar-big" or WHICH == "fx-fire-pillar-quick" then
+  -- D-043: 이글거리는 불길 (파이어월 감각). 한 덩어리 기둥이 아니라 높이·위상이 다른 혓바닥 여러 겹이 계속 위로 핥아 오름.
+  -- 장면마다 손으로 그리지 않고 불길 세기(0~1)를 계산해 색 층으로 칠함: 흰 노랑 → 노랑 → 주황 → 빨강 → 어둠(디더로 흩어짐).
+  -- 반복 구간은 시간 t(0~1)의 정수배 주기만 써서 끊김 없이 이어짐. 바닥 = 타는 고리(이글거리는 테), 불티·재가 위로.
+  local big = WHICH == "fx-fire-pillar-big"
+  local R = big and 26 or 12
+  if big then FW, FH, ANCHOR = 64, 80, { 32, 70 } else FW, FH, ANCHOR = 32, 48, { 16, 42 } end
+  local cx, by = ANCHOR[1], ANCHOR[2]
+  local TAU = 2 * math.pi
+  local BAYER = { { 0, 0.5 }, { 0.75, 0.25 } }
+  local function shade(v, x, y)
+    v = v + (BAYER[y % 2 + 1][x % 2 + 1] - 0.375) * 0.12
+    if v > 0.80 then return F.W elseif v > 0.62 then return F.Y elseif v > 0.43 then return F.y
+    elseif v > 0.27 then return F.r elseif v > 0.15 then return F.d end
+  end
+  -- 혓바닥 목록 (고정): 바닥 타원 안에 앞·뒤 두 줄로 흩어 둠. n = 주기 안에서 핥는 횟수(정수)
+  local TONGUES = {}
+  do seed = big and 401 or 431
+    local N = big and 11 or 5
+    for k = 1, N do
+      local rel = (k - (N + 1) / 2) / ((N - 1) / 2)
+      TONGUES[k] = { x = cx + rel * R * 0.78 + (rnd() - 0.5) * 2, b = by + math.floor(((k * 5) % 7 / 6 - 0.5) * R * 0.6),   -- 바닥 타원 깊이 안에 앞·뒤로 흩어 둠
+        h = (1 - 0.45 * math.abs(rel)) * (0.8 + rnd() * 0.3), w = (big and 4.2 or 3.2) * (0.85 + rnd() * 0.3),
+        n = 1 + (k % 3), ph = rnd(), sw = 1 + (k % 2) }
+    end
+  end
+  local SPARKS = {}
+  do seed = big and 451 or 461
+    for k = 1, (big and 26 or 10) do SPARKS[k] = { x = cx + (rnd() - 0.5) * R * 1.6, n = 1 + (k % 2), ph = rnd(), drift = (rnd() - 0.5) * 6 } end
+  end
+  -- o: t(0~1) · hs 높이 비율 · is 세기 비율 · ring 고리 세기(0~1) · sp 불티 비율 · low(잔불: 낮은 혓바닥만)
+  local function fire(i, o)
+    local t, hs, is = o.t, o.hs or 1, o.is or 1
+    local H = (big and 60 or 30) * hs
+    -- 고리 (뒤 반쪽 먼저)
+    local function ring(front)
+      if (o.ring or 0) <= 0 then return end
+      for a = 0, 359, 3 do
+        local ra = math.rad(a); local s = math.sin(ra)
+        if (s >= 0) == front then
+          local x, y = cx + math.cos(ra) * R, by + s * R * 0.38
+          local fl = 0.5 + 0.5 * math.sin(TAU * (t * 2 + a / 360 * 5))
+          local v = (0.35 + 0.45 * fl) * o.ring
+          px(i, x, y, shade(v + 0.1, math.floor(x), math.floor(y))); px(i, x, y + 1, shade(v - 0.12, math.floor(x), math.floor(y) + 1))
+          local h = math.floor((1 + 3 * fl) * o.ring)              -- 테 위 작은 불꽃
+          for d = 1, h do px(i, x, y - d, shade(v - d * 0.1, math.floor(x), math.floor(y) - d)) end
+        end
+      end
+    end
+    ring(false)
+    -- 불길 세기 계산
+    local x0, x1 = math.max(0, cx - R - 4), math.min(FW - 1, cx + R + 4)
+    for y = math.max(0, math.floor(by - H - 6)), math.min(FH - 1, math.floor(by + R * 0.4)) do for x = x0, x1 do
+      local I = 0
+      local e = ((x - cx) / R) ^ 2 + ((y - by) / (R * 0.38)) ^ 2           -- 바닥 타원 안 = 타는 숯 바닥
+      if e < 1 then I = (o.low and 0.3 or 0.38) + 0.16 * math.sin(TAU * (t * 2 + x * 0.11)) * math.sin(TAU * (t + y * 0.17 + x * 0.04)) - e * 0.12 + (((x * 73 + y * 151) % 17) / 17 - 0.5) * 0.22 end   -- 숯 알갱이 (체크 무늬 방지)
+      for _, g in ipairs(TONGUES) do
+        local hk = H * g.h * (o.low and 0.18 or 1) * (0.72 + 0.28 * (0.5 + 0.5 * math.sin(TAU * (t * g.n + g.ph))))
+        local f = (g.b - y) / hk
+        if f >= -0.05 and f <= 1 then
+          local sway = math.sin(TAU * (t * g.sw + f * 0.9 + g.ph)) * (1 + f * 2.2)
+          local hw = g.w * (1 - f) ^ 0.55 + 0.6
+          local dx = math.abs(x - (g.x + sway))
+          if dx < hw then
+            local core = (1 - dx / hw) ^ 0.6
+            local lick = 0.78 + 0.22 * math.sin(TAU * (f * 2.4 - t * (g.n + 1)) + x * 0.6)   -- 위로 올라가는 띠
+            local v = core * (1 - math.max(0, f)) ^ 0.75 * lick * 1.25
+            if v > I then I = v end
+          end
+        end
+      end
+      if I > 0 then px(i, x, y, shade(I * is, x, y)) end
+    end end
+    -- 혓바닥 끝에서 떨어져 나가는 불꽃 조각
+    if not o.low then for k, g in ipairs(TONGUES) do
+      local u = (t * g.n + g.ph * 1.7) % 1
+      local tip = g.b - H * g.h * 0.9 - u * 10
+      local x = g.x + math.sin(TAU * (u + g.ph)) * 2
+      px(i, x, tip, shade((0.62 - u * 0.5) * is, math.floor(x), math.floor(tip)))
+      if u < 0.4 then px(i, x, tip + 1, shade((0.5 - u * 0.5) * is, math.floor(x), math.floor(tip) + 1)) end
+    end end
+    ring(true)
+    -- 불티·재
+    local sp = o.sp or 1
+    for k, s in ipairs(SPARKS) do if k <= #SPARKS * sp then
+      local u = (t * s.n + s.ph) % 1
+      local y = by - 3 - u * (H + 12) * (o.low and 0.4 or 1)
+      local x = s.x + math.sin(TAU * (u * 1.5 + s.ph)) * 2 + s.drift * u
+      px(i, x, y, u < 0.3 and F.Y or u < 0.6 and F.y or u < 0.85 and F.r or F.A)
+    end end
+  end
+  local function seq(n, ms, from, to, opt)   -- n장, 각 ms: 매 장 t를 from → to로
+    local L = {}
+    for k = 1, n do local u = (k - 1) / n
+      L[k] = { ms, nil, function(i) local o = opt(u, k); o.t = from + (to - from) * u; fire(i, o) end } end
+    return L
+  end
+  if big then
+    -- 오름 0.2초 → 이글거림 0.9초(반복 12장) → 잦아듦 0.5초 → 잔불 1초(반복 8장)
+    local rise = seq(4, 50, 0, 0.2, function(u) return { hs = 0.25 + 0.75 * (u + 0.25), is = 1.15 - u * 0.15, ring = 0.4 + u * 0.6, sp = u } end)
+    rise[1][2] = "pillar:start"
+    CL[#CL+1] = { "rise", false, rise }
+    CL[#CL+1] = { "burn", true, seq(12, 75, 0, 1, function() return { ring = 1 } end) }
+    local fade = seq(6, 83, 0, 0.45, function(u) return { hs = 1 - u * 0.85, is = 1 - u * 0.55, ring = 1 - u * 0.6, sp = 1 - u * 0.5 } end)
+    fade[1][2] = "pillar:end"
+    CL[#CL+1] = { "fade", false, fade }
+    CL[#CL+1] = { "smolder", true, seq(8, 125, 0, 1, function() return { low = true, is = 0.72, ring = 0.45, sp = 0.25 } end) }
+  else
+    -- 빠른 불기둥 0.6초: 오름 0.1(2장) → 이글 0.3(4장) → 잦아듦 0.2(3장)
+    local L = {}
+    for _, f in ipairs(seq(2, 50, 0, 0.1, function(u) return { hs = 0.35 + u * 0.65, is = 1.15, ring = 0.6 + u * 0.4, sp = 0.3 } end)) do L[#L+1] = f end
+    for _, f in ipairs(seq(4, 75, 0.1, 0.5, function() return { ring = 1 } end)) do L[#L+1] = f end
+    for _, f in ipairs(seq(3, 67, 0.5, 0.7, function(u) return { hs = 0.8 - u * 0.6, is = 0.9 - u * 0.45, ring = 0.8 - u * 0.5, sp = 0.8 } end)) do L[#L+1] = f end
+    L[1][2] = "pillar:start"; L[7][2] = "pillar:end"
+    CL[#CL+1] = { "burst", false, L }
+  end
 
 elseif WHICH == "fx-focus" then
   FW, FH, ANCHOR = 48, 48, { 24, 24 }   -- 마무리 효과 중심에 덧입힘
