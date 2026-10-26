@@ -472,6 +472,83 @@
   ]
  },
  {
+  "id": "inspect",
+  "group": "길찾기",
+  "label": "살펴보기 (손끝으로 먼지를 쓸어냄)",
+  "note": "",
+  "candidate": null,
+  "ms": 720,
+  "sources": [
+   "cloth1",
+   "ceramic"
+  ]
+ },
+ {
+  "id": "record-open",
+  "group": "길찾기",
+  "label": "기록창 열림 (돌판이 끌려 나옴)",
+  "note": "",
+  "candidate": null,
+  "ms": 690,
+  "sources": [
+   "scrapeV",
+   "softM"
+  ]
+ },
+ {
+  "id": "record-close",
+  "group": "길찾기",
+  "label": "기록창 닫힘 (돌판이 제자리로)",
+  "note": "",
+  "candidate": null,
+  "ms": 1670,
+  "sources": [
+   "scrapeV",
+   "mine0"
+  ]
+ },
+ {
+  "id": "brazier-ignite",
+  "group": "길찾기",
+  "label": "화로 점화 (불 붙는 \"확\")",
+  "note": "",
+  "candidate": null,
+  "ms": 1270,
+  "sources": [
+   "whoosh",
+   "crackleA",
+   "softM"
+  ]
+ },
+ {
+  "id": "seal-door-open",
+  "group": "길찾기",
+  "label": "봉인문 열림 (봉인 울림 + 돌 갈림)",
+  "note": "",
+  "candidate": null,
+  "ms": 2860,
+  "sources": [
+   "bowl",
+   "scrapeC",
+   "softH"
+  ]
+ },
+ {
+  "id": "wall-collapse",
+  "group": "길찾기",
+  "label": "벽 무너짐 (돌이 쏟아짐)",
+  "note": "",
+  "candidate": null,
+  "ms": 1820,
+  "sources": [
+   "punchH",
+   "mine0",
+   "mine3",
+   "mine1",
+   "scrapeV"
+  ]
+ },
+ {
   "id": "parry-success",
   "group": "패링",
   "label": "패링 성공 — 칼날 \"챙\" + 판 울림 (선택: A)",

@@ -56,33 +56,33 @@ D-030: 그래픽은 픽셀, 소리는 리얼 사운드. 모든 재료는 CC0 (�
 | glass1 | ember-gain |
 | glass2 | sentinel-cue-b, companion-blip-b |
 | glass3 | companion-blip-c |
-| mine0 | sentinel-attack |
-| mine1 | sentinel-cue-c |
-| mine3 | sentinel-hit |
-| softH | dash-gather, player-down, pillar-big |
-| softM | fire-impact |
+| mine0 | sentinel-attack, record-close, wall-collapse |
+| mine1 | sentinel-cue-c, wall-collapse |
+| mine3 | sentinel-hit, wall-collapse |
+| softH | dash-gather, player-down, pillar-big, seal-door-open |
+| softM | fire-impact, record-open, brazier-ignite |
 | punchM | player-hit |
-| punchH | pillar-burst, parry-success-d, pillar-big, combo-focus |
+| punchH | pillar-burst, parry-success-d, pillar-big, combo-focus, wall-collapse |
 | woodL0 | ui-select |
 | woodL1 | ui-confirm, combo-slot |
 | woodM | parry-fail |
-| cloth1 | sentinel-attack |
+| cloth1 | sentinel-attack, inspect |
 | cloth2 | dash-scatter, vine-burn |
 | cloth3 | parry-try, combo-switch |
 | knife1 | parry-success-a, parry-success |
 | knife2 | parry-success-d |
 | door1 | door-open |
-| whoosh | dash-scatter, dash-gather, fire-shoot, fire-impact, pillar-charge, pillar-burst, player-hit, player-down, form-change, vine-burn, fire-fan, pillar-big, pillar-quick, combo-focus, combo-switch |
-| crackleA | fire-shoot, pillar-burst, form-change, fire-fan, pillar-big |
+| whoosh | dash-scatter, dash-gather, fire-shoot, fire-impact, pillar-charge, pillar-burst, player-hit, player-down, form-change, vine-burn, fire-fan, pillar-big, pillar-quick, combo-focus, combo-switch, brazier-ignite |
+| crackleA | fire-shoot, pillar-burst, form-change, fire-fan, pillar-big, brazier-ignite |
 | crackleB | dash-scatter, pillar-charge, ember-gain, vine-burn, pillar-quick, combo-slot |
 | crackleC | fire-impact, player-down, combo-focus |
 | torch | move-hum |
-| scrapeV | sentinel-shutdown, door-open |
-| scrapeC | sentinel-awaken |
+| scrapeV | sentinel-shutdown, door-open, record-open, record-close, wall-collapse |
+| scrapeC | sentinel-awaken, seal-door-open |
 | scrapeAxe | sentinel-cue-b |
-| bowl | sentinel-awaken, sentinel-cue-a, sentinel-shutdown, artifact, form-change, sentinel-cue |
+| bowl | sentinel-awaken, sentinel-cue-a, sentinel-shutdown, artifact, form-change, seal-door-open, sentinel-cue |
 | wine | sentinel-shutdown, artifact |
-| ceramic | emote |
+| ceramic | emote, inspect |
 | clang | parry-success-c |
 | tinkle | artifact |
 

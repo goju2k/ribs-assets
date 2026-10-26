@@ -1,0 +1,8 @@
+{
+  "cell": [10, 10],
+  "glyph": [9, 9],
+  "columns": 8,
+  "count": 40,
+  "note": "기호 k(0부터)는 (k % 8 * 10, floor(k / 8) * 10)의 9x9. 흰색 한 가지 — 화면에서 색을 입힘. 이름은 만든 부품(틀|속)",
+  "parts": ["ring|vfull", "arcTop|vfull", "arcBot|vfull", "bars|vfull", "arcLeft|vfull", "arcRight|vfull", "diamond|vfull", "arcTop|hfull", "arcBot|hfull", "bars|hfull", "arcLeft|hfull", "arcRight|hfull", "diamond|hfull", "ring|hfull", "bars|small", "arcLeft|small", "arcRight|small", "diamond|small", "ring|small", "arcTop|small", "arcBot|small", "arcLeft|diagA", "arcRight|diagA", "diamond|diagA", "ring|diagA", "arcTop|diagA", "arcBot|diagA", "bars|diagA", "arcRight|diagB", "diamond|diagB", "ring|diagB", "arcTop|diagB", "arcBot|diagB", "bars|diagB", "arcLeft|diagB", "arcTop|ticks", "arcBot|ticks", "arcLeft|ticks", "arcRight|ticks", "arcLeft|dots3"]
+}
