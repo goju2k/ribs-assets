@@ -41,7 +41,7 @@ local OX, OY = 15, 4          -- 18x18 몸의 왼쪽 위
 local ANCHOR = { 24, 24 }     -- 그림자 자리 (몸 가운데, 밑단 아래)
 
 local function px(img, x, y, c) if x >= 0 and y >= 0 and x < FW and y < FH then img:drawPixel(x, y, c) end end
--- o: dx, dy, lean(위쪽 몇 줄 앞으로), flame(0~3), glow(1~3), skip(행 거르기), color(단색/디더)
+-- o: dx, dy, lean(위쪽 몇 줄 앞으로), flame(0~3), glow(1~3), skip(행 거르기), color(단색/디더), fdx/fdy(손불꽃 위치), reach(손 내밀기 px)
 local function body(img, o)
   o = o or {}
   local g = GLOW[o.glow or 2]
@@ -55,7 +55,8 @@ local function body(img, o)
     end
   end
   local fl = o.flame == nil and 1 or o.flame
-  if fl > 0 then for fy, r in ipairs(FLAME[fl]) do for x = 1, 4 do local c = P[r:sub(x, x)]; if c then put(x - 1, 7 + fy, c) end end end end
+  for k = 1, (o.reach or 0) do put(3 - k, 11, k == o.reach and g.h or g.R) end -- 손을 앞(왼쪽)으로 내밂
+  if fl > 0 then for fy, r in ipairs(FLAME[fl]) do for x = 1, 4 do local c = P[r:sub(x, x)]; if c then put(x - 1 + (o.fdx or 0), 7 + fy + (o.fdy or 0), c) end end end end
 end
 local function ring(img, cx, cy, r, c, gaps)
   for a = 0, 359, 6 do if not (gaps and gaps(a)) then local t = math.rad(a); px(img, math.floor(cx + math.cos(t) * r + 0.5), math.floor(cy + math.sin(t) * r * 0.9 + 0.5), c) end end
@@ -110,6 +111,13 @@ CLIPS[#CLIPS+1] = { "parry", false, {
   { 80, nil, function(i) body(i, { dx = 2, flame = 1 }); ring(i, OX + 1, OY + 10, 9, P.C, function(a) return a % 48 < 30 end) end },
   { 120, nil, function(i) body(i, { dx = 1, flame = 2 }) end },
   { 160, nil, function(i) body(i, { flame = 1 }) end },
+} }
+
+-- fire (D-025): 준비 33ms → fire:release(투사체 생성) → 마무리 67ms. 몸 높이·밑단은 float 기본 자세 그대로 (연사로 반복돼도 튀지 않게)
+CLIPS[#CLIPS+1] = { "fire", false, {
+  { 33, nil, function(i) body(i, { flame = 3, glow = 3, fdx = 1 }) end },                                  -- 준비: 손불꽃을 살짝 당기며 밝아짐
+  { 33, "fire:release", function(i) body(i, { lean = 6, flame = 1, glow = 3, fdx = -2, reach = 2 }) end }, -- 발사: 손을 앞으로 내밂, 불꽃이 손 끝에
+  { 34, nil, function(i) body(i, { flame = 2, glow = 2, fdx = -1, reach = 1 }) end },                      -- 마무리: 돌아옴
 } }
 
 local total = 0; for _, c in ipairs(CLIPS) do total = total + #c[3] end
