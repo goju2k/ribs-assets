@@ -220,16 +220,18 @@ add('fire-fan', '콤보', '불꽃 3갈래 발사 (세 발이 겹쳐 퍼짐)', [
   { src: 'whoosh', ss: 0.8, t: 0.3, rate: 2.0, hp: 600, delay: 50, gain: -3, fo: 0.08 },
   { src: 'crackleA', ss: 12.4, t: 0.25, hp: 1200, gain: -6, fo: 0.08 },
 ], { reverb: 'room', peak: -4 });
-add('pillar-big', '콤보', '큰 불기둥 (묵직하게 솟고 타오름)', [
-  { src: 'whoosh', ss: 0.45, t: 2.0, rate: 0.62, hp: 40, fo: 0.8 },
+add('pillar-big', '콤보', '큰 불기둥 — "화르륵" 솟고 이글거리다 잦아듦 (D-043, 그림 오름 0.2 + 이글 0.9 + 잦아듦 0.5에 맞춤)', [
+  { src: 'whoosh', ss: 0.45, t: 0.9, rate: 0.7, hp: 40, fo: 0.5 },                    // 화르륵 솟음
   { src: 'punchH', rate: 0.5, lp: 400 },
-  { src: 'softH', rate: 0.55, lp: 300, delay: 40, gain: -2 },
-  { src: 'crackleA', ss: 20, t: 1.4, hp: 500, gain: -3, fo: 0.8, delay: 100 },
-], { reverb: 'hall', peak: -1 });
-add('pillar-quick', '콤보', '빠른 불기둥 (짧고 날렵)', [
-  { src: 'whoosh', ss: 0.5, t: 0.45, rate: 1.4, hp: 200, fo: 0.15 },
-  { src: 'crackleB', ss: 6.2, t: 0.25, hp: 900, gain: -5, fo: 0.1 },
-], { reverb: 'room', peak: -5 });
+  { src: 'torch', ss: 35, t: 1.7, lp: 2600, hp: 60, fi: 0.12, fo: 0.6, delay: 150 },   // 이글거리는 불 소리
+  { src: 'crackleA', ss: 20, t: 1.6, hp: 500, gain: -3, fo: 0.6, delay: 150 },
+  { src: 'crackleC', ss: 8, t: 1.0, hp: 800, gain: -8, fo: 0.6, delay: 900 },         // 잦아들며 타닥
+], { reverb: 'room', peak: -1, len: 2.3 });
+add('pillar-quick', '콤보', '빠른 불기둥 — 짧은 "확" (D-043, 0.6초 그림에 맞춤)', [
+  { src: 'whoosh', ss: 0.5, t: 0.5, rate: 1.2, hp: 200, fo: 0.2 },
+  { src: 'torch', ss: 32, t: 0.45, hp: 150, gain: -6, fi: 0.03, fo: 0.25 },
+  { src: 'crackleB', ss: 6.2, t: 0.4, hp: 900, gain: -4, fo: 0.2, delay: 40 },
+], { reverb: 'room', peak: -4, len: 0.6 });
 add('combo-focus', '콤보', '집중 강화 (무게감 — 마무리에 겹침)', [
   { src: 'whoosh', ss: 0.5, t: 0.35, rev: true, rate: 1.0, hp: 150, fi: 0.05 },
   { src: 'punchH', rate: 0.55, lp: 350, delay: 120 },
