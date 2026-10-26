@@ -275,6 +275,45 @@ add('wall-collapse', '길찾기', '벽 무너짐 (돌이 쏟아짐)', [
   { src: 'scrapeV', ss: 15, t: 0.9, rate: 1.4, hp: 300, delay: 120, gain: -6, fo: 0.5 },
 ], { reverb: 'stone', peak: -1 });
 
+// ── 폼체인지 장면 D v2 (D-037) — 그림 시점에 맞춤 ──
+add('form-merge', '폼체인지', '합쳐짐 — 차가운 울림과 따뜻한 불꽃이 겹치며 올라감 (1.1초)', [
+  ...[0.55, 0.7, 0.85, 1.05].map((r, k) => ({ src: 'bowl', ss: 1.42, t: 0.45 * r, rate: r, lp: 3000, fi: 0.08, fo: 0.15, gain: -9 + k * 2, delay: k * 250 })),
+  { src: 'crackleB', ss: 6, t: 1.1, hp: 900, fi: 0.6, fo: 0.2, gain: -8 },
+  { src: 'tinkle', ss: 0.2, t: 0.5, rate: 1.3, hp: 2500, delay: 700, gain: -10, fo: 0.3 },
+], { reverb: 'hall', peak: -5 });
+add('form-flash', '폼체인지', '섬광 "휘잉" — 거꾸로 감긴 바람 + 높은 울림이 차오름', [
+  { src: 'whoosh', ss: 0.4, t: 0.9, rev: true, rate: 1.2, hp: 400, fi: 0.1 },
+  { src: 'bowl', ss: 1.42, t: 0.9, rev: true, rate: 1.8, hp: 1200, gain: -4 },
+  { src: 'tinkle', ss: 0.2, t: 0.6, rate: 1.6, hp: 3000, delay: 520, gain: -6, fo: 0.4 },
+], { reverb: 'hall', peak: -2 });
+add('staff-drop', '폼체인지', '지팡이 떨어짐 "탁·탁" — 나무 + 수정 (drop:hit에서, 두 번째는 +230ms)', [
+  { src: 'woodL0', rate: 1.1 },
+  { src: 'glass1', rate: 1.4, gain: -5 },
+  { src: 'woodL1', rate: 1.25, delay: 230, gain: -4 },
+  { src: 'glass3', rate: 1.6, delay: 230, gain: -9 },
+], { reverb: 'room', peak: -4 });
+const SHAKE = [0, 200, 380, 540, 680, 800, 900, 990, 1070, 1140];   // prop-crystal-staff shake 프레임 시작 시점
+add('staff-shake', '폼체인지', '지팡이 흔들림 — 달그락, 점점 빨라짐 (1.2초, shake:start에서)', SHAKE.map((d, k) => (
+  { src: k % 2 ? 'woodL1' : 'woodL0', rate: 1.3 + k * 0.04, hp: 400, delay: d, gain: -10 + k * 0.7 })).concat(
+  [{ src: 'glass2', rate: 1.5, delay: 1070, gain: -10 }]), { reverb: 'room', peak: -7 });
+add('wind-gust', '폼체인지', '바람 "휘익" — 지나가는 바람 (1초)', [
+  { src: 'whoosh', ss: 0.2, t: 0.75, rate: 0.6, lp: 2600, hp: 120, fi: 0.25, fo: 0.5 },
+  { src: 'whoosh', ss: 1.0, t: 0.6, rate: 1.1, hp: 1500, delay: 200, gain: -10, fo: 0.3 },
+], { reverb: 'room', peak: -4 });
+add('robe-flutter', '폼체인지', '천 펄럭임 — 휘감기고 마지막에 "톡" (form-a 1.4초에 맞춤)', [
+  { src: 'cloth1', rate: 1.1, hp: 300 },
+  { src: 'cloth2', rate: 0.9, delay: 240, gain: -2 },
+  { src: 'cloth3', rate: 1.0, delay: 500, gain: -3 },
+  { src: 'cloth2', rate: 1.2, delay: 780, gain: -5 },
+  { src: 'cloth1', rate: 1.3, delay: 1000, gain: -7 },
+  { src: 'softM', rate: 1.4, lp: 2500, delay: 1250, gain: -6 },
+], { reverb: 'room', peak: -5 });
+add('handflame-ignite', '폼체인지', '손불꽃 점화 "화륵" — 처음으로 따뜻한 불', [
+  { src: 'whoosh', ss: 0.5, t: 0.45, rate: 1.4, hp: 300, fo: 0.15 },
+  { src: 'crackleA', ss: 12.4, t: 0.8, hp: 700, delay: 60, gain: -3, fo: 0.4 },
+  { src: 'crackleC', ss: 8, t: 0.6, hp: 900, delay: 150, gain: -8, fo: 0.4 },
+], { reverb: 'room', peak: -4 });
+
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
 const PICK = { 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
 for (const [id, k] of Object.entries(PICK)) {

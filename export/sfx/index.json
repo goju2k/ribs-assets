@@ -610,6 +610,97 @@
   ]
  },
  {
+  "id": "form-merge",
+  "group": "폼체인지",
+  "label": "합쳐짐 — 차가운 울림과 따뜻한 불꽃이 겹치며 올라감 (1.1초)",
+  "note": "",
+  "candidate": null,
+  "ms": 1560,
+  "sources": [
+   "bowl",
+   "crackleB",
+   "tinkle"
+  ]
+ },
+ {
+  "id": "form-flash",
+  "group": "폼체인지",
+  "label": "섬광 \"휘잉\" — 거꾸로 감긴 바람 + 높은 울림이 차오름",
+  "note": "",
+  "candidate": null,
+  "ms": 1260,
+  "sources": [
+   "whoosh",
+   "bowl",
+   "tinkle"
+  ]
+ },
+ {
+  "id": "staff-drop",
+  "group": "폼체인지",
+  "label": "지팡이 떨어짐 \"탁·탁\" — 나무 + 수정 (drop:hit에서, 두 번째는 +230ms)",
+  "note": "",
+  "candidate": null,
+  "ms": 560,
+  "sources": [
+   "woodL0",
+   "glass1",
+   "woodL1",
+   "glass3"
+  ]
+ },
+ {
+  "id": "staff-shake",
+  "group": "폼체인지",
+  "label": "지팡이 흔들림 — 달그락, 점점 빨라짐 (1.2초, shake:start에서)",
+  "note": "",
+  "candidate": null,
+  "ms": 1420,
+  "sources": [
+   "woodL0",
+   "woodL1",
+   "glass2"
+  ]
+ },
+ {
+  "id": "wind-gust",
+  "group": "폼체인지",
+  "label": "바람 \"휘익\" — 지나가는 바람 (1초)",
+  "note": "",
+  "candidate": null,
+  "ms": 1370,
+  "sources": [
+   "whoosh"
+  ]
+ },
+ {
+  "id": "robe-flutter",
+  "group": "폼체인지",
+  "label": "천 펄럭임 — 휘감기고 마지막에 \"톡\" (form-a 1.4초에 맞춤)",
+  "note": "",
+  "candidate": null,
+  "ms": 1630,
+  "sources": [
+   "cloth1",
+   "cloth2",
+   "cloth3",
+   "softM"
+  ]
+ },
+ {
+  "id": "handflame-ignite",
+  "group": "폼체인지",
+  "label": "손불꽃 점화 \"화륵\" — 처음으로 따뜻한 불",
+  "note": "",
+  "candidate": null,
+  "ms": 980,
+  "sources": [
+   "whoosh",
+   "crackleA",
+   "crackleC"
+  ]
+ },
+ {
   "id": "parry-success",
   "group": "패링",
   "label": "패링 성공 — 칼날 \"챙\" + 판 울림 (선택: A)",
