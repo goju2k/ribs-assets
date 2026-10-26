@@ -6,9 +6,9 @@ export const MAP = [
   '           LUUUUUUR           ',
   '           LFFFFFFR           ',
   'TTTTTTTTTTTLqssssQRTTTTTTTTTTT',
-  'UUUUDEUuUUULl....rRUUUUUUUUuUU',
-  'FFFFGHKFFFFLl....rRFFFFFFKFFFF',
-  'sssssssssssss....sssssssssssss',
+  'UUUUDEUuUU]Ll....rR[UUUUUUUuUU',
+  'FFFFGHKFFF}<l....r>{FFFFFKFFFF',
+  'sssssssssssss====sssssssssssss',
   '..............................',
   '..............................',
   '..............................',
@@ -31,6 +31,13 @@ export const LEGEND = {
   E: { tile: 26, layer: 'wall', solid: true },
   G: { tile: 27, layer: 'wall' },                // 아치 문 아래 = 열린 입구 (충돌 없음)
   H: { tile: 28, layer: 'wall' },
+  ']': { tile: 54, layer: 'wall', solid: true },   // 벽 끝 마감 (D-040): 벽면 줄에서 오른쪽 이웃이 벽면이 아니면 54(위)/64(아래)
+  '[': { tile: 55, layer: 'wall', solid: true },   //   왼쪽 이웃이 벽면이 아니면 55/65 (양쪽 다 아니면 57/67 한 칸 기둥)
+  '}': { tile: 64, layer: 'wall', solid: true },
+  '{': { tile: 65, layer: 'wall', solid: true },
+  '<': { tile: 58, layer: 'wall', solid: true },   // 옆벽 끝: 왼쪽 벽(L) 줄이 아래로 끝나는 칸
+  '>': { tile: 59, layer: 'wall', solid: true },   //   오른쪽 벽(R)
+  '=': { tile: 56, layer: 'floor' },               // 문턱: 통로 입구 바닥 (벽면 아래 줄 바로 아래 행, 통로 폭만큼)
   s: { tile: 6, layer: 'floor' },
   l: { tile: 7, layer: 'floor' },
   r: { tile: 8, layer: 'floor' },

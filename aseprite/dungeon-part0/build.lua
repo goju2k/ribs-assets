@@ -4,6 +4,7 @@
 --  0 바닥        1 금         2 자갈        3 이음새       4 이끼 바닥     5 큰 금        6 벽 아래 그늘   7 왼벽 옆 그늘  8 오른벽 옆 그늘 9 왼위 모서리 그늘
 -- 10 오른위 모서리 그늘 11 윗면    12 윗면(아래 테) 13 윗면(오른 테) 14 윗면(왼 테) 15 윗면(위 테) 16 윗면(아래+오른 테) 17 윗면(아래+왼 테) 18 허공   19 -
 -- 20 벽면 위     21 벽면 위 금  22 벽면 아래   23 벽면 아래 금 24 벽면 아래 이끼 25,26 문 위 왼/오  27,28 문 아래 왼/오  29 -
+-- 54,55 벽면 위 오른/왼 끝 · 64,65 벽면 아래 오른/왼 끝 · 57,67 한 칸 기둥 위/아래 · 58,59 옆벽 끝(왼쪽 벽/오른쪽 벽) · 56 문턱 (D-040)
 -- 30 긁힌 자국   31 유물 파편   32 잔해       33 해골        34,35 문양 위   36,37 수호체 잔해 위  38,39 봉인등 프레임0,1
 -- 40,41 봉인등 2,3  44,45 문양 아래  46,47 잔해 아래  48 잔해 아래(가슴 빛)
 -- 50,51 / 60,61 문양 중간 밝기   52,53 / 62,63 문양 밝음
@@ -113,6 +114,50 @@ for x = 0, 15 do local h = 2 + math.floor(rnd() * 5); for y = 15 - h, 15 do if r
 local arch = function(y) return ({ [6]=5, [7]=7, [8]=8 })[y] or (y >= 9 and 9 or -1) end
 brickWall(25, 0, false, arch); brickWall(26, 16, false, arch)
 brickWall(27, 0, true, function() return 9 end); brickWall(28, 16, true, function() return 9 end)
+
+-- ===== 벽 끝 마감 (D-040) — 새 벽면과 같은 질감 =====
+-- 54/55 벽면 위 오른 끝/왼 끝, 64/65 벽면 아래 오른 끝/왼 끝: 벽면이 출입구·옆벽에서 끊기는 쪽에 4px 기둥 (밝은 앞테 + 그늘 옆면 + 바깥선)
+-- 57/67 한 칸 기둥(위/아래), 58/59 옆벽 끝(왼쪽 벽/오른쪽 벽: 윗면 끝 + 짧은 앞면), 56 문턱(통로 입구 바닥의 돌 문턱)
+local function pillarCol(t, x, k, gy, base, y)
+  -- k: 0 = 벽과 기둥 사이 홈, 1 = 밝은 앞테, 2 = 앞면, 3 = 그늘 옆면, 4 = 바깥선
+  local c = ({ C.mor, C.bh, C.br, C.bs, C.mor })[k + 1]
+  if k >= 1 and k <= 3 and gy % 8 == 7 then c = C.mor end            -- 기둥 돌 줄눈 (벽 줄눈과 맞춤)
+  if gy == 0 and k <= 3 then c = C.bh end
+  if base and y >= 12 and k >= 1 then if y >= 14 then c = (y == 15) and VOID or C.mor elseif (x + y) % 2 == 0 then c = C.mor end end
+  px(t, x, y, c)
+end
+local function wallEnd(t, base, side)
+  brickWall(t, 0, base)
+  for y = 0, 15 do local gy = y + (base and 16 or 0)
+    for k = 0, 4 do local x = (side == "r") and (11 + k) or (4 - k); pillarCol(t, x, k, gy, base, y) end end
+end
+wallEnd(54, false, "r"); wallEnd(55, false, "l"); wallEnd(64, true, "r"); wallEnd(65, true, "l")
+local function pillar(t, base)   -- 한 칸 폭 기둥: 왼쪽 바깥선·밝은 앞테 … 그늘 옆면·바깥선
+  for y = 0, 15 do local gy = y + (base and 16 or 0)
+    for x = 0, 15 do local k = (x == 0 or x == 15) and 4 or (x == 1) and 1 or (x == 14) and 3 or 2
+      if k == 2 and (x + gy * 3) % 7 == 0 and gy % 8 >= 2 and gy % 8 <= 5 then px(t, x, y, C.f0)  -- 세로 결
+      else pillarCol(t, x, k, gy, base, y) end end end
+end
+pillar(57, false); pillar(67, true)
+-- 옆벽 끝: 윗면(테 포함) 위 10줄 + 아래 6줄은 짧은 앞면(밝은 테 → 몸 → 그림자). 58 = 왼쪽 벽(오른 테), 59 = 오른쪽 벽(왼 테)
+local function sideEnd(t, rim)
+  seed = 90 + t
+  for y = 0, 15 do for x = 0, 15 do
+    local c
+    if y <= 9 then
+      c = C.cap; if x == 0 or y == 0 then c = C.bs end
+      if (rim == "r" and x == 15) or (rim == "l" and x == 0) or y == 9 then c = C.bh end
+    elseif y == 10 then c = C.br
+    elseif y >= 14 then c = (y == 15) and VOID or C.mor
+    else c = ((x + y) % 2 == 0 and y == 13) and C.mor or (x % 8 == 7 and C.mor or C.bs) end
+    if x == 0 or x == 15 then if y >= 10 then c = C.mor end end
+    px(t, x, y, c)
+  end end
+end
+sideEnd(58, "r"); sideEnd(59, "l")
+-- 문턱: 바닥 위쪽 4줄에 판석 문턱 (밝은 윗테 · 줄눈 · 아래 그늘)
+floorBase(56, 97)
+for x = 0, 15 do px(56, x, 0, C.bh); px(56, x, 1, (x % 8 == 7) and C.mor or C.br); px(56, x, 2, (x % 8 == 7) and C.mor or C.br); px(56, x, 3, C.f0) end
 
 -- ===== 소품 (투명 배경, props 레이어) =====
 for i = 0, 2 do for k = 0, 7 do px(30, 4 + i * 3 + k // 2, 3 + k, C.bh); px(30, 5 + i * 3 + k // 2, 3 + k, C.mor) end end
