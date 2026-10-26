@@ -207,6 +207,59 @@ elseif WHICH == "fx-merge" then
   end
   CL[#CL+1] = { "loop", true, F }
 
+elseif WHICH == "fx-radiance" then
+  -- D-041: 일어서는 어린이 둘레 방사형 빛줄기 (노출이 터진 느낌). 128×128, 기준점 [64,64] = 빛의 가운데
+  -- loop: 로브 rise-slow 2.8초 동안 반복(8장 880ms) / fade: 줄기가 줄어들며 사라짐(4장 480ms, 마지막은 빈 칸)
+  -- 가운데 반지름 12 안은 비워 둠 → 어린이 실루엣이 그대로 보임(엔진은 로브 뒤에 그려도, 앞에 그려도 됨)
+  FW, FH, ANCHOR = 128, 128, { 64, 64 }
+  local CXr, CYr = 64, 64
+  local NR = 20
+  local BASE = {}
+  seed = 31
+  for k = 1, NR do BASE[k] = { a = (k - 1) * (360 / NR) + rnd() * 9, len = (k % 5 == 1) and 58 + rnd() * 6 or 30 + rnd() * 18, w = (k % 5 == 1) and 2 or 1 } end
+  local function ray(i, a, len, w)
+    local ca, sa = math.cos(math.rad(a)), math.sin(math.rad(a))
+    for r = 13, len do
+      local t = (r - 13) / math.max(1, len - 13)
+      local x, y = CXr + ca * r, CYr + sa * r * 0.92
+      if t < 0.45 then px(i, x, y, E.W); if w > 1 or t < 0.2 then px(i, x - sa, y + ca, E.W); px(i, x + sa, y - ca, t < 0.25 and E.W or E.y) end
+      elseif t < 0.75 then px(i, x, y, E.y); if w > 1 and r % 2 == 0 then px(i, x - sa, y + ca, E.y) end
+      elseif r % 2 == 0 then px(i, x, y, E.y) end
+    end
+  end
+  local function halo(i, f)   -- 실루엣 둘레 고리 (깜빡이는 점선)
+    for a = 0, 359, 6 do local r = 12 + ((a // 6 + f) % 3 == 0 and 1 or 0)
+      px(i, CXr + math.cos(math.rad(a)) * r, CYr + math.sin(math.rad(a)) * r * 0.92, ((a // 6 + f) % 2 == 0) and E.W or E.y) end
+  end
+  local function sparks(i, f, n, out)
+    seed = 77
+    for k = 1, n do
+      local a, r0, sp = rnd() * 360, 14 + rnd() * 40, 2 + rnd() * 3
+      local r = 14 + (r0 - 14 + f * sp * (out or 1)) % 48
+      local x, y = CXr + math.cos(math.rad(a)) * r, CYr + math.sin(math.rad(a)) * r * 0.92
+      if k % 7 == 0 then px(i, x, y, P.Y); px(i, x, y + 1, P.y)                      -- 불꽃 조각 (따뜻함은 주인공 몫)
+      elseif k % 3 == 0 then px(i, x, y, E.W); px(i, x - 1, y, E.y); px(i, x + 1, y, E.y); px(i, x, y - 1, E.y); px(i, x, y + 1, E.y)  -- 반짝임
+      else px(i, x, y, (k + f) % 2 == 0 and E.W or E.y) end
+    end
+  end
+  local function frame(i, f, scale, nsp)
+    for k, b in ipairs(BASE) do
+      local len = 13 + (b.len * (0.85 + 0.15 * math.sin(f * 0.9 + k * 1.7)) - 13) * scale
+      if len > 15 then ray(i, b.a + f * 1.5, len, b.w) end
+    end
+    if scale > 0.3 then halo(i, f) end
+    sparks(i, f, nsp)
+  end
+  local F = {}
+  for f = 1, 8 do F[f] = { 110, f == 1 and "loop:start" or nil, function(i) frame(i, f, 1, 26) end } end
+  CL[#CL+1] = { "loop", true, F }
+  CL[#CL+1] = { "fade", false, {
+    { 120, nil, function(i) frame(i, 9, 0.7, 20) end },
+    { 120, nil, function(i) frame(i, 10, 0.45, 12) end },
+    { 120, nil, function(i) frame(i, 11, 0.2, 6) end },
+    { 120, nil, function(i) sparks(i, 12, 3) end },
+  } }
+
 elseif WHICH == "fx-wind" then
   FW, FH, ANCHOR = 64, 24, { 32, 12 }
   local LINES = { {3,14,0}, {7,20,13}, {11,10,30}, {15,16,45}, {19,12,22}, {9,8,52} }   -- y, 길이, 시작 x

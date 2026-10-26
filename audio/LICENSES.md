@@ -79,10 +79,10 @@ D-030: 그래픽은 픽셀, 소리는 리얼 사운드. 모든 재료는 CC0 (�
 | torch | move-hum |
 | scrapeV | sentinel-windup-b, sentinel-windup-easy-b, sentinel-attack-b, sentinel-shutdown, door-open, record-open, record-close, wall-collapse |
 | scrapeC | sentinel-awaken, sentinel-windup-a, sentinel-windup-easy-a, seal-door-open, sentinel-windup, sentinel-windup-easy |
-| bowl | sentinel-awaken, sentinel-windup-a, sentinel-windup-b, sentinel-windup-easy-a, sentinel-windup-easy-b, sentinel-shutdown, artifact, form-change, seal-door-open, form-merge, form-flash, sentinel-windup, sentinel-windup-easy |
-| wine | sentinel-cue-c, sentinel-shutdown, artifact |
+| bowl | sentinel-awaken, sentinel-windup-a, sentinel-windup-b, sentinel-windup-easy-a, sentinel-windup-easy-b, sentinel-shutdown, artifact, form-change, seal-door-open, form-merge, form-flash, form-radiance, sentinel-windup, sentinel-windup-easy |
+| wine | sentinel-cue-c, sentinel-shutdown, artifact, form-radiance |
 | ceramic | sentinel-cue-b, emote, inspect |
 | clang | parry-success-c |
-| tinkle | artifact, form-merge, form-flash |
+| tinkle | artifact, form-merge, form-flash, form-radiance |
 
 가공: ffmpeg (자르기·음높이·EQ·겹치기·지연·잔향 통일·최고점 맞춤), `node scripts/sfx-real.mjs`.

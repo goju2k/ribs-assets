@@ -18,7 +18,7 @@ local CY = H"306082"                                -- 꺼져 가는 봉인 빛
 local MOSS1, MOSS2 = H"3d4a2c", H"56663f"
 local VOID = H"0b0910"
 local BONE = { w=H"cfc6b8", s=H"8f8678" }
-local COLS, ROWS = 10, 9   -- 7~8행: 흔적 (D-034)
+local COLS, ROWS = 10, 14  -- 7~8행: 흔적 (D-034), 9~13행: 벽 윗면 자동 연결 (D-041)
 
 local img = Image(COLS * 16, ROWS * 16, ColorMode.RGB)
 local function px(t, x, y, c) img:drawPixel((t % COLS) * 16 + x, (t // COLS) * 16 + y, c) end
@@ -145,8 +145,9 @@ local function sideEnd(t, rim)
   for y = 0, 15 do for x = 0, 15 do
     local c
     if y <= 9 then
-      c = C.cap; if x == 0 or y == 0 then c = C.bs end
-      if (rim == "r" and x == 15) or (rim == "l" and x == 0) or y == 9 then c = C.bh end
+      c = C.f0                                                          -- D-041: 윗면 = 어두운 단색 + 양옆 2px 테 (자동 연결 윗면과 같은 모양)
+      if x == 1 or x == 14 or y == 8 then c = C.f3 end
+      if x == 0 or x == 15 or y == 9 then c = C.bh end
     elseif y == 10 then c = C.br
     elseif y >= 14 then c = (y == 15) and VOID or C.mor
     else c = ((x + y) % 2 == 0 and y == 13) and C.mor or (x % 8 == 7 and C.mor or C.bs) end
@@ -255,6 +256,46 @@ for dy, r in ipairs(LIGHT) do for dx = 1, #r do local ch = r:sub(dx, dx); local 
   if c then fade(MB, 12 + dx, 8 + dy, c) end end end
 for k = 0, 9 do local a = k * 0.63; fade(MB, math.floor(16 + math.cos(a) * 10), math.floor(12 + math.sin(a) * 8), PAINT.o, k) end
 for x = 6, 26 do fade(MB, x, 27, PAINT.f, 5) end
+
+-- ===== 벽 윗면 자동 연결 (D-041, 행 9~13: 90~136) =====
+-- 윗면 안쪽 = 어두운 단색(f0, 이음새 없음), 이웃이 윗면이 아닌 쪽에 2px 테(바깥 bh · 안쪽 f3)가 끊김 없이 돎.
+-- 바깥 모서리는 1px 깎고, 안쪽 모서리(두 옆은 윗면인데 대각선만 아닐 때)는 테가 L자로 꺾여 이어짐.
+-- 47칸 blob: 8방향 비트 N1 NE2 E4 SE8 S16 SW32 W64 NW128, 대각선 비트는 양옆 직교 비트가 둘 다 있을 때만 셈.
+-- 줄인 값들을 오름차순으로 늘어놓은 순서 = 타일 90 + k (표는 tileset.json "autotile.walltop")
+local BLOB = {}
+do local seen = {}
+  for m = 0, 255 do
+    local r = m
+    if (m & 1) == 0 or (m & 4) == 0 then r = r & ~2 end
+    if (m & 4) == 0 or (m & 16) == 0 then r = r & ~8 end
+    if (m & 16) == 0 or (m & 64) == 0 then r = r & ~32 end
+    if (m & 64) == 0 or (m & 1) == 0 then r = r & ~128 end
+    if not seen[r] then seen[r] = true; BLOB[#BLOB+1] = r end
+  end
+  table.sort(BLOB)
+end
+assert(#BLOB == 47, "blob " .. #BLOB)
+for k, m in ipairs(BLOB) do
+  local t = 89 + k
+  local N, E, S, W = (m & 1) ~= 0, (m & 4) ~= 0, (m & 16) ~= 0, (m & 64) ~= 0
+  for y = 0, 15 do for x = 0, 15 do
+    local c = C.f0
+    local inner = (not N and y == 1) or (not S and y == 14) or (not W and x == 1) or (not E and x == 14)
+    local outer = (not N and y == 0) or (not S and y == 15) or (not W and x == 0) or (not E and x == 15)
+    if inner then c = C.f3 end
+    if outer then c = C.bh end
+    -- 바깥 모서리 1px 깎기
+    if (not N and not W and x == 0 and y == 0) or (not N and not E and x == 15 and y == 0)
+      or (not S and not W and x == 0 and y == 15) or (not S and not E and x == 15 and y == 15) then c = C.mor end
+    px(t, x, y, c)
+  end end
+  -- 안쪽 모서리: 테가 꺾여 들어오는 2×2
+  local function notch(cx, cy, dx, dy) px(t, cx, cy, C.bh); px(t, cx + dx, cy, C.bh); px(t, cx, cy + dy, C.bh); px(t, cx + dx, cy + dy, C.f3) end
+  if N and E and (m & 2) == 0 then notch(15, 0, -1, 1) end
+  if S and E and (m & 8) == 0 then notch(15, 15, -1, -1) end
+  if S and W and (m & 32) == 0 then notch(0, 15, 1, -1) end
+  if N and W and (m & 128) == 0 then notch(0, 0, 1, 1) end
+end
 
 local spr = Sprite(COLS * 16, ROWS * 16, ColorMode.RGB)
 spr.layers[1].name = "tiles"

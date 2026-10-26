@@ -51,12 +51,23 @@ if (existsSync(samplePath)) {
   if (S.MAP.some(r => r.length !== W)) fail('견본 지도 줄 길이가 다름');
   const COL_FIRST = COUNT + 1; // collision 타일셋 firstgid
   const L = { floor: new Array(W * H).fill(0), wall: new Array(W * H).fill(0), props: new Array(W * H).fill(0), collision: new Array(W * H).fill(0) };
+  const autos = [];
   S.MAP.forEach((line, row) => [...line].forEach((ch, col) => {
     if (ch === ' ') return;
     const g = S.LEGEND[ch]; if (!g) fail(`견본 지도 (${col},${row}) 모르는 문자 '${ch}'`);
-    L[g.layer][row * W + col] = 1 + (g.floor ? S.floorTile(col, row) : g.tile);
+    if (g.autotile) autos.push([col, row, g]);
+    else L[g.layer][row * W + col] = 1 + (g.floor ? S.floorTile(col, row) : g.tile);
     if (g.solid) L.collision[row * W + col] = COL_FIRST;
   }));
+  // 자동 연결 (D-041): 47칸 blob. 이웃이 같은 autotile(또는 joins에 그 이름)이면 이어짐, 지도 밖은 이어진 것으로 봄
+  const same = (c, r, name) => { if (c < 0 || r < 0 || c >= W || r >= H) return true; const g2 = S.LEGEND[S.MAP[r][c]]; return !!g2 && (g2.autotile === name || (g2.joins || []).includes(name)); };
+  for (const [col, row, g] of autos) {
+    const A = meta.autotile?.[g.autotile]; if (!A) fail('autotile 없음: ' + g.autotile);
+    const n = (dc, dr) => same(col + dc, row + dr, g.autotile);
+    const N = n(0, -1), E = n(1, 0), So = n(0, 1), We = n(-1, 0);
+    const m = (N ? 1 : 0) | (N && E && n(1, -1) ? 2 : 0) | (E ? 4 : 0) | (E && So && n(1, 1) ? 8 : 0) | (So ? 16 : 0) | (So && We && n(-1, 1) ? 32 : 0) | (We ? 64 : 0) | (We && N && n(-1, -1) ? 128 : 0);
+    L[g.layer][row * W + col] = 1 + A.base + A.masks.indexOf(m);
+  }
   for (const [t, col, row] of S.PROPS) L.props[row * W + col] = 1 + t;
   for (const [col, row] of S.EXTRA_SOLID || []) L.collision[row * W + col] = COL_FIRST;
   let lid = 0, oid = 0;
