@@ -702,6 +702,19 @@
   ]
  },
  {
+  "id": "form-radiance",
+  "group": "폼체인지",
+  "label": "빛줄기 울림 — 높게 울리는 싱잉볼 + 유리 공명 + 반짝임 (약 3초, fx-radiance loop:start에서, D-041)",
+  "note": "",
+  "candidate": null,
+  "ms": 3200,
+  "sources": [
+   "bowl",
+   "wine",
+   "tinkle"
+  ]
+ },
+ {
   "id": "handflame-ignite",
   "group": "폼체인지",
   "label": "손불꽃 점화 \"화륵\" — 처음으로 따뜻한 불",
