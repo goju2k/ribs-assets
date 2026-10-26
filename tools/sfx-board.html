@@ -26,10 +26,10 @@ button.play:active, button.play.on { background: var(--acc); color: #0f1015; }
 </head>
 <body>
 <header>
-  <b>효과음 보드 — Demo 0</b>
+  <b>효과음 보드 — Demo 0 (리얼 사운드 v3)</b>
   <p>눌러서 들어 보세요. 주황 줄이 후보입니다(같은 자리에 하나만 남김). 휴대폰은 무음 모드를 꺼 주세요.</p>
   <div class="ctx">
-    <button id="seqParry">흐름 듣기: 수호체 신호 → 0.13초 뒤 패링 성공 (신호 3 × 성공 3 조합 차례로)</button>
+    <button id="seqParry">흐름 듣기: 수호체 신호 → 0.13초 뒤 패링 성공 (신호 3 × 성공 4 조합 차례로)</button>
   </div>
 </header>
 <main id="m"></main>
@@ -45,13 +45,13 @@ const play = id => { const a = cache[id] || (cache[id] = new Audio(BASE + id + '
     const r = document.createElement('div'); r.className = 'row' + (s.candidate ? ' cand' : '');
     const b = document.createElement('button'); b.className = 'play'; b.textContent = '▶'; b.onclick = () => { play(s.id); b.classList.add('on'); setTimeout(() => b.classList.remove('on'), s.ms); };
     const t = document.createElement('div'); t.className = 'txt'; t.innerHTML = `<b></b><small></small>`;
-    t.querySelector('b').textContent = s.label; t.querySelector('small').textContent = s.id + (s.note ? ' · ' + s.note : '');
+    t.querySelector('b').textContent = s.label; t.querySelector('small').textContent = s.id + (s.note ? ' · ' + s.note : '') + (s.sources ? ' · 재료: ' + s.sources.join(', ') : '');
     const ms = document.createElement('span'); ms.className = 'ms'; ms.textContent = s.ms + 'ms';
     r.append(b, t, ms); m.append(r);
   }
   // 실제 흐름: 신호음(windup:cue) 시작 후 ~133ms 안에 공격이 오고, 그때 패링 → 성공음
   document.getElementById('seqParry').onclick = async () => {
-    for (const cue of ['a', 'b', 'c']) for (const ps of ['a', 'b', 'c']) {
+    for (const cue of ['a', 'b', 'c']) for (const ps of ['a', 'b', 'c', 'd']) {
       play('sentinel-cue-' + cue); await new Promise(r => setTimeout(r, 130)); play('parry-success-' + ps); await new Promise(r => setTimeout(r, 900));
     }
   };
