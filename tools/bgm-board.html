@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>배경음 후보</title>
+<style>
+:root { color-scheme: dark; --bg:#0f1015; --card:#1c1e25; --fg:#e8e6e1; --mut:#8a8f9c; --acc:#5fcde4; --rec:#df7126; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 system-ui, sans-serif; }
+header { padding: 12px 16px; border-bottom: 1px solid #262932; }
+header p { margin: 4px 0 0; color: var(--mut); font-size: 13px; }
+main { padding: 8px 16px 40px; max-width: 860px; }
+h2 { font-size: 16px; margin: 24px 0 4px; }
+.slot { color: var(--mut); font-size: 13px; margin: 0 0 10px; }
+.c { background: var(--card); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+.c.rec { border-left: 3px solid var(--rec); }
+.c b { font-weight: 600; }
+.c .meta { color: var(--mut); font-size: 12px; margin: 2px 0 8px; }
+.c .meta a { color: var(--acc); }
+audio { width: 100%; height: 40px; }
+.tag { display: inline-block; font-size: 11px; padding: 1px 6px; border-radius: 4px; background: #3a2a1a; color: var(--rec); margin-left: 6px; vertical-align: 1px; }
+</style>
+</head>
+<body>
+<header>
+  <b>배경음 후보 — Demo 0 (D-028)</b>
+  <p>모두 CC0(출처 표기 의무 없음, 상업 이용 가능) — 각 페이지에서 라이선스 확인함. 원본 사이트에서 바로 재생하고, 고르신 곡만 내려받습니다. 주황 표시는 에셋 방 추천.</p>
+</header>
+<main id="m"></main>
+<script>
+const SLOTS = [
+  { title: '① Part 0 — 거의 소리 없는 낮은 울림 (드론)', note: '침묵의 톤 유지. 멜로디 없이 공간감만.', items: [
+    { name: 'Dungeon Ambience', by: 'yd', page: 'https://opengameart.org/content/dungeon-ambience', src: 'https://opengameart.org/sites/default/files/dungeon002_0.ogg', desc: '어두운 던전 탐험용 배경', rec: true },
+    { name: 'Dark Cavern Ambient 001', by: 'Paul Wortmann', page: 'https://opengameart.org/content/dark-cavern-ambient', src: 'https://opengameart.org/sites/default/files/dark_cavern_ambient_001.ogg', desc: '동굴·던전 연속 반복 앰비언트' },
+    { name: 'Dark Cavern Ambient 002', by: 'Paul Wortmann', page: 'https://opengameart.org/content/dark-cavern-ambient', src: 'https://opengameart.org/sites/default/files/dark_cavern_ambient_002.ogg', desc: '같은 묶음의 두 번째 곡' },
+    { name: 'Cathedral in the forest (ambient loop)', by: 'congusbongus', page: 'https://opengameart.org/content/cathedral-in-the-forest-ambient-loop', src: 'https://opengameart.org/sites/default/files/forest_2_0.ogg', desc: '패드와 종소리 — 드론보다는 음악에 가까움, 신비로운 쪽' },
+  ] },
+  { title: '② Part 1 탐험·전투 — 처음으로 "음악"이 시작됨', note: '침묵 → 수다(동반자 합류)의 대비. 픽셀 그림과 어울리는 칩튠 쪽 우선.', items: [
+    { name: 'forgotten path', by: 'johndekale', page: 'https://opengameart.org/content/forgotten-path', src: 'https://opengameart.org/sites/default/files/forgotten_path_2.mp3', desc: '쓸쓸한 칩튠 반복곡, 8/16비트 느낌, 차분함', rec: true },
+    { name: 'Dark Shrine Loop', by: 'qubodup (yd 원곡 리믹스)', page: 'https://opengameart.org/content/dark-shrine-loop', src: 'https://opengameart.org/sites/default/files/qubodup-yd-DarkShrineLoop-OpenGameArt.mp3', desc: '어둡고 차분한 신전·신비 분위기 반복곡' },
+    { name: 'Spooky Dungeon', by: 'Memoraphile', page: 'https://opengameart.org/content/spooky-dungeon', src: 'https://opengameart.org/sites/default/files/Memoraphile%20-%20Spooky%20Dungeon.mp3', desc: '8비트 던전 반복곡 (CC0 포함 3중 라이선스 — CC0로 사용)' },
+  ] },
+  { title: '③ 미니보스 — 수호 유충', note: '짧게 반복돼도 지치지 않을 것.', items: [
+    { name: 'MIDI battle theme', by: 'tapatilorenzo', page: 'https://opengameart.org/content/midi-battle-theme', src: 'https://opengameart.org/sites/default/files/battle_11.mp3', desc: 'BeepBox 칩튠 보스곡, 1분 4초 반복 — 픽셀 톤과 가장 잘 맞음', rec: true },
+    { name: 'Boss Battle Theme', by: 'Cleyton Kauffman', page: 'https://lpc.opengameart.org/content/boss-battle-theme', src: 'https://lpc.opengameart.org/sites/default/files/CleytonRX%20-%20Battle%20RPG%20Theme_1.mp3', desc: '오케스트라 + 록 JRPG풍 — 웅장하지만 칩튠 효과음과 결이 다를 수 있음' },
+    { name: 'Mid-Boss Battle', by: 'Jarewills', page: 'https://opengameart.org/content/mid-boss-battle', src: 'https://opengameart.org/sites/default/files/boss-theme.ogg', desc: '중간 보스 곡 시안 (작곡자 말: 다듬지 않은 원형)' },
+  ] },
+];
+const m = document.getElementById('m');
+for (const s of SLOTS) {
+  const h = document.createElement('h2'); h.textContent = s.title; m.append(h);
+  const n = document.createElement('p'); n.className = 'slot'; n.textContent = s.note; m.append(n);
+  for (const it of s.items) {
+    const c = document.createElement('div'); c.className = 'c' + (it.rec ? ' rec' : '');
+    c.innerHTML = `<b></b>${it.rec ? '<span class="tag">추천</span>' : ''}<div class="meta"></div><audio controls preload="none"></audio>`;
+    c.querySelector('b').textContent = it.name;
+    const meta = c.querySelector('.meta'); meta.textContent = `${it.by} · ${it.desc} · `;
+    const a = document.createElement('a'); a.href = it.page; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '원본 페이지'; meta.append(a);
+    c.querySelector('audio').src = it.src;
+    c.querySelector('audio').addEventListener('play', e => document.querySelectorAll('audio').forEach(x => { if (x !== e.target) x.pause(); }));
+    m.append(c);
+  }
+}
+const f = document.createElement('p'); f.className = 'slot';
+f.textContent = '참고: "Exploration Theme", "Ruined City Theme"(Cleyton Kauffman, CC0)도 분위기가 맞지만 zip으로만 받을 수 있어 여기서 바로 재생할 수 없습니다. 마음에 드는 곡이 없으면 AI 생성(라이선스 확인)으로 넘어갑니다.';
+m.append(f);
+</script>
+</body>
+</html>
