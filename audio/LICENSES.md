@@ -60,15 +60,15 @@ D-030: 그래픽은 픽셀, 소리는 리얼 사운드. 모든 재료는 CC0 (�
 | mine1 | wall-collapse |
 | mine3 | sentinel-hit, wall-collapse |
 | softH | dash-gather, player-down, sentinel-attack-b, pillar-big, seal-door-open |
-| softM | fire-impact, record-open, brazier-ignite, robe-flutter |
+| softM | fire-impact, record-open, brazier-ignite, robe-flutter, robe-rise |
 | punchM | player-hit |
 | punchH | pillar-burst, parry-success-d, sentinel-attack-a, pillar-big, combo-focus, wall-collapse, sentinel-attack |
 | woodL0 | ui-select, staff-drop, staff-shake |
 | woodL1 | ui-confirm, combo-slot, staff-drop, staff-shake |
 | woodM | parry-fail |
-| cloth1 | inspect, robe-flutter |
-| cloth2 | dash-scatter, vine-burn, robe-flutter |
-| cloth3 | parry-try, combo-switch, robe-flutter |
+| cloth1 | inspect, robe-flutter, robe-rise |
+| cloth2 | dash-scatter, vine-burn, robe-flutter, robe-rise |
+| cloth3 | parry-try, combo-switch, robe-flutter, robe-rise |
 | knife1 | parry-success-a, parry-success |
 | knife2 | parry-success-d |
 | door1 | door-open |

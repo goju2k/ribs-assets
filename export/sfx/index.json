@@ -688,6 +688,20 @@
   ]
  },
  {
+  "id": "robe-rise",
+  "group": "폼체인지",
+  "label": "로브가 천천히 일어섬 — 천이 느리게 스침 (2.8초, rise-slow:start에서, D-039)",
+  "note": "",
+  "candidate": null,
+  "ms": 3050,
+  "sources": [
+   "cloth2",
+   "cloth1",
+   "cloth3",
+   "softM"
+  ]
+ },
+ {
   "id": "handflame-ignite",
   "group": "폼체인지",
   "label": "손불꽃 점화 \"화륵\" — 처음으로 따뜻한 불",

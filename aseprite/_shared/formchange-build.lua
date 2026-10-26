@@ -83,6 +83,23 @@ if WHICH == "prop-robe" then
   local F = {}
   for k = 1, 4 do F[k] = { 90, nil, function(i) art(i, SLUMP, 0, 12, nil, function(x, y, ch, c) if x >= 10 and y <= 13 then return nil end; return c end); art(i, FLAP[k], 10, 11) end } end
   CL[#CL+1] = { "flutter", true, F }
+  -- rise-slow (D-039): 바람 없이 스스로 천천히 일어섬 2800ms. 아랫단 → 몸 → 후드 순서로 형체. 손불꽃·지팡이 없음
+  -- (지팡이는 소품이 이미 손 자리에 떠서 기다림 → 끝 프레임에서 player-child idle로 바꿔치기)
+  local function cap(i, top, wide) art(i, wide and { "..KKKKKKKK...", ".KMTTMDDMDK..", "KDMDDMMDDMMK." } or { "...KKKKKK....", "..KMTTMDDK..." }, 2, top - (wide and 3 or 2)) end
+  local SLOW = 250
+  CL[#CL+1] = { "rise-slow", false, {
+    { 300, "rise-slow:start", function(i) art(i, SLUMP, 0, 12) end },
+    { SLOW, nil, function(i) art(i, SLUMP, 0, 12, nil, function(x, y, ch, c) if x >= 10 and y <= 13 then return nil end; return c end); art(i, FLAP[4], 10, 11) end }, -- 자락이 스스로 살짝 들썩
+    { SLOW, nil, function(i) art(i, PUFF, 0, 11) end },                               -- 천 아래로 숨이 들어간 듯 부풂
+    { SLOW, nil, function(i) art(i, PUFF, 0, 10) end },                                -- 땅에서 1px 들림 (밑단 자리가 비어 뜸)
+    { SLOW, nil, function(i) body(i, { from = 14 }); cap(i, 14, true) end },          -- 아랫단이 먼저 형체
+    { SLOW, nil, function(i) body(i, { from = 10 }); cap(i, 10, true) end },          -- 몸이 차오름 (위는 처진 천)
+    { SLOW, nil, function(i) body(i, { from = 8 }); cap(i, 8) end },
+    { SLOW, nil, function(i) body(i, { hood = 3 }) end }, -- 후드는 아직 몸 위에 내려앉음
+    { SLOW, nil, function(i) body(i, { hood = 2 }) end },                             -- 후드가 솟음
+    { SLOW, nil, function(i) body(i, { hood = 1 }) end },
+    { SLOW, "rise-slow:done", function(i) body(i) end },                              -- 다 일어섬 = 손이 지팡이에 닿음
+  } }
   CL[#CL+1] = { "form-a", false, {
     { 120, "form-a:lift", function(i) art(i, SLUMP, 0, 12); art(i, FLAP[1], 10, 11) end },
     { 120, nil, function(i) art(i, { "....KKKKKK....", "..KKMTTMDDKK..", ".KDMKKKDMMDDK.", "KDDDMMDDDMMDDK", ".KK..KKKK..KK." }, 2, 8) end },
@@ -145,6 +162,14 @@ elseif WHICH == "prop-crystal-staff" then
   CL[#CL+1] = { "rise", false, {
     { 150, "rise:start", function(i) lying(i, 1, 1) end },
     { 150, nil, function(i) staff(i, 10, 27, 14, 22, 1) end },
+    { 150, nil, function(i) upright(i, 1, 0) end },
+  } }
+  CL[#CL+1] = { "rise-slow", false, {   -- D-039: 느린 판 900ms (rise를 0.5배속으로 늘리는 대신 중간 각도를 더 넣음)
+    { 150, "rise-slow:start", function(i) lying(i, 1, 1) end },
+    { 150, nil, function(i) lying(i, 1, 2) end },
+    { 150, nil, function(i) staff(i, 9, 27, 15, 24, 1) end },
+    { 150, nil, function(i) staff(i, 10, 27, 14, 22, 2) end },
+    { 150, nil, function(i) staff(i, 11, 27, 13, 20, 1) end },
     { 150, nil, function(i) upright(i, 1, 0) end },
   } }
   local SW = { 0, 1, 1, 0, -1, -1 }

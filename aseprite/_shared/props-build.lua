@@ -90,34 +90,45 @@ elseif WHICH == "prop-seal-door" then
   } }
   CL[#CL+1] = { "opened", false, { { 200, nil, function(i) void(i, 22); slab(i, 23, "l"); slab(i, 23, "r") end } } }
 
-elseif WHICH == "prop-cracked-wall" then
-  FW, FH, ANCHOR = 32, 40, { 16, 39 }    -- 벽면 2×2(32) + 아래 잔해 여유 8
-  local function bricks(i, drop)         -- drop[행] = 그 줄 벽돌이 떨어진 거리 (nil = 그대로, -1 = 없음)
-    for y = 0, 31 do local row = y // 4
+elseif WHICH == "prop-cracked-wall" or WHICH == "prop-cracked-wall-wide" then
+  -- 벽면 2줄(32) + 아래 잔해 여유 8. 2칸(32) / 3칸(48, -wide). D-039 새 벽면과 같은 큰 돌 블록 질감(16×8, 줄마다 8px 엇갈림)
+  local W = (WHICH == "prop-cracked-wall-wide") and 48 or 32
+  FW, FH, ANCHOR = W, 40, { W // 2, 39 }
+  local MOR, F0, VOIDC = H"241e2c", H"2a2433", H"0b0910"
+  local function bricks(i, drop)         -- drop[블록 줄 0~3] = 그 줄이 떨어진 거리 (nil = 그대로, -1 = 없음)
+    for y = 0, 31 do local row = y // 8; local ry = y % 8
       local dy = drop and drop[row] or 0
       if dy ~= -1 then
-        local off = (row % 2) * 4
-        for x = 0, 31 do local bx = (x + off) % 8; local ry = y % 4
-          local c = (ry == 3 or bx == 7) and H"241e2c" or ry == 0 and K.l or ry == 2 and K.s or K.m
+        local off = (row % 2) * 8
+        for x = 0, W - 1 do local bx = (x + off) % 16; local blk = (x + off) // 16 + row * 3
+          local c
+          if y == 0 then c = K.l elseif ry == 7 or bx == 15 then c = MOR elseif ry == 0 then c = K.m
+          elseif ry == 6 then c = F0 elseif (bx + blk * 5) % 6 == 2 and ry >= 2 then c = F0 else c = K.s end
+          if y >= 28 and dy == 0 then c = (y >= 30) and ((y == 31) and VOIDC or MOR) or (((x + y) % 2 == 0) and MOR or c) end  -- 아래 그림자 띠 (벽면 아래 칸과 이어짐)
           px(i, x, y + dy, c) end
       end
     end
   end
+  local CR = { {16,2},{15,4},{16,6},{17,8},{16,10},{14,12},{15,14},{17,16},{18,18},{16,20},{15,23},{16,26},{17,29},{12,13},{11,15},{10,16},{20,17},{22,18},{23,20},{13,22},{11,24} }
+  local CRW = { {8,14},{6,16},{5,18},{4,21},{26,14},{29,15},{31,17},{33,20},{7,25},{29,24} }  -- 3칸 판: 양옆으로 더 뻗은 금
   local function cracks(i, glow)
-    for _, p in ipairs({ {16,2},{15,4},{16,6},{17,8},{16,10},{14,12},{15,14},{17,16},{18,18},{16,20},{15,23},{16,26},{17,29},{12,13},{11,15},{10,16},{20,17},{22,18},{23,20},{13,22},{11,24} }) do
-      px(i, p[1], p[2], glow and F.r or H"141018"); px(i, p[1] + 1, p[2], H"241e2c") end
+    local dx = W // 2 - 16
+    local list = {}; for _, p in ipairs(CR) do list[#list+1] = { p[1] + dx, p[2] } end
+    if W == 48 then for _, p in ipairs(CRW) do list[#list+1] = { p[1] + dx, p[2] } end end
+    for _, p in ipairs(list) do px(i, p[1], p[2], glow and F.r or H"141018"); px(i, p[1] + 1, p[2], MOR) end
   end
-  local function rubble(i, n) local seed = 5; for k = 1, n do seed = (seed * 1103515245 + 12345) % 2147483648; local x = 2 + seed % 28; local y = 34 + (seed // 97) % 5
+  local function rubble(i, n) local seed = 5; for k = 1, n do seed = (seed * 1103515245 + 12345) % 2147483648; local x = 2 + seed % (W - 4); local y = 34 + (seed // 97) % 5
     px(i, x, y, K.l); px(i, x + 1, y, K.m); px(i, x, y + 1, K.s); px(i, x + 1, y + 1, K.o) end end
+  local R = W // 32   -- 잔해 양 (3칸은 1.5배)
   CL[#CL+1] = { "idle", false, { { 200, nil, function(i) bricks(i); cracks(i) end } } }
   CL[#CL+1] = { "collapse", false, {
     { 60, "collapse:start", function(i) bricks(i); cracks(i, true) end },
-    { 70, nil, function(i) bricks(i, { [3]=2, [4]=2, [5]=1 }); cracks(i, true) end },
-    { 80, nil, function(i) bricks(i, { [0]=-1, [1]=4, [2]=5, [3]=6, [4]=5, [5]=4, [6]=2, [7]=1 }); rubble(i, 8) end },
-    { 90, "collapse:passable", function(i) bricks(i, { [0]=-1, [1]=-1, [2]=10, [3]=12, [4]=-1, [5]=-1, [6]=7, [7]=4 }); rubble(i, 16) end },
-    { 110, nil, function(i) rubble(i, 26) end },
+    { 70, nil, function(i) bricks(i, { [1]=2, [2]=1 }); cracks(i, true) end },
+    { 80, nil, function(i) bricks(i, { [0]=-1, [1]=5, [2]=4, [3]=2 }); rubble(i, 8 * W // 32) end },
+    { 90, "collapse:passable", function(i) bricks(i, { [0]=-1, [1]=-1, [2]=10, [3]=5 }); rubble(i, 16 * W // 32) end },
+    { 110, nil, function(i) rubble(i, 26 * W // 32) end },
   } }
-  CL[#CL+1] = { "rubble", false, { { 200, nil, function(i) rubble(i, 26) end } } }
+  CL[#CL+1] = { "rubble", false, { { 200, nil, function(i) rubble(i, 26 * W // 32) end } } }
 
 elseif WHICH == "prop-skill-pedestal" then
   FW, FH, ANCHOR = 24, 32, { 12, 31 }
@@ -139,6 +150,32 @@ elseif WHICH == "prop-skill-pedestal" then
     { 80, nil, function(i) pedestal(i, false); px(i, 12, 4, F.Y); px(i, 12, 5, F.y) end },
   } }
   CL[#CL+1] = { "empty", false, { { 200, nil, function(i) pedestal(i, false) end } } }
+end
+if WHICH == "prop-wall-crystal" then
+  -- D-039 벽 장식 광원: 벽면에 박힌 돌 선반 + 봉인 수정 조각 (차가운 빛). 16×16, 기준점 [8,15] = 선반 아래 가운데
+  -- 벽면 위 칸(타일 20 자리)에 겹쳐 둠. 봉인등(타일 38)을 대신하거나 함께 씀. 횃불은 쓰지 않음(따뜻한 빛 = 주인공·화로 전용)
+  FW, FH, ANCHOR = 16, 16, { 8, 15 }
+  local SHARD = { "..o..", ".oao.", ".oabo", "oaabo", "oabbo", "oaabo", ".oao.", "..o.." }
+  local SMALL = { ".o", "ab", "oo" }
+  local function sconce(i, a, b, spark)
+    for x = 4, 11 do px(i, x, 10, K.l) end                                   -- 선반 윗면 (밝은 테)
+    px(i, 3, 11, K.o); for x = 4, 11 do px(i, x, 11, K.m) end; px(i, 12, 11, K.o)
+    px(i, 4, 12, K.o); for x = 5, 10 do px(i, x, 12, K.s) end; px(i, 11, 12, K.o)
+    for x = 5, 10 do px(i, x, 13, K.o) end; for x = 6, 9 do px(i, x, 14, K.d) end    -- 벽으로 들어가는 받침 + 그늘
+    local pal = { o=K.o, a=a, b=b }
+    for y, r in ipairs(SHARD) do for x = 1, 5 do px(i, 4 + x, 1 + y, pal[r:sub(x, x)]) end end
+    for y, r in ipairs(SMALL) do for x = 1, 2 do px(i, 9 + x, 6 + y, pal[r:sub(x, x)]) end end
+    if spark then px(i, 7, 1, S.W); px(i, spark, 3, S.c) end
+  end
+  -- 은은한 맥동 1.8초: 어두움 → 중간 → 밝음(끝에 반짝) → 중간 → 어두움
+  CL[#CL+1] = { "loop", true, {
+    { 320, nil, function(i) sconce(i, S.b, S.B) end },
+    { 280, nil, function(i) sconce(i, S.B, S.C) end },
+    { 300, nil, function(i) sconce(i, S.C, S.c) end },
+    { 240, nil, function(i) sconce(i, S.C, S.W, 9) end },
+    { 300, nil, function(i) sconce(i, S.B, S.C) end },
+    { 360, nil, function(i) sconce(i, S.b, S.B) end },
+  } }
 end
 assert(#CL > 0, "which=" .. tostring(WHICH) .. " 모름")
 
