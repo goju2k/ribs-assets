@@ -36,7 +36,7 @@ if WHICH == "glyphs" then
   P.dots3 = function(s) on(s, 4, 2); on(s, 2, 6); on(s, 6, 6) end
   local FRAMES = { "none", "diamond", "ring", "arcTop", "arcBot", "bars", "arcLeft", "arcRight" }
   local INNER = { "vfull", "hfull", "dot", "small", "diagA", "diagB", "vtop", "vbot", "hhalf", "ticks", "corners", "dots2", "dots3",
-    "vfull+hfull", "diagA+diagB", "small+dot", "vtop+hhalf", "vbot+hhalf", "dots2+vfull", "corners+dot", "dots3+vbot", "diagA+vfull", "ticks+dot", "diagB+hhalf", "small+vfull", "dots3+hhalf", "corners+hfull", "ticks+diagA", "dots2+vtop" }
+    "vfull+hfull", "diagA+diagB", "small+dot", "vtop+hhalf", "vbot+hhalf", "dots2+vfull", "corners+dot", "dots3+vbot", "diagA+vfull", "ticks+dot", "diagB+hhalf", "small+vfull", "dots3+hhalf", "corners+hfull", "ticks+diagA", "dots2+vtop", "corners+small", "dots2+small", "ticks+small", "corners+diagA+diagB", "dots2+dots3", "corners+dots2", "dot+hfull+vfull", "small+diagA+diagB" }
   local function build(frame, inner)
     local s = {}
     if frame ~= "none" then P[frame](s) end
@@ -50,6 +50,12 @@ if WHICH == "glyphs" then
   for i = 1, #INNER do for f = 1, #FRAMES do cand[#cand+1] = { FRAMES[(f + i) % #FRAMES + 1], INNER[i] } end end
   local picked = {}
   for _, c in ipairs(cand) do
+    -- 화살표처럼 읽히는 조합 금지 (길찾기 구간에서 방향 힌트로 오해되지 않게, 기획방 요청):
+    -- 반쪽 고리(위·아래)에 세로선, 반쪽 고리(왼·오른)에 가로선(또는 사방 눈금)이 꽂히면 ↑↓←→ 모양이 됨
+    local arrow = ((c[1] == "arcTop" or c[1] == "arcBot") and (c[2]:find("ticks") or c[2]:find("vfull") or c[2]:find("vtop") or c[2]:find("vbot") or c[2]:find("diagA") or c[2]:find("diagB")))
+      or ((c[1] == "arcLeft" or c[1] == "arcRight") and (c[2]:find("ticks") or c[2]:find("hfull") or c[2]:find("hhalf") or c[2]:find("diagA") or c[2]:find("diagB")))
+      or (c[1] == "none" and (c[2] == "vtop" or c[2] == "vbot" or c[2]:find("vtop%+") or c[2]:find("vbot%+")))
+    if arrow then goto continue end
     local s = build(c[1], c[2])
     local n = count(s)
     if n >= 6 and n <= 34 then
@@ -58,6 +64,7 @@ if WHICH == "glyphs" then
       if ok then picked[#picked+1] = { s = s, name = c[1] .. "|" .. c[2] } end
     end
     if #picked == 40 then break end
+    ::continue::
   end
   assert(#picked == 40, "기호가 40개 안 됨: " .. #picked)
   local CELL, COLS, ROWS = 10, 8, 5
