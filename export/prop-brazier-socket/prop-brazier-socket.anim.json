@@ -4,7 +4,7 @@
   "texture": "prop-brazier-socket.png",
   "frameSize": [16, 24],
   "anchor": [8, 23],
-  "source": "ribs-assets@96b20bc",
+  "source": "ribs-assets@1d30393",
   "clips": {
     "empty": { "loop": false, "frames": [
         { "sx": 0, "sy": 0, "sWidth": 16, "sHeight": 24, "durationMs": 200 }

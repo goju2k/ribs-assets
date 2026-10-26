@@ -4,7 +4,7 @@
   "texture": "prop-skill-pedestal.png",
   "frameSize": [24, 32],
   "anchor": [12, 31],
-  "source": "ribs-assets@96b20bc",
+  "source": "ribs-assets@1d30393",
   "clips": {
     "idle": { "loop": true, "frames": [
         { "sx": 0, "sy": 0, "sWidth": 24, "sHeight": 32, "durationMs": 140 },
