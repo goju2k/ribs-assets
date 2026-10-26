@@ -120,6 +120,15 @@ CLIPS[#CLIPS+1] = { "fire", false, {
   { 34, nil, function(i) body(i, { flame = 2, glow = 2, fdx = -1, reach = 1 }) end },                      -- 마무리: 돌아옴
 } }
 
+-- dash-quick (D-031 "전환"): 마무리 직후 자동 짧은 대시 24px. 출발 멈춤 없이 움직이면서 흩어지고 짧게 모임 (250ms)
+CLIPS[#CLIPS+1] = { "dash-quick", false, {
+  { 40, "dash:travel", function(i) body(i, { skip = function(y) return y > 7 end, color = dither(P.D), flame = 0 }); ember(i, OX + 6, OY + 11, 6) end },
+  { 50, nil, function(i) ember(i, OX + 6, OY + 10, 10) end },
+  { 50, "dash:recover", function(i) core(i, OX + 7, OY + 11, 3, 0); dots(i, { {7,5,"y"}, {11,10,"r"} }) end },
+  { 60, nil, function(i) body(i, { skip = function(y) return y < 9 end, color = dither(P.M), flame = 0 }); core(i, OX + 7, OY + 10, 2, 1) end },
+  { 50, nil, function(i) body(i, { flame = 2 }) end },
+} }
+
 local total = 0; for _, c in ipairs(CLIPS) do total = total + #c[3] end
 local spr = Sprite(FW, FH, ColorMode.RGB)
 spr.layers[1].name = "body"
