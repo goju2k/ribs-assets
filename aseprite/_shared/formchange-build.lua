@@ -1,9 +1,9 @@
 -- 폼체인지 장면 D v2 (D-037): 불씨 → 어린이. 대본 _design/docs/24_opening-script-v1.md "장면 D v2".
 -- 실행: aseprite -b --script-param which=<id> --script-param out=<id>.aseprite --script formchange-build.lua
 --   prop-robe           48×32, 기준점 [24,32] = player-child [24,24]와 같은 바닥 자리(몸 그림이 같음). 원본은 왼쪽을 봄
---                       lie(널브러짐) / flutter(바람에 펄럭, 반복) / form-a(바람이 채움 1400ms) / form-b(지팡이 빛이 채움 1360ms)
+--                       lie(널브러짐) / flutter(바람에 펄럭, 반복) / form-a(바람이 채움 1400ms — D-038 확정)
 --                       form 끝 프레임 = player-child 몸 (지팡이·손불꽃 없음 — 장면 9·10에서 생김)
---   prop-crystal-staff  24×32, 기준점 [12,31]. drop(떨어져 두 번 튕김 1000ms) / lie(수정 맥동, 반복) / shake(느림→빠름 1200ms) / fly(떠올라 섬)
+--   prop-crystal-staff  24×32, 기준점 [12,31]. drop(떨어져 두 번 튕김 1000ms) / lie(수정 맥동, 반복) / shake(느림→빠름 1200ms) / rise(떠올라 곧게 섬 450ms) / fly(손까지 날아가는 동안 반복)
 --   fx-merge            32×32, 기준점 가운데. loop: 푸른 불씨와 작은 불꽃이 두 바퀴 돌며 가까워지고 밝아짐 (1100ms)
 --   fx-wind             64×24, 기준점 가운데. loop: 오른쪽으로 날아가는 바람 줄기·먼지 (엔진이 소품을 왼→오로 옮김)
 -- 수정 = 불씨 색(#ffffff/#bfeaff/#6fb8f2): 불씨가 수정이 된 것 (D-037). 모션은 실험실 시안(scratch/motion-lab/robe.lua)과 같음.
@@ -78,14 +78,6 @@ if WHICH == "prop-robe" then
       for d = 1, #col do put(i, math.floor(x + 0.5), math.floor(y + 0.5) + d - 1, (front and d == 1 and k % 3 ~= 0) and P.M or col[d]) end
     end
   end
-  local function lit(amount) return function(x, y, ch, c)
-    if (ch == "D" or ch == "M") and ((x * 7 + y * 5) % 11) < amount then return ((x + y) % 2 == 0) and E.r or E.y end
-    return c end end
-  -- 지팡이 빛 줄기(form-b): 원본 좌표 (25,14)의 수정 → 후드 구멍 (3,13). 지팡이 소품을 거기에 눕혀 두면 맞음
-  local function stream(i, t0, n)
-    for k = 0, n - 1 do local t = (t0 + k * 0.13) % 1
-      put(i, 25 + (3 - 25) * t, 14 + (13 - 14) * t - math.sin(t * math.pi) * 7, k % 2 == 0 and E.y or E.r) end
-  end
   local FLAP = { { "...KKK.", "KKDMMK.", "MMDDMMK" }, { "....KK.", "..KKMMK", "KKDDMDK" }, { "...KKK.", "KKDMMK.", "MMDDMMK" }, { ".......", "...KKKK", "KKDMMDK" } }
   CL[#CL+1] = { "lie", true, { { 1000, nil, function(i) art(i, SLUMP, 0, 12) end } } }
   local F = {}
@@ -103,43 +95,39 @@ if WHICH == "prop-robe" then
     { 170, nil, function(i) body(i, { dy = -1 }) end },
     { 150, "form-a:settle", function(i) body(i) end },
   } }
-  CL[#CL+1] = { "form-b", false, {
-    { 150, "form-b:glow", function(i) art(i, SLUMP, 0, 12) end },
-    { 150, nil, function(i) art(i, SLUMP, 0, 12); stream(i, 0.05, 4) end },
-    { 150, nil, function(i) art(i, SLUMP, 0, 12, nil, lit(2)); stream(i, 0.35, 6) end },
-    { 150, nil, function(i) art(i, PUFF, 0, 11, nil, lit(3)); stream(i, 0.6, 4) end },
-    { 150, nil, function(i) body(i, { from = 9, recolor = lit(3) }); art(i, { "..KKKKKK..", ".KMTTMDDK." }, 2, 7); stream(i, 0.85, 2) end },
-    { 150, nil, function(i) body(i, { hood = 2, recolor = lit(2) }) end },
-    { 160, nil, function(i) body(i, { dy = -1, recolor = lit(1) }) end },
-    { 160, nil, function(i) body(i, { recolor = lit(0.5) }) end },
-    { 140, "form-b:settle", function(i) body(i) end },
-  } }
 
 elseif WHICH == "prop-crystal-staff" then
   FW, FH, ANCHOR = 24, 32, { 12, 31 }
-  -- 지팡이: (x0,y0) 자루 끝 → (x1,y1) 수정 끝. 바깥선 K → 자루 s(아래쪽 어두운 S) → 수정(맥동 0~2)
+  -- 크기는 player-child가 손에 든 지팡이(7px)와 같음 → 날아가 손에 안착할 때 player-child idle로 바꿔치기해도 이어짐
+  -- 지팡이 선: (x0,y0) 자루 끝 → (x1,y1) 수정 끝. 바깥선 K → 자루 s → 수정(맥동 0~2)
   local function staff(i, x0, y0, x1, y1, pulse)
     local n = math.max(math.abs(x1 - x0), math.abs(y1 - y0), 1)
     local pts = {}
     for k = 0, n do pts[#pts+1] = { math.floor(x0 + (x1 - x0) * k / n + 0.5), math.floor(y0 + (y1 - y0) * k / n + 0.5) } end
     local cx, cy = pts[#pts][1], pts[#pts][2]
-    local CR = { {0,0}, {-1,0}, {1,0}, {0,-1}, {0,1} }
     for _, p in ipairs(pts) do for _, d in ipairs({ {1,0}, {-1,0}, {0,1}, {0,-1} }) do px(i, p[1] + d[1], p[2] + d[2], P.K) end end
-    for _, d in ipairs(CR) do for _, e in ipairs({ {1,0}, {-1,0}, {0,1}, {0,-1} }) do px(i, cx + d[1] + e[1], cy + d[2] + e[2], P.K) end end
-    for k, p in ipairs(pts) do px(i, p[1], p[2], k % 4 == 0 and P.S or P.s) end
-    local core = pulse == 2 and E.W or E.y
-    for _, d in ipairs(CR) do px(i, cx + d[1], cy + d[2], E.r) end
-    px(i, cx, cy, core); px(i, cx - 1, cy, pulse >= 1 and E.y or E.r); px(i, cx, cy - 1, E.y)
-    if pulse == 2 then px(i, cx + 2, cy - 2, E.y); px(i, cx - 2, cy - 3, E.r) end
+    for _, d in ipairs({ {1,0}, {-1,0}, {0,1}, {0,-1}, {1,1}, {-1,-1}, {1,-1}, {-1,1} }) do px(i, cx + d[1], cy + d[2], P.K) end
+    for k, p in ipairs(pts) do px(i, p[1], p[2], P.s) end
+    px(i, cx, cy, pulse == 2 and E.W or E.y); px(i, pts[#pts - 1][1], pts[#pts - 1][2], E.r)
+    if pulse == 2 then px(i, cx + 2, cy - 2, E.y) end
   end
-  local function lying(i, pulse, lift, rock) staff(i, 6, 29 - (lift or 0) - (rock == -1 and 1 or 0), 16, 29 - (lift or 0) - (rock == 1 and 1 or 0), pulse) end
+  local function lying(i, pulse, lift, rock) staff(i, 9, 29 - (lift or 0) - (rock == -1 and 1 or 0), 15, 29 - (lift or 0) - (rock == 1 and 1 or 0), pulse) end
+  -- 곧게 선 모습 = player-child 손 지팡이 그림(오른쪽을 보는 내보낸 그림 기준으로 좌우 반전해 둠)
+  local UP = { "KK..", "KcK.", "KCCK", ".KBK", ".KsK", ".KsK", ".KKK" }
+  local function upright(i, pulse, sway, dy)
+    local pal = { K=P.K, s=P.s, c=pulse == 2 and E.W or E.y, C=pulse >= 1 and E.y or E.r, B=E.r }
+    for y, r in ipairs(UP) do
+      local sh = (sway ~= 0 and y <= 3) and sway or 0   -- 위쪽(수정)만 1px 기울어 흔들림
+      for x = 1, 4 do px(i, 9 + x + sh, 24 + y + (dy or 0), pal[r:sub(x, x)]) end
+    end
+  end
   CL[#CL+1] = { "drop", false, {
-    { 60, nil, function(i) staff(i, 9, 9, 14, 1, 1) end },          -- 떨어짐 (비스듬히)
-    { 60, nil, function(i) staff(i, 9, 17, 14, 9, 1) end },
-    { 60, nil, function(i) staff(i, 9, 25, 14, 17, 1) end },
-    { 70, "drop:hit", function(i) staff(i, 8, 30, 15, 23, 2) end },  -- "탁" 자루가 먼저 닿음
-    { 80, nil, function(i) staff(i, 6, 24, 16, 21, 1) end },          -- 튀어 오름
-    { 80, nil, function(i) staff(i, 6, 25, 16, 27, 1) end },
+    { 60, nil, function(i) staff(i, 10, 9, 14, 3, 1) end },          -- 떨어짐 (비스듬히)
+    { 60, nil, function(i) staff(i, 10, 17, 14, 11, 1) end },
+    { 60, nil, function(i) staff(i, 10, 25, 14, 19, 1) end },
+    { 70, "drop:hit", function(i) staff(i, 9, 30, 14, 25, 2) end },  -- "탁" 자루가 먼저 닿음
+    { 80, nil, function(i) staff(i, 8, 25, 15, 23, 1) end },          -- 튀어 오름
+    { 80, nil, function(i) staff(i, 8, 26, 15, 28, 1) end },
     { 70, "drop:bounce", function(i) lying(i, 2, 0, 1) end },         -- "탁" 두 번째
     { 90, nil, function(i) lying(i, 1, 0, 1) end },
     { 100, nil, function(i) lying(i, 1) end },
@@ -153,13 +141,17 @@ elseif WHICH == "prop-crystal-staff" then
   local F = {}
   for k, ms in ipairs(SH) do F[k] = { ms, k == 1 and "shake:start" or nil, function(i) lying(i, k > 6 and 2 or 1, 0, k % 2 == 1 and 1 or -1) end } end
   CL[#CL+1] = { "shake", false, F }
-  CL[#CL+1] = { "fly", false, {
-    { 100, "fly:lift", function(i) lying(i, 2, 2) end },
-    { 100, nil, function(i) staff(i, 8, 26, 15, 19, 2) end },
-    { 100, nil, function(i) staff(i, 11, 25, 12, 15, 2) end },
-    { 120, nil, function(i) staff(i, 12, 23, 12, 13, 1) end },        -- 곧게 섬 (엔진이 손으로 옮김)
-    { 120, nil, function(i) staff(i, 12, 23, 12, 13, 2) end },
+  -- rise: 누운 채 떠올라 곧게 섬 (엔진이 10px 올리는 동안, 450ms) → fly: 손까지 느리게 날아가는 동안 반복 (살짝 흔들림 + 수정 은은한 맥동)
+  CL[#CL+1] = { "rise", false, {
+    { 150, "rise:start", function(i) lying(i, 1, 1) end },
+    { 150, nil, function(i) staff(i, 10, 27, 14, 22, 1) end },
+    { 150, nil, function(i) upright(i, 1, 0) end },
   } }
+  local SW = { 0, 1, 1, 0, -1, -1 }
+  local PU = { 1, 1, 2, 1, 0, 0 }
+  local G = {}
+  for k = 1, 6 do G[k] = { 150, nil, function(i) upright(i, PU[k], SW[k], (k == 2 or k == 3) and -1 or 0) end } end
+  CL[#CL+1] = { "fly", true, G }
 
 elseif WHICH == "fx-merge" then
   FW, FH, ANCHOR = 32, 32, { 16, 16 }
