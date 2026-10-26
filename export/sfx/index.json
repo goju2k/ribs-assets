@@ -1,0 +1,308 @@
+[
+ {
+  "id": "move-hum",
+  "group": "플레이어",
+  "label": "이동 (부유 웅웅) — 이동 중 반복",
+  "note": "반복 재생용 (600ms)",
+  "candidate": null,
+  "ms": 620,
+  "peak": 0.53
+ },
+ {
+  "id": "dash-scatter",
+  "group": "플레이어",
+  "label": "대시 — 흩어짐 (출발)",
+  "note": "",
+  "candidate": null,
+  "ms": 202,
+  "peak": 0.54
+ },
+ {
+  "id": "dash-gather",
+  "group": "플레이어",
+  "label": "대시 — 모임 (회복, 묵직하게)",
+  "note": "",
+  "candidate": null,
+  "ms": 292,
+  "peak": 0.53
+ },
+ {
+  "id": "fire-shoot",
+  "group": "플레이어",
+  "label": "불꽃탄 발사",
+  "note": "",
+  "candidate": null,
+  "ms": 142,
+  "peak": 0.48
+ },
+ {
+  "id": "fire-impact",
+  "group": "플레이어",
+  "label": "불꽃탄 착탄",
+  "note": "",
+  "candidate": null,
+  "ms": 242,
+  "peak": 0.65
+ },
+ {
+  "id": "pillar-charge",
+  "group": "플레이어",
+  "label": "불기둥 — 시전 모음",
+  "note": "",
+  "candidate": null,
+  "ms": 470,
+  "peak": 0.38
+ },
+ {
+  "id": "pillar-burst",
+  "group": "플레이어",
+  "label": "불기둥 — 발동",
+  "note": "",
+  "candidate": null,
+  "ms": 622,
+  "peak": 0.75
+ },
+ {
+  "id": "ember-gain",
+  "group": "플레이어",
+  "label": "잔불 획득",
+  "note": "",
+  "candidate": null,
+  "ms": 202,
+  "peak": 0.34
+ },
+ {
+  "id": "player-hit",
+  "group": "플레이어",
+  "label": "피격",
+  "note": "",
+  "candidate": null,
+  "ms": 172,
+  "peak": 0.6
+ },
+ {
+  "id": "player-down",
+  "group": "플레이어",
+  "label": "체력 0",
+  "note": "",
+  "candidate": null,
+  "ms": 822,
+  "peak": 0.49
+ },
+ {
+  "id": "parry-try",
+  "group": "패링",
+  "label": "패링 시도 (휙)",
+  "note": "",
+  "candidate": null,
+  "ms": 120,
+  "peak": 0.39
+ },
+ {
+  "id": "parry-success-a",
+  "group": "패링",
+  "label": "패링 성공 A — 금속 \"챙\" (배음 여러 개)",
+  "note": "",
+  "candidate": "parry-success",
+  "ms": 522,
+  "peak": 0.85
+ },
+ {
+  "id": "parry-success-b",
+  "group": "패링",
+  "label": "패링 성공 B — 밝은 종 + 위로 튐",
+  "note": "",
+  "candidate": "parry-success",
+  "ms": 472,
+  "peak": 0.73
+ },
+ {
+  "id": "parry-success-c",
+  "group": "패링",
+  "label": "패링 성공 C — 묵직한 \"챙\" (쿵 + 울림)",
+  "note": "",
+  "candidate": "parry-success",
+  "ms": 522,
+  "peak": 0.93
+ },
+ {
+  "id": "parry-fail",
+  "group": "패링",
+  "label": "패링 실패 (둔탁)",
+  "note": "",
+  "candidate": null,
+  "ms": 172,
+  "peak": 0.55
+ },
+ {
+  "id": "sentinel-awaken",
+  "group": "수호체",
+  "label": "각성 (돌이 깨어남)",
+  "note": "",
+  "candidate": null,
+  "ms": 522,
+  "peak": 0.48
+ },
+ {
+  "id": "sentinel-cue-a",
+  "group": "수호체",
+  "label": "예비동작 신호 A — 높은 종 \"핑\"",
+  "note": "",
+  "candidate": "sentinel-cue",
+  "ms": 272,
+  "peak": 0.63
+ },
+ {
+  "id": "sentinel-cue-b",
+  "group": "수호체",
+  "label": "예비동작 신호 B — 올라가는 두 음 \"띠링\"",
+  "note": "",
+  "candidate": "sentinel-cue",
+  "ms": 212,
+  "peak": 0.35
+ },
+ {
+  "id": "sentinel-cue-c",
+  "group": "수호체",
+  "label": "예비동작 신호 C — 반짝 + 위로 휨",
+  "note": "",
+  "candidate": "sentinel-cue",
+  "ms": 230,
+  "peak": 0.45
+ },
+ {
+  "id": "sentinel-attack",
+  "group": "수호체",
+  "label": "근접 공격 (휘두름)",
+  "note": "",
+  "candidate": null,
+  "ms": 220,
+  "peak": 0.58
+ },
+ {
+  "id": "sentinel-hit",
+  "group": "수호체",
+  "label": "피격 (돌 딱)",
+  "note": "",
+  "candidate": null,
+  "ms": 82,
+  "peak": 0.62
+ },
+ {
+  "id": "sentinel-shutdown",
+  "group": "수호체",
+  "label": "정지 (빛이 꺼지며 부서짐)",
+  "note": "",
+  "candidate": null,
+  "ms": 622,
+  "peak": 0.44
+ },
+ {
+  "id": "artifact",
+  "group": "이벤트",
+  "label": "아티팩트 (맥동 화음)",
+  "note": "",
+  "candidate": null,
+  "ms": 1170,
+  "peak": 0.66
+ },
+ {
+  "id": "form-change",
+  "group": "이벤트",
+  "label": "폼체인지 (처음으로 따뜻한 소리)",
+  "note": "",
+  "candidate": null,
+  "ms": 1540,
+  "peak": 0.45
+ },
+ {
+  "id": "door-open",
+  "group": "이벤트",
+  "label": "문 열림 (돌 미끄러짐)",
+  "note": "",
+  "candidate": null,
+  "ms": 570,
+  "peak": 0.65
+ },
+ {
+  "id": "vine-burn",
+  "group": "이벤트",
+  "label": "덩굴 탐 (탁탁)",
+  "note": "",
+  "candidate": null,
+  "ms": 422,
+  "peak": 0.49
+ },
+ {
+  "id": "companion-blip-a",
+  "group": "동반자·UI",
+  "label": "동반자 말소리 a (대사 글자마다, a·b·c를 번갈아)",
+  "note": "",
+  "candidate": null,
+  "ms": 63,
+  "peak": 0.33
+ },
+ {
+  "id": "companion-blip-b",
+  "group": "동반자·UI",
+  "label": "동반자 말소리 b",
+  "note": "",
+  "candidate": null,
+  "ms": 63,
+  "peak": 0.33
+ },
+ {
+  "id": "companion-blip-c",
+  "group": "동반자·UI",
+  "label": "동반자 말소리 c",
+  "note": "",
+  "candidate": null,
+  "ms": 63,
+  "peak": 0.33
+ },
+ {
+  "id": "emote",
+  "group": "동반자·UI",
+  "label": "감정 표시 (뿅)",
+  "note": "",
+  "candidate": null,
+  "ms": 102,
+  "peak": 0.34
+ },
+ {
+  "id": "ui-select",
+  "group": "동반자·UI",
+  "label": "UI 선택",
+  "note": "",
+  "candidate": null,
+  "ms": 62,
+  "peak": 0.21
+ },
+ {
+  "id": "ui-confirm",
+  "group": "동반자·UI",
+  "label": "UI 결정",
+  "note": "",
+  "candidate": null,
+  "ms": 142,
+  "peak": 0.24
+ },
+ {
+  "id": "parry-success",
+  "group": "패링",
+  "label": "패링 성공 — 금속 \"챙\" (배음 여러 개) (선택: A)",
+  "note": "후보 parry-success-a와 같은 소리",
+  "candidate": null,
+  "ms": 522,
+  "peak": 0.85
+ },
+ {
+  "id": "sentinel-cue",
+  "group": "수호체",
+  "label": "예비동작 신호 — 높은 종 \"핑\" (선택: A)",
+  "note": "후보 sentinel-cue-a와 같은 소리",
+  "candidate": null,
+  "ms": 272,
+  "peak": 0.63
+ }
+]
