@@ -59,23 +59,23 @@ D-030: 그래픽은 픽셀, 소리는 리얼 사운드. 모든 재료는 CC0 (�
 | mine0 | sentinel-attack |
 | mine1 | sentinel-cue-c |
 | mine3 | sentinel-hit |
-| softH | dash-gather, player-down |
+| softH | dash-gather, player-down, pillar-big |
 | softM | fire-impact |
 | punchM | player-hit |
-| punchH | pillar-burst, parry-success-d |
+| punchH | pillar-burst, parry-success-d, pillar-big, combo-focus |
 | woodL0 | ui-select |
-| woodL1 | ui-confirm |
+| woodL1 | ui-confirm, combo-slot |
 | woodM | parry-fail |
 | cloth1 | sentinel-attack |
 | cloth2 | dash-scatter, vine-burn |
-| cloth3 | parry-try |
+| cloth3 | parry-try, combo-switch |
 | knife1 | parry-success-a, parry-success |
 | knife2 | parry-success-d |
 | door1 | door-open |
-| whoosh | dash-scatter, dash-gather, fire-shoot, fire-impact, pillar-charge, pillar-burst, player-hit, player-down, form-change, vine-burn |
-| crackleA | fire-shoot, pillar-burst, form-change |
-| crackleB | dash-scatter, pillar-charge, ember-gain, vine-burn |
-| crackleC | fire-impact, player-down |
+| whoosh | dash-scatter, dash-gather, fire-shoot, fire-impact, pillar-charge, pillar-burst, player-hit, player-down, form-change, vine-burn, fire-fan, pillar-big, pillar-quick, combo-focus, combo-switch |
+| crackleA | fire-shoot, pillar-burst, form-change, fire-fan, pillar-big |
+| crackleB | dash-scatter, pillar-charge, ember-gain, vine-burn, pillar-quick, combo-slot |
+| crackleC | fire-impact, player-down, combo-focus |
 | torch | move-hum |
 | scrapeV | sentinel-shutdown, door-open |
 | scrapeC | sentinel-awaken |

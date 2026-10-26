@@ -193,6 +193,37 @@ add('ui-confirm', '동반자·UI', 'UI 결정 (나무 + 작은 종)', [
   { src: 'bell2', rate: 2.4, hp: 1500, gain: -8, delay: 25, fo: 0.2 },
 ], { reverb: 'room', peak: -10 });
 
+// ── 스킬·콤보 v1 (D-031) ──
+add('fire-fan', '콤보', '불꽃 3갈래 발사 (세 발이 겹쳐 퍼짐)', [
+  { src: 'whoosh', ss: 0.6, t: 0.3, rate: 1.8, hp: 500, fo: 0.08 },
+  { src: 'whoosh', ss: 0.7, t: 0.3, rate: 1.6, hp: 500, delay: 25, gain: -2, fo: 0.08 },
+  { src: 'whoosh', ss: 0.8, t: 0.3, rate: 2.0, hp: 600, delay: 50, gain: -3, fo: 0.08 },
+  { src: 'crackleA', ss: 12.4, t: 0.25, hp: 1200, gain: -6, fo: 0.08 },
+], { reverb: 'room', peak: -4 });
+add('pillar-big', '콤보', '큰 불기둥 (묵직하게 솟고 타오름)', [
+  { src: 'whoosh', ss: 0.45, t: 2.0, rate: 0.62, hp: 40, fo: 0.8 },
+  { src: 'punchH', rate: 0.5, lp: 400 },
+  { src: 'softH', rate: 0.55, lp: 300, delay: 40, gain: -2 },
+  { src: 'crackleA', ss: 20, t: 1.4, hp: 500, gain: -3, fo: 0.8, delay: 100 },
+], { reverb: 'hall', peak: -1 });
+add('pillar-quick', '콤보', '빠른 불기둥 (짧고 날렵)', [
+  { src: 'whoosh', ss: 0.5, t: 0.45, rate: 1.4, hp: 200, fo: 0.15 },
+  { src: 'crackleB', ss: 6.2, t: 0.25, hp: 900, gain: -5, fo: 0.1 },
+], { reverb: 'room', peak: -5 });
+add('combo-focus', '콤보', '집중 강화 (무게감 — 마무리에 겹침)', [
+  { src: 'whoosh', ss: 0.5, t: 0.35, rev: true, rate: 1.0, hp: 150, fi: 0.05 },
+  { src: 'punchH', rate: 0.55, lp: 350, delay: 120 },
+  { src: 'crackleC', ss: 8, t: 0.35, hp: 700, gain: -6, delay: 130, fo: 0.2 },
+], { reverb: 'hall', peak: -3 });
+add('combo-switch', '콤보', '전환 자동 대시 (빠르게 빠짐)', [
+  { src: 'whoosh', ss: 0.5, t: 0.3, rate: 1.9, hp: 600, fo: 0.08 },
+  { src: 'cloth3', rate: 1.5, hp: 1000, gain: -5 },
+], { reverb: 'room', peak: -6 });
+add('combo-slot', '콤보', '콤보 칸 채움 (아주 작게)', [
+  { src: 'crackleB', ss: 9.3, t: 0.08, hp: 2000, fo: 0.03 },
+  { src: 'woodL1', rate: 1.6, hp: 600, gain: -6 },
+], { reverb: 'none', peak: -16, tail: 0 });
+
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
 const PICK = { 'parry-success': 'a', 'sentinel-cue': 'a' };
 for (const [id, k] of Object.entries(PICK)) {
