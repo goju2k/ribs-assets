@@ -53,36 +53,36 @@ D-030: 그래픽은 픽셀, 소리는 리얼 사운드. 모든 재료는 CC0 (�
 | plateM0 | sentinel-hit |
 | metalL0 | parry-success-b |
 | glass0 | sentinel-cue-a, companion-blip-a, sentinel-cue |
-| glass1 | ember-gain |
-| glass2 | companion-blip-b |
-| glass3 | companion-blip-c |
+| glass1 | ember-gain, staff-drop |
+| glass2 | companion-blip-b, staff-shake |
+| glass3 | companion-blip-c, staff-drop |
 | mine0 | sentinel-attack-a, sentinel-attack-b, record-close, wall-collapse, sentinel-attack |
 | mine1 | wall-collapse |
 | mine3 | sentinel-hit, wall-collapse |
 | softH | dash-gather, player-down, sentinel-attack-b, pillar-big, seal-door-open |
-| softM | fire-impact, record-open, brazier-ignite |
+| softM | fire-impact, record-open, brazier-ignite, robe-flutter |
 | punchM | player-hit |
 | punchH | pillar-burst, parry-success-d, sentinel-attack-a, pillar-big, combo-focus, wall-collapse, sentinel-attack |
-| woodL0 | ui-select |
-| woodL1 | ui-confirm, combo-slot |
+| woodL0 | ui-select, staff-drop, staff-shake |
+| woodL1 | ui-confirm, combo-slot, staff-drop, staff-shake |
 | woodM | parry-fail |
-| cloth1 | inspect |
-| cloth2 | dash-scatter, vine-burn |
-| cloth3 | parry-try, combo-switch |
+| cloth1 | inspect, robe-flutter |
+| cloth2 | dash-scatter, vine-burn, robe-flutter |
+| cloth3 | parry-try, combo-switch, robe-flutter |
 | knife1 | parry-success-a, parry-success |
 | knife2 | parry-success-d |
 | door1 | door-open |
-| whoosh | dash-scatter, dash-gather, fire-shoot, fire-impact, pillar-charge, pillar-burst, player-hit, player-down, sentinel-attack-a, form-change, vine-burn, fire-fan, pillar-big, pillar-quick, combo-focus, combo-switch, brazier-ignite, sentinel-attack |
-| crackleA | fire-shoot, pillar-burst, form-change, fire-fan, pillar-big, brazier-ignite |
-| crackleB | dash-scatter, pillar-charge, ember-gain, vine-burn, pillar-quick, combo-slot |
-| crackleC | fire-impact, player-down, combo-focus |
+| whoosh | dash-scatter, dash-gather, fire-shoot, fire-impact, pillar-charge, pillar-burst, player-hit, player-down, sentinel-attack-a, form-change, vine-burn, fire-fan, pillar-big, pillar-quick, combo-focus, combo-switch, brazier-ignite, form-flash, wind-gust, handflame-ignite, sentinel-attack |
+| crackleA | fire-shoot, pillar-burst, form-change, fire-fan, pillar-big, brazier-ignite, handflame-ignite |
+| crackleB | dash-scatter, pillar-charge, ember-gain, vine-burn, pillar-quick, combo-slot, form-merge |
+| crackleC | fire-impact, player-down, combo-focus, handflame-ignite |
 | torch | move-hum |
 | scrapeV | sentinel-windup-b, sentinel-windup-easy-b, sentinel-attack-b, sentinel-shutdown, door-open, record-open, record-close, wall-collapse |
 | scrapeC | sentinel-awaken, sentinel-windup-a, sentinel-windup-easy-a, seal-door-open, sentinel-windup, sentinel-windup-easy |
-| bowl | sentinel-awaken, sentinel-windup-a, sentinel-windup-b, sentinel-windup-easy-a, sentinel-windup-easy-b, sentinel-shutdown, artifact, form-change, seal-door-open, sentinel-windup, sentinel-windup-easy |
+| bowl | sentinel-awaken, sentinel-windup-a, sentinel-windup-b, sentinel-windup-easy-a, sentinel-windup-easy-b, sentinel-shutdown, artifact, form-change, seal-door-open, form-merge, form-flash, sentinel-windup, sentinel-windup-easy |
 | wine | sentinel-cue-c, sentinel-shutdown, artifact |
 | ceramic | sentinel-cue-b, emote, inspect |
 | clang | parry-success-c |
-| tinkle | artifact |
+| tinkle | artifact, form-merge, form-flash |
 
 가공: ffmpeg (자르기·음높이·EQ·겹치기·지연·잔향 통일·최고점 맞춤), `node scripts/sfx-real.mjs`.
