@@ -140,4 +140,11 @@ add('emote', '동반자·UI', '감정 표시 (뿅)', [ { wave: 'sine', freq: 600
 add('ui-select', '동반자·UI', 'UI 선택', [ { wave: 'square', freq: 880, decay: 0.04, vol: 0.18 } ]);
 add('ui-confirm', '동반자·UI', 'UI 결정', [ { wave: 'square', freq: 880, arp: { at: 0.05, mult: 1.5 }, decay: 0.12, vol: 0.2 } ]);
 
+// 정식 이름 (게임이 쓰는 id). 사용자가 후보를 고르기 전까지 임시로 A안 — 고르면 PICK만 바꾸면 됨
+const PICK = { "parry-success": "a", "sentinel-cue": "a" };
+for (const [id, k] of Object.entries(PICK)) {
+  const src = S.find(x => x.id === id + "-" + k);
+  S.push({ ...src, id, candidate: null, label: src.label.replace(/ [ABC] — /, " — ") + " (선택: " + k.toUpperCase() + ")", note: "후보 " + id + "-" + k + "와 같은 소리" });
+}
+
 export const SOUNDS = S;

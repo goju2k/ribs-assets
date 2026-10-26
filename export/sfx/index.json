@@ -286,5 +286,23 @@
   "candidate": null,
   "ms": 142,
   "peak": 0.24
+ },
+ {
+  "id": "parry-success",
+  "group": "패링",
+  "label": "패링 성공 — 금속 \"챙\" (배음 여러 개) (선택: A)",
+  "note": "후보 parry-success-a와 같은 소리",
+  "candidate": null,
+  "ms": 522,
+  "peak": 0.85
+ },
+ {
+  "id": "sentinel-cue",
+  "group": "수호체",
+  "label": "예비동작 신호 — 높은 종 \"핑\" (선택: A)",
+  "note": "후보 sentinel-cue-a와 같은 소리",
+  "candidate": null,
+  "ms": 272,
+  "peak": 0.63
  }
 ]
