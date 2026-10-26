@@ -17,7 +17,7 @@ local CY = H"306082"                                -- 꺼져 가는 봉인 빛
 local MOSS1, MOSS2 = H"3d4a2c", H"56663f"
 local VOID = H"0b0910"
 local BONE = { w=H"cfc6b8", s=H"8f8678" }
-local COLS, ROWS = 10, 7
+local COLS, ROWS = 10, 9   -- 7~8행: 흔적 (D-034)
 
 local img = Image(COLS * 16, ROWS * 16, ColorMode.RGB)
 local function px(t, x, y, c) img:drawPixel((t % COLS) * 16 + x, (t // COLS) * 16 + y, c) end
@@ -157,6 +157,44 @@ for f, ab in ipairs(LAMP) do local t = ({ 38, 39, 40, 41 })[f]
   for dy, r in ipairs(SH) do for dx = 1, 4 do local ch = r:sub(dx, dx)
     local c = ch == "o" and IRON.o or ch == "a" and ab[1] or ch == "b" and ab[2]; if c then px(t, 5 + dx, 5 + dy, c) end end end
 end
+
+-- ===== 흔적 (D-034, 행 7~8) — 길찾기용, 모두 투명 배경 겹침 =====
+-- 70,71/80,81 긁힌 벽 (벽면 2×2 위에): 큰 손톱 같은 깊은 홈 네 줄
+local CLAW = { 70, 71, 80, 81 }
+for k = 0, 3 do
+  local x0 = 5 + k * 6
+  for t = 0, 22 do local x = x0 + t * 0.35 + math.sin(t * 0.4 + k) * 0.6; local y = 4 + t
+    big(CLAW, math.floor(x), y, C.mor); big(CLAW, math.floor(x) + 1, y, C.o or H"141018"); big(CLAW, math.floor(x) - 1, y, C.bh) end
+end
+for _, p in ipairs({ {4,2},{11,3},{16,1},{22,4},{26,27},{9,28} }) do big(CLAW, p[1], p[2], C.bh) end   -- 튄 부스러기
+-- 72/82 깨진 비석 (바닥에 선 돌판 16×32, 위가 부러짐)
+local STELE = { 72, 72, 82, 82 }
+local function st(x, y, c) if x >= 0 and x < 16 then px(y < 16 and 72 or 82, x, y % 16, c) end end
+for y = 6, 30 do for x = 3, 12 do
+  local top = 6 + ((x * 7) % 5)                     -- 부러진 윗면 (들쭉날쭉)
+  if y >= top then local c = C.br
+    if x == 3 or x == 12 or y == top then c = H"141018" elseif x == 4 then c = C.bh elseif x == 11 then c = C.bs end
+    if y == 30 then c = C.f0 end
+    st(x, y, c) end
+end end
+for _, p in ipairs({ {6,14},{7,14},{8,15},{6,17},{9,17},{7,20},{8,20},{6,23},{9,23} }) do st(p[1], p[2], C.mor) end   -- 닳은 새김 (읽을 수 없음)
+for _, p in ipairs({ {1,29},{2,30},{13,30},{14,29},{14,30} }) do st(p[1], p[2], C.bs) end                           -- 부서진 조각
+-- 벽화 (벽면 2×2 위에, 바랜 물감): a = 사람들이 큰 빛을 둘러쌈 (73,74/83,84), b = 작은 빛 하나 (75,76/85,86)
+local PAINT = { o=H"8a6a3a", r=H"7a4a3a", l=H"c9b48a", w=H"e8dcb8", f=H"5e4e44" }
+local function fade(ids, x, y, c, k) if (x * 3 + y * 5 + (k or 0)) % 7 ~= 0 then big(ids, x, y, c) end end   -- 군데군데 벗겨짐
+local MA = { 73, 74, 83, 84 }
+for y = 0, 31 do for x = 0, 31 do local d = math.sqrt((x - 16) ^ 2 + (y - 12) ^ 2)
+  if d < 5 then fade(MA, x, y, d < 2.5 and PAINT.w or PAINT.l) elseif d < 7 and (x + y) % 2 == 0 then fade(MA, x, y, PAINT.o, 1) end end end
+for k = 0, 6 do local a = math.pi * (0.15 + k * 0.7 / 6) ; local fx, fy = 16 + math.cos(a) * 12, 12 + math.sin(a) * 9 + 4   -- 둘러선 사람들 (작은 막대 형상)
+  fade(MA, math.floor(fx), math.floor(fy), PAINT.r); fade(MA, math.floor(fx), math.floor(fy) + 1, PAINT.f); fade(MA, math.floor(fx), math.floor(fy) + 2, PAINT.f)
+  fade(MA, math.floor(fx) - 1, math.floor(fy) + 1, PAINT.f, 2); fade(MA, math.floor(fx) + 1, math.floor(fy) + 1, PAINT.f, 3) end
+for x = 3, 28 do fade(MA, x, 27, PAINT.f, 4) end
+local MB = { 75, 76, 85, 86 }
+local LIGHT = { "...l...", "..l.l..", ".l.w.l.", "l.wWw.l", ".l.w.l.", "..l.l..", "...l..." }   -- 작은 빛: 봉인 문양 같은 마름모
+for dy, r in ipairs(LIGHT) do for dx = 1, #r do local ch = r:sub(dx, dx); local c = ch == "l" and PAINT.l or ch == "w" and PAINT.w or ch == "W" and H"fff1c8"
+  if c then fade(MB, 12 + dx, 8 + dy, c) end end end
+for k = 0, 9 do local a = k * 0.63; fade(MB, math.floor(16 + math.cos(a) * 10), math.floor(12 + math.sin(a) * 8), PAINT.o, k) end
+for x = 6, 26 do fade(MB, x, 27, PAINT.f, 5) end
 
 local spr = Sprite(COLS * 16, ROWS * 16, ColorMode.RGB)
 spr.layers[1].name = "tiles"

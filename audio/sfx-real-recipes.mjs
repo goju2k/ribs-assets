@@ -224,6 +224,37 @@ add('combo-slot', '콤보', '콤보 칸 채움 (아주 작게)', [
   { src: 'woodL1', rate: 1.6, hp: 600, gain: -6 },
 ], { reverb: 'none', peak: -16, tail: 0 });
 
+// ── 길찾기 · 알 수 없는 기록 (D-034) ──
+add('inspect', '길찾기', '살펴보기 (손끝으로 먼지를 쓸어냄)', [
+  { src: 'cloth1', rate: 1.1, hp: 800, gain: -3 },
+  { src: 'ceramic', rate: 0.8, t: 0.3, gain: -10, delay: 80, fo: 0.15 },
+], { reverb: 'room', peak: -10 });
+add('record-open', '길찾기', '기록창 열림 (돌판이 끌려 나옴)', [
+  { src: 'scrapeV', ss: 3, t: 0.45, rate: 1.2, hp: 200, fi: 0.03, fo: 0.15 },
+  { src: 'softM', rate: 0.7, lp: 600, delay: 300, gain: -4 },
+], { reverb: 'stone', peak: -8 });
+add('record-close', '길찾기', '기록창 닫힘 (돌판이 제자리로)', [
+  { src: 'scrapeV', ss: 8, t: 0.3, rate: 1.3, hp: 200, fo: 0.1 },
+  { src: 'mine0', rate: 0.75, lp: 1200, delay: 200, gain: -2 },
+], { reverb: 'stone', peak: -8 });
+add('brazier-ignite', '길찾기', '화로 점화 (불 붙는 "확")', [
+  { src: 'whoosh', ss: 0.4, t: 0.9, rate: 1.0, hp: 100, fo: 0.4 },
+  { src: 'crackleA', ss: 40, t: 1.0, hp: 400, gain: -4, delay: 150, fo: 0.6 },
+  { src: 'softM', rate: 0.6, lp: 500, gain: -6 },
+], { reverb: 'room', peak: -3 });
+add('seal-door-open', '길찾기', '봉인문 열림 (봉인 울림 + 돌 갈림)', [
+  { src: 'bowl', ss: 1.42, t: 1.4, rate: 0.9, gain: -2, fo: 0.8 },
+  { src: 'scrapeC', ss: 8, t: 1.6, rate: 0.7, lp: 1500, delay: 350, fi: 0.1, fo: 0.4 },
+  { src: 'softH', rate: 0.45, lp: 250, delay: 380, gain: -3 },
+], { reverb: 'stone', peak: -2 });
+add('wall-collapse', '길찾기', '벽 무너짐 (돌이 쏟아짐)', [
+  { src: 'punchH', rate: 0.5, lp: 400 },
+  { src: 'mine0', rate: 0.85, delay: 60 },
+  { src: 'mine3', rate: 0.7, delay: 180, gain: -2 },
+  { src: 'mine1', rate: 0.9, delay: 290, gain: -4 },
+  { src: 'scrapeV', ss: 15, t: 0.9, rate: 1.4, hp: 300, delay: 120, gain: -6, fo: 0.5 },
+], { reverb: 'stone', peak: -1 });
+
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
 const PICK = { 'parry-success': 'a', 'sentinel-cue': 'a' };
 for (const [id, k] of Object.entries(PICK)) {
