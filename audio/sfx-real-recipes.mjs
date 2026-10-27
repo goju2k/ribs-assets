@@ -331,6 +331,24 @@ add('handflame-ignite', '폼체인지', '손불꽃 점화 "화륵" — 처음으
   { src: 'crackleC', ss: 8, t: 0.6, hp: 900, delay: 150, gain: -8, fo: 0.4 },
 ], { reverb: 'room', peak: -4 });
 
+// ── 전망 장면 (D-047): 봉인등 5단이 아래에서 위로 0.6초 간격으로 켜짐 ──
+// 단마다 음높이가 오름 (장음계 1·2·3·5·6도). 5번 연달아 울려도 가볍게: 짧은 싱잉볼 "웅" + 아주 작은 유리 반짝임
+[1, 9 / 8, 5 / 4, 3 / 2, 5 / 3].forEach((k, n) => {
+  add(`seal-lamp-on-${n + 1}`, '전망', `봉인등 켜짐 ${n + 1}단 — 맑은 "웅" (위로 갈수록 높게)`, [
+    { src: 'bowl', ss: 1.42, t: 0.75 * 1.3 * k, rate: 1.3 * k, hp: 300, fi: 0.01, fo: 0.45 },
+    { src: 'glass2', rate: 1.6 * k, hp: 2500, gain: -14, delay: 20 },
+  ], { reverb: 'stone', peak: -9, len: 0.8 });
+});
+add('seal-lamp-on', '전망', '봉인등 켜짐 (한 가지 판 = 1단과 같음)', [
+  { src: 'bowl', ss: 1.42, t: 0.975, rate: 1.3, hp: 300, fi: 0.01, fo: 0.45 },
+  { src: 'glass2', rate: 1.6, hp: 2500, gain: -14, delay: 20 },
+], { reverb: 'stone', peak: -9, len: 0.8 });
+add('vista-reveal', '전망', '드러남 — 공간의 크기를 알리는 낮은 바람 + 공명 (약 2초)', [
+  { src: 'whoosh', ss: 0.2, t: 1.0, rate: 0.45, lp: 900, hp: 40, fi: 0.5, fo: 0.8 },
+  { src: 'bowl', ss: 1.42, t: 1.1, rate: 0.5, lp: 1200, fi: 0.35, fo: 0.9, gain: -3 },
+  { src: 'bowl', ss: 1.42, t: 1.1, rate: 0.75, lp: 2000, fi: 0.5, fo: 0.9, delay: 200, gain: -10 },
+], { reverb: 'hall', peak: -6, len: 2.2 });
+
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
 const PICK = { 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
 for (const [id, k] of Object.entries(PICK)) {
