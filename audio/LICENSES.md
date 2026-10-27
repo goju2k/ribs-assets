@@ -54,12 +54,12 @@ D-030: 그래픽은 픽셀, 소리는 리얼 사운드. 모든 재료는 CC0 (�
 | metalL0 | parry-success-b |
 | glass0 | sentinel-cue-a, companion-blip-a, sentinel-cue |
 | glass1 | ember-gain, staff-drop |
-| glass2 | companion-blip-b, staff-shake |
+| glass2 | companion-blip-b, staff-shake, seal-lamp-on-1, seal-lamp-on-2, seal-lamp-on-3, seal-lamp-on-4, seal-lamp-on-5, seal-lamp-on |
 | glass3 | companion-blip-c, staff-drop |
 | mine0 | sentinel-attack-a, sentinel-attack-b, record-close, wall-collapse, sentinel-attack |
 | mine1 | wall-collapse |
 | mine3 | sentinel-hit, wall-collapse |
-| softH | dash-gather, player-down, sentinel-attack-b, pillar-big, seal-door-open |
+| softH | dash-gather, player-down, sentinel-attack-b, seal-door-open |
 | softM | fire-impact, record-open, brazier-ignite, robe-flutter, robe-rise |
 | punchM | player-hit |
 | punchH | pillar-burst, parry-success-d, sentinel-attack-a, pillar-big, combo-focus, wall-collapse, sentinel-attack |
@@ -72,14 +72,14 @@ D-030: 그래픽은 픽셀, 소리는 리얼 사운드. 모든 재료는 CC0 (�
 | knife1 | parry-success-a, parry-success |
 | knife2 | parry-success-d |
 | door1 | door-open |
-| whoosh | dash-scatter, dash-gather, fire-shoot, fire-impact, pillar-charge, pillar-burst, player-hit, player-down, sentinel-attack-a, form-change, vine-burn, fire-fan, pillar-big, pillar-quick, combo-focus, combo-switch, brazier-ignite, form-flash, wind-gust, handflame-ignite, sentinel-attack |
+| whoosh | dash-scatter, dash-gather, fire-shoot, fire-impact, pillar-charge, pillar-burst, player-hit, player-down, sentinel-attack-a, form-change, vine-burn, fire-fan, pillar-big, pillar-quick, combo-focus, combo-switch, brazier-ignite, form-flash, wind-gust, handflame-ignite, vista-reveal, sentinel-attack |
 | crackleA | fire-shoot, pillar-burst, form-change, fire-fan, pillar-big, brazier-ignite, handflame-ignite |
 | crackleB | dash-scatter, pillar-charge, ember-gain, vine-burn, pillar-quick, combo-slot, form-merge |
-| crackleC | fire-impact, player-down, combo-focus, handflame-ignite |
-| torch | move-hum |
+| crackleC | fire-impact, player-down, pillar-big, combo-focus, handflame-ignite |
+| torch | move-hum, pillar-big, pillar-quick |
 | scrapeV | sentinel-windup-b, sentinel-windup-easy-b, sentinel-attack-b, sentinel-shutdown, door-open, record-open, record-close, wall-collapse |
 | scrapeC | sentinel-awaken, sentinel-windup-a, sentinel-windup-easy-a, seal-door-open, sentinel-windup, sentinel-windup-easy |
-| bowl | sentinel-awaken, sentinel-windup-a, sentinel-windup-b, sentinel-windup-easy-a, sentinel-windup-easy-b, sentinel-shutdown, artifact, form-change, seal-door-open, form-merge, form-flash, form-radiance, sentinel-windup, sentinel-windup-easy |
+| bowl | sentinel-awaken, sentinel-windup-a, sentinel-windup-b, sentinel-windup-easy-a, sentinel-windup-easy-b, sentinel-shutdown, artifact, form-change, seal-door-open, form-merge, form-flash, form-radiance, seal-lamp-on-1, seal-lamp-on-2, seal-lamp-on-3, seal-lamp-on-4, seal-lamp-on-5, seal-lamp-on, vista-reveal, sentinel-windup, sentinel-windup-easy |
 | wine | sentinel-cue-c, sentinel-shutdown, artifact, form-radiance |
 | ceramic | sentinel-cue-b, emote, inspect |
 | clang | parry-success-c |
