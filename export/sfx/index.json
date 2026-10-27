@@ -475,7 +475,7 @@
   "label": "큰 불기둥 — \"화르륵\" 솟고 이글거리다 잦아듦 (D-043, 그림 오름 0.2 + 이글 0.9 + 잦아듦 0.5에 맞춤)",
   "note": "",
   "candidate": null,
-  "ms": 1900,
+  "ms": 2020,
   "sources": [
    "whoosh",
    "punchH",
@@ -727,6 +727,90 @@
    "whoosh",
    "crackleA",
    "crackleC"
+  ]
+ },
+ {
+  "id": "seal-lamp-on-1",
+  "group": "전망",
+  "label": "봉인등 켜짐 1단 — 맑은 \"웅\" (위로 갈수록 높게)",
+  "note": "",
+  "candidate": null,
+  "ms": 800,
+  "sources": [
+   "bowl",
+   "glass2"
+  ]
+ },
+ {
+  "id": "seal-lamp-on-2",
+  "group": "전망",
+  "label": "봉인등 켜짐 2단 — 맑은 \"웅\" (위로 갈수록 높게)",
+  "note": "",
+  "candidate": null,
+  "ms": 800,
+  "sources": [
+   "bowl",
+   "glass2"
+  ]
+ },
+ {
+  "id": "seal-lamp-on-3",
+  "group": "전망",
+  "label": "봉인등 켜짐 3단 — 맑은 \"웅\" (위로 갈수록 높게)",
+  "note": "",
+  "candidate": null,
+  "ms": 800,
+  "sources": [
+   "bowl",
+   "glass2"
+  ]
+ },
+ {
+  "id": "seal-lamp-on-4",
+  "group": "전망",
+  "label": "봉인등 켜짐 4단 — 맑은 \"웅\" (위로 갈수록 높게)",
+  "note": "",
+  "candidate": null,
+  "ms": 800,
+  "sources": [
+   "bowl",
+   "glass2"
+  ]
+ },
+ {
+  "id": "seal-lamp-on-5",
+  "group": "전망",
+  "label": "봉인등 켜짐 5단 — 맑은 \"웅\" (위로 갈수록 높게)",
+  "note": "",
+  "candidate": null,
+  "ms": 800,
+  "sources": [
+   "bowl",
+   "glass2"
+  ]
+ },
+ {
+  "id": "seal-lamp-on",
+  "group": "전망",
+  "label": "봉인등 켜짐 (한 가지 판 = 1단과 같음)",
+  "note": "",
+  "candidate": null,
+  "ms": 800,
+  "sources": [
+   "bowl",
+   "glass2"
+  ]
+ },
+ {
+  "id": "vista-reveal",
+  "group": "전망",
+  "label": "드러남 — 공간의 크기를 알리는 낮은 바람 + 공명 (약 2초)",
+  "note": "",
+  "candidate": null,
+  "ms": 2200,
+  "sources": [
+   "whoosh",
+   "bowl"
   ]
  },
  {
