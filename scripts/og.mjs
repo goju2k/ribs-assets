@@ -1,6 +1,6 @@
 // 공유 미리보기 og-image.png (1200×630) + 탭 아이콘 (D-050)
 // og: aseprite og-build.lua(400×210 픽셀) → 정수 3배 → 불씨 빛 번짐만 부드럽게(가우시안 두 겹, 화면 더하기). 300KB 넘으면 256색으로 줄임
-// 아이콘: favicon-16/32.png, icon-192.png, apple-touch-icon.png(180) + favicon.ico(16·32 PNG 묶음)
+// 아이콘: icon-32.png, icon-192.png, apple-touch-icon.png(180, 바탕 #0b0910) + favicon.ico(16·32·48 PNG 묶음). 이름은 엔진방 태그에 맞춤
 // 사용: node scripts/og.mjs [--drop v<n>]
 import { execFileSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
@@ -27,27 +27,28 @@ if (statSync(og).size > 300 * 1024) {
 } else execFileSync('node', ['-e', `require('fs').rmSync(${JSON.stringify(base)})`]);
 
 // 2) 아이콘: 크기마다 직접 그린 판(art) × 정수 배율
-const ICONS = [['favicon-16.png', 16, 1], ['favicon-32.png', 16, 2], ['icon-192.png', 32, 6], ['apple-touch-icon.png', 30, 6]];
+const ICONS = [['_ico-16.png', 16, 1], ['icon-32.png', 16, 2], ['_ico-48.png', 16, 3], ['icon-192.png', 32, 6], ['apple-touch-icon.png', 30, 6]];
 for (const [name, art, k] of ICONS) {
   const tmp = join(OUT, `_icon-${art}.png`);
   ase({ which: 'icon', size: art, out: tmp });
   ff(['-i', tmp, '-vf', `scale=${art * k}:${art * k}:flags=neighbor`, join(OUT, name)]);
 }
-// favicon.ico: PNG 두 장(16·32)을 담은 ICO (Vista 이후 브라우저 모두 지원)
-const pngs = ['favicon-16.png', 'favicon-32.png'].map(f => readFileSync(join(OUT, f)));
+// favicon.ico: PNG 세 장(16·32·48)을 담은 ICO (Vista 이후 브라우저 모두 지원)
+const SIZES = [16, 32, 48];
+const pngs = ['_ico-16.png', 'icon-32.png', '_ico-48.png'].map(f => readFileSync(join(OUT, f)));
 const head = Buffer.alloc(6 + 16 * pngs.length); head.writeUInt16LE(0, 0); head.writeUInt16LE(1, 2); head.writeUInt16LE(pngs.length, 4);
 let off = head.length;
-pngs.forEach((p, i) => { const s = [16, 32][i], e = 6 + i * 16;
+pngs.forEach((p, i) => { const s = SIZES[i], e = 6 + i * 16;
   head.writeUInt8(s, e); head.writeUInt8(s, e + 1); head.writeUInt8(0, e + 2); head.writeUInt8(0, e + 3);
   head.writeUInt16LE(1, e + 4); head.writeUInt16LE(32, e + 6); head.writeUInt32LE(p.length, e + 8); head.writeUInt32LE(off, e + 12); off += p.length; });
 writeFileSync(join(OUT, 'favicon.ico'), Buffer.concat([head, ...pngs]));
-for (const art of [16, 30, 32]) { const f = join(OUT, `_icon-${art}.png`); if (existsSync(f)) execFileSync('node', ['-e', `require('fs').rmSync(${JSON.stringify(f)})`]); }
+for (const f of [16, 30, 32].map(a => join(OUT, `_icon-${a}.png`)).concat([join(OUT, '_ico-16.png'), join(OUT, '_ico-48.png')])) if (existsSync(f)) execFileSync('node', ['-e', `require('fs').rmSync(${JSON.stringify(f)})`]);
 
-const FILES = ['og-image.png', 'favicon.ico', 'favicon-16.png', 'favicon-32.png', 'icon-192.png', 'apple-touch-icon.png'];
+const FILES = ['og-image.png', 'favicon.ico', 'icon-32.png', 'icon-192.png', 'apple-touch-icon.png'];
 for (const f of FILES) console.log(`${f}\t${(statSync(join(OUT, f)).size / 1024).toFixed(1)}KB`);
 const di = process.argv.indexOf('--drop');
 if (di > 0) {
-  const dest = join('C:/github-clones/_asset-drop/web', process.argv[di + 1]);
+  const dest = join('C:/github-clones/_asset-drop/site-icons', process.argv[di + 1]);
   if (existsSync(dest)) { console.error('이미 있음: ' + dest); process.exit(1); }
   mkdirSync(dest, { recursive: true });
   for (const f of FILES) copyFileSync(join(OUT, f), join(dest, f));
