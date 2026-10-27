@@ -6,6 +6,10 @@
   "note": "반복 재생용",
   "candidate": null,
   "ms": 700,
+  "files": [
+   "move-hum.ogg",
+   "move-hum.m4a"
+  ],
   "sources": [
    "torch"
   ]
@@ -17,6 +21,10 @@
   "note": "",
   "candidate": null,
   "ms": 470,
+  "files": [
+   "dash-scatter.ogg",
+   "dash-scatter.m4a"
+  ],
   "sources": [
    "whoosh",
    "cloth2",
@@ -30,6 +38,10 @@
   "note": "",
   "candidate": null,
   "ms": 1050,
+  "files": [
+   "dash-gather.ogg",
+   "dash-gather.m4a"
+  ],
   "sources": [
    "whoosh",
    "softH"
@@ -42,6 +54,10 @@
   "note": "",
   "candidate": null,
   "ms": 310,
+  "files": [
+   "fire-shoot.ogg",
+   "fire-shoot.m4a"
+  ],
   "sources": [
    "whoosh",
    "crackleA"
@@ -54,6 +70,10 @@
   "note": "",
   "candidate": null,
   "ms": 520,
+  "files": [
+   "fire-impact.ogg",
+   "fire-impact.m4a"
+  ],
   "sources": [
    "softM",
    "crackleC",
@@ -67,6 +87,10 @@
   "note": "",
   "candidate": null,
   "ms": 1530,
+  "files": [
+   "pillar-charge.ogg",
+   "pillar-charge.m4a"
+  ],
   "sources": [
    "whoosh",
    "crackleB"
@@ -79,6 +103,10 @@
   "note": "",
   "candidate": null,
   "ms": 2490,
+  "files": [
+   "pillar-burst.ogg",
+   "pillar-burst.m4a"
+  ],
   "sources": [
    "whoosh",
    "punchH",
@@ -92,6 +120,10 @@
   "note": "",
   "candidate": null,
   "ms": 310,
+  "files": [
+   "ember-gain.ogg",
+   "ember-gain.m4a"
+  ],
   "sources": [
    "crackleB",
    "glass1"
@@ -104,6 +136,10 @@
   "note": "",
   "candidate": null,
   "ms": 570,
+  "files": [
+   "player-hit.ogg",
+   "player-hit.m4a"
+  ],
   "sources": [
    "punchM",
    "whoosh"
@@ -116,6 +152,10 @@
   "note": "",
   "candidate": null,
   "ms": 1690,
+  "files": [
+   "player-down.ogg",
+   "player-down.m4a"
+  ],
   "sources": [
    "softH",
    "crackleC",
@@ -129,6 +169,10 @@
   "note": "",
   "candidate": null,
   "ms": 460,
+  "files": [
+   "parry-try.ogg",
+   "parry-try.m4a"
+  ],
   "sources": [
    "cloth3"
   ]
@@ -140,6 +184,10 @@
   "note": "",
   "candidate": "parry-success",
   "ms": 1310,
+  "files": [
+   "parry-success-a.ogg",
+   "parry-success-a.m4a"
+  ],
   "sources": [
    "knife1",
    "plateL0",
@@ -153,6 +201,10 @@
   "note": "",
   "candidate": "parry-success",
   "ms": 1210,
+  "files": [
+   "parry-success-b.ogg",
+   "parry-success-b.m4a"
+  ],
   "sources": [
    "metalL0",
    "bell0"
@@ -165,6 +217,10 @@
   "note": "",
   "candidate": "parry-success",
   "ms": 580,
+  "files": [
+   "parry-success-c.ogg",
+   "parry-success-c.m4a"
+  ],
   "sources": [
    "clang",
    "bell2"
@@ -177,6 +233,10 @@
   "note": "",
   "candidate": "parry-success",
   "ms": 1150,
+  "files": [
+   "parry-success-d.ogg",
+   "parry-success-d.m4a"
+  ],
   "sources": [
    "plateH0",
    "knife2",
@@ -190,6 +250,10 @@
   "note": "",
   "candidate": null,
   "ms": 530,
+  "files": [
+   "parry-fail.ogg",
+   "parry-fail.m4a"
+  ],
   "sources": [
    "woodM"
   ]
@@ -201,6 +265,10 @@
   "note": "",
   "candidate": null,
   "ms": 1650,
+  "files": [
+   "sentinel-awaken.ogg",
+   "sentinel-awaken.m4a"
+  ],
   "sources": [
    "scrapeC",
    "bowl"
@@ -213,6 +281,10 @@
   "note": "",
   "candidate": "sentinel-windup",
   "ms": 600,
+  "files": [
+   "sentinel-windup-a.ogg",
+   "sentinel-windup-a.m4a"
+  ],
   "sources": [
    "scrapeC",
    "bowl"
@@ -225,6 +297,10 @@
   "note": "",
   "candidate": "sentinel-windup",
   "ms": 600,
+  "files": [
+   "sentinel-windup-b.ogg",
+   "sentinel-windup-b.m4a"
+  ],
   "sources": [
    "scrapeV",
    "bowl"
@@ -237,6 +313,10 @@
   "note": "",
   "candidate": "sentinel-windup-easy",
   "ms": 900,
+  "files": [
+   "sentinel-windup-easy-a.ogg",
+   "sentinel-windup-easy-a.m4a"
+  ],
   "sources": [
    "scrapeC",
    "bowl"
@@ -249,6 +329,10 @@
   "note": "",
   "candidate": "sentinel-windup-easy",
   "ms": 900,
+  "files": [
+   "sentinel-windup-easy-b.ogg",
+   "sentinel-windup-easy-b.m4a"
+  ],
   "sources": [
    "scrapeV",
    "bowl"
@@ -261,6 +345,10 @@
   "note": "",
   "candidate": "sentinel-cue",
   "ms": 260,
+  "files": [
+   "sentinel-cue-a.ogg",
+   "sentinel-cue-a.m4a"
+  ],
   "sources": [
    "glass0",
    "bell2"
@@ -273,6 +361,10 @@
   "note": "",
   "candidate": "sentinel-cue",
   "ms": 390,
+  "files": [
+   "sentinel-cue-b.ogg",
+   "sentinel-cue-b.m4a"
+  ],
   "sources": [
    "ceramic"
   ]
@@ -284,6 +376,10 @@
   "note": "",
   "candidate": "sentinel-cue",
   "ms": 420,
+  "files": [
+   "sentinel-cue-c.ogg",
+   "sentinel-cue-c.m4a"
+  ],
   "sources": [
    "wine"
   ]
@@ -295,6 +391,10 @@
   "note": "",
   "candidate": "sentinel-attack",
   "ms": 1860,
+  "files": [
+   "sentinel-attack-a.ogg",
+   "sentinel-attack-a.m4a"
+  ],
   "sources": [
    "whoosh",
    "punchH",
@@ -308,6 +408,10 @@
   "note": "",
   "candidate": "sentinel-attack",
   "ms": 1930,
+  "files": [
+   "sentinel-attack-b.ogg",
+   "sentinel-attack-b.m4a"
+  ],
   "sources": [
    "softH",
    "mine0",
@@ -321,6 +425,10 @@
   "note": "",
   "candidate": null,
   "ms": 1220,
+  "files": [
+   "sentinel-hit.ogg",
+   "sentinel-hit.m4a"
+  ],
   "sources": [
    "mine3",
    "plateM0"
@@ -333,6 +441,10 @@
   "note": "",
   "candidate": null,
   "ms": 1870,
+  "files": [
+   "sentinel-shutdown.ogg",
+   "sentinel-shutdown.m4a"
+  ],
   "sources": [
    "bowl",
    "scrapeV",
@@ -346,6 +458,10 @@
   "note": "",
   "candidate": null,
   "ms": 2360,
+  "files": [
+   "artifact.ogg",
+   "artifact.m4a"
+  ],
   "sources": [
    "bowl",
    "tinkle",
@@ -359,6 +475,10 @@
   "note": "",
   "candidate": null,
   "ms": 4230,
+  "files": [
+   "form-change.ogg",
+   "form-change.m4a"
+  ],
   "sources": [
    "whoosh",
    "crackleA",
@@ -372,6 +492,10 @@
   "note": "",
   "candidate": null,
   "ms": 1540,
+  "files": [
+   "door-open.ogg",
+   "door-open.m4a"
+  ],
   "sources": [
    "scrapeV",
    "door1"
@@ -384,6 +508,10 @@
   "note": "",
   "candidate": null,
   "ms": 820,
+  "files": [
+   "vine-burn.ogg",
+   "vine-burn.m4a"
+  ],
   "sources": [
    "crackleB",
    "cloth2",
@@ -397,6 +525,10 @@
   "note": "",
   "candidate": null,
   "ms": 70,
+  "files": [
+   "companion-blip-a.ogg",
+   "companion-blip-a.m4a"
+  ],
   "sources": [
    "glass0"
   ]
@@ -408,6 +540,10 @@
   "note": "",
   "candidate": null,
   "ms": 70,
+  "files": [
+   "companion-blip-b.ogg",
+   "companion-blip-b.m4a"
+  ],
   "sources": [
    "glass2"
   ]
@@ -419,6 +555,10 @@
   "note": "",
   "candidate": null,
   "ms": 80,
+  "files": [
+   "companion-blip-c.ogg",
+   "companion-blip-c.m4a"
+  ],
   "sources": [
    "glass3"
   ]
@@ -430,6 +570,10 @@
   "note": "",
   "candidate": null,
   "ms": 420,
+  "files": [
+   "emote.ogg",
+   "emote.m4a"
+  ],
   "sources": [
    "ceramic"
   ]
@@ -441,6 +585,10 @@
   "note": "",
   "candidate": null,
   "ms": 220,
+  "files": [
+   "ui-select.ogg",
+   "ui-select.m4a"
+  ],
   "sources": [
    "woodL0"
   ]
@@ -452,6 +600,10 @@
   "note": "",
   "candidate": null,
   "ms": 430,
+  "files": [
+   "ui-confirm.ogg",
+   "ui-confirm.m4a"
+  ],
   "sources": [
    "woodL1",
    "bell2"
@@ -464,6 +616,10 @@
   "note": "",
   "candidate": null,
   "ms": 370,
+  "files": [
+   "fire-fan.ogg",
+   "fire-fan.m4a"
+  ],
   "sources": [
    "whoosh",
    "crackleA"
@@ -476,6 +632,10 @@
   "note": "",
   "candidate": null,
   "ms": 2020,
+  "files": [
+   "pillar-big.ogg",
+   "pillar-big.m4a"
+  ],
   "sources": [
    "whoosh",
    "punchH",
@@ -491,6 +651,10 @@
   "note": "",
   "candidate": null,
   "ms": 560,
+  "files": [
+   "pillar-quick.ogg",
+   "pillar-quick.m4a"
+  ],
   "sources": [
    "whoosh",
    "torch",
@@ -504,6 +668,10 @@
   "note": "",
   "candidate": null,
   "ms": 1660,
+  "files": [
+   "combo-focus.ogg",
+   "combo-focus.m4a"
+  ],
   "sources": [
    "whoosh",
    "punchH",
@@ -517,6 +685,10 @@
   "note": "",
   "candidate": null,
   "ms": 430,
+  "files": [
+   "combo-switch.ogg",
+   "combo-switch.m4a"
+  ],
   "sources": [
    "whoosh",
    "cloth3"
@@ -529,6 +701,10 @@
   "note": "",
   "candidate": null,
   "ms": 160,
+  "files": [
+   "combo-slot.ogg",
+   "combo-slot.m4a"
+  ],
   "sources": [
    "crackleB",
    "woodL1"
@@ -541,6 +717,10 @@
   "note": "",
   "candidate": null,
   "ms": 720,
+  "files": [
+   "inspect.ogg",
+   "inspect.m4a"
+  ],
   "sources": [
    "cloth1",
    "ceramic"
@@ -553,6 +733,10 @@
   "note": "",
   "candidate": null,
   "ms": 690,
+  "files": [
+   "record-open.ogg",
+   "record-open.m4a"
+  ],
   "sources": [
    "scrapeV",
    "softM"
@@ -565,6 +749,10 @@
   "note": "",
   "candidate": null,
   "ms": 1670,
+  "files": [
+   "record-close.ogg",
+   "record-close.m4a"
+  ],
   "sources": [
    "scrapeV",
    "mine0"
@@ -577,6 +765,10 @@
   "note": "",
   "candidate": null,
   "ms": 1270,
+  "files": [
+   "brazier-ignite.ogg",
+   "brazier-ignite.m4a"
+  ],
   "sources": [
    "whoosh",
    "crackleA",
@@ -590,6 +782,10 @@
   "note": "",
   "candidate": null,
   "ms": 2860,
+  "files": [
+   "seal-door-open.ogg",
+   "seal-door-open.m4a"
+  ],
   "sources": [
    "bowl",
    "scrapeC",
@@ -603,6 +799,10 @@
   "note": "",
   "candidate": null,
   "ms": 1820,
+  "files": [
+   "wall-collapse.ogg",
+   "wall-collapse.m4a"
+  ],
   "sources": [
    "punchH",
    "mine0",
@@ -618,6 +818,10 @@
   "note": "",
   "candidate": null,
   "ms": 1560,
+  "files": [
+   "form-merge.ogg",
+   "form-merge.m4a"
+  ],
   "sources": [
    "bowl",
    "crackleB",
@@ -631,6 +835,10 @@
   "note": "",
   "candidate": null,
   "ms": 1260,
+  "files": [
+   "form-flash.ogg",
+   "form-flash.m4a"
+  ],
   "sources": [
    "whoosh",
    "bowl",
@@ -644,6 +852,10 @@
   "note": "",
   "candidate": null,
   "ms": 560,
+  "files": [
+   "staff-drop.ogg",
+   "staff-drop.m4a"
+  ],
   "sources": [
    "woodL0",
    "glass1",
@@ -658,6 +870,10 @@
   "note": "",
   "candidate": null,
   "ms": 1420,
+  "files": [
+   "staff-shake.ogg",
+   "staff-shake.m4a"
+  ],
   "sources": [
    "woodL0",
    "woodL1",
@@ -671,6 +887,10 @@
   "note": "",
   "candidate": null,
   "ms": 1370,
+  "files": [
+   "wind-gust.ogg",
+   "wind-gust.m4a"
+  ],
   "sources": [
    "whoosh"
   ]
@@ -682,6 +902,10 @@
   "note": "",
   "candidate": null,
   "ms": 1630,
+  "files": [
+   "robe-flutter.ogg",
+   "robe-flutter.m4a"
+  ],
   "sources": [
    "cloth1",
    "cloth2",
@@ -696,6 +920,10 @@
   "note": "",
   "candidate": null,
   "ms": 3050,
+  "files": [
+   "robe-rise.ogg",
+   "robe-rise.m4a"
+  ],
   "sources": [
    "cloth2",
    "cloth1",
@@ -710,6 +938,10 @@
   "note": "",
   "candidate": null,
   "ms": 3200,
+  "files": [
+   "form-radiance.ogg",
+   "form-radiance.m4a"
+  ],
   "sources": [
    "bowl",
    "wine",
@@ -723,6 +955,10 @@
   "note": "",
   "candidate": null,
   "ms": 980,
+  "files": [
+   "handflame-ignite.ogg",
+   "handflame-ignite.m4a"
+  ],
   "sources": [
    "whoosh",
    "crackleA",
@@ -736,6 +972,10 @@
   "note": "",
   "candidate": null,
   "ms": 800,
+  "files": [
+   "seal-lamp-on-1.ogg",
+   "seal-lamp-on-1.m4a"
+  ],
   "sources": [
    "bowl",
    "glass2"
@@ -748,6 +988,10 @@
   "note": "",
   "candidate": null,
   "ms": 800,
+  "files": [
+   "seal-lamp-on-2.ogg",
+   "seal-lamp-on-2.m4a"
+  ],
   "sources": [
    "bowl",
    "glass2"
@@ -760,6 +1004,10 @@
   "note": "",
   "candidate": null,
   "ms": 800,
+  "files": [
+   "seal-lamp-on-3.ogg",
+   "seal-lamp-on-3.m4a"
+  ],
   "sources": [
    "bowl",
    "glass2"
@@ -772,6 +1020,10 @@
   "note": "",
   "candidate": null,
   "ms": 800,
+  "files": [
+   "seal-lamp-on-4.ogg",
+   "seal-lamp-on-4.m4a"
+  ],
   "sources": [
    "bowl",
    "glass2"
@@ -784,6 +1036,10 @@
   "note": "",
   "candidate": null,
   "ms": 800,
+  "files": [
+   "seal-lamp-on-5.ogg",
+   "seal-lamp-on-5.m4a"
+  ],
   "sources": [
    "bowl",
    "glass2"
@@ -796,6 +1052,10 @@
   "note": "",
   "candidate": null,
   "ms": 800,
+  "files": [
+   "seal-lamp-on.ogg",
+   "seal-lamp-on.m4a"
+  ],
   "sources": [
    "bowl",
    "glass2"
@@ -808,6 +1068,10 @@
   "note": "",
   "candidate": null,
   "ms": 2200,
+  "files": [
+   "vista-reveal.ogg",
+   "vista-reveal.m4a"
+  ],
   "sources": [
    "whoosh",
    "bowl"
@@ -820,6 +1084,10 @@
   "note": "후보 parry-success-a와 같은 소리",
   "candidate": null,
   "ms": 1310,
+  "files": [
+   "parry-success.ogg",
+   "parry-success.m4a"
+  ],
   "sources": [
    "knife1",
    "plateL0",
@@ -833,6 +1101,10 @@
   "note": "후보 sentinel-windup-a와 같은 소리",
   "candidate": null,
   "ms": 600,
+  "files": [
+   "sentinel-windup.ogg",
+   "sentinel-windup.m4a"
+  ],
   "sources": [
    "scrapeC",
    "bowl"
@@ -845,6 +1117,10 @@
   "note": "후보 sentinel-windup-easy-a와 같은 소리",
   "candidate": null,
   "ms": 900,
+  "files": [
+   "sentinel-windup-easy.ogg",
+   "sentinel-windup-easy.m4a"
+  ],
   "sources": [
    "scrapeC",
    "bowl"
@@ -857,6 +1133,10 @@
   "note": "후보 sentinel-cue-a와 같은 소리",
   "candidate": null,
   "ms": 260,
+  "files": [
+   "sentinel-cue.ogg",
+   "sentinel-cue.m4a"
+  ],
   "sources": [
    "glass0",
    "bell2"
@@ -869,6 +1149,10 @@
   "note": "후보 sentinel-attack-a와 같은 소리",
   "candidate": null,
   "ms": 1860,
+  "files": [
+   "sentinel-attack.ogg",
+   "sentinel-attack.m4a"
+  ],
   "sources": [
    "whoosh",
    "punchH",

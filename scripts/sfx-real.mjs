@@ -1,6 +1,8 @@
 // 리얼 사운드 효과음 만들기 (D-030): audio/sfx-real-recipes.mjs → export/sfx/<id>.wav + index.json
 // 녹음 재료(audio/sfx-src/, 모두 CC0)를 ffmpeg로 자르고·음높이·EQ·겹치기·지연·잔향 통일·음량 맞춤.
 // len(초)이 있으면 그 길이로 정확히 자름 (장전처럼 동작 길이에 맞출 소리).
+// D-049: 게임에 넘기는 건 압축판만 — <id>.ogg (vorbis q4 모노) + <id>.m4a (AAC 96k 모노, 사파리 대체. 손맛 핵심 패링 성공·수호체 팅은 128k — 12kHz 위가 뭉개지지 않게). 뒤쪽 무음은 자름(앞은 그대로: 시점 맞춘 소리)
+//        wav 원본은 이 저장소에만 둠. --drop은 ogg·m4a·index.json만 복사
 // 사용: node scripts/sfx-real.mjs [--only id,id] [--drop v<n>]
 import { execFileSync, spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -53,7 +55,7 @@ function require_spawn(f) { const r = spawnSync(FF, ['-hide_banner', '-nostats',
 function durationOf(f) { const r = spawnSync(FF, ['-hide_banner', '-i', f], { encoding: 'utf8' }); const m = /Duration: (\d+):(\d+):([\d.]+)/.exec(r.stderr); return m ? Math.round((+m[1] * 3600 + +m[2] * 60 + +m[3]) * 1000) : 0; }
 
 mkdirSync(OUT, { recursive: true });
-if (!only) for (const f of readdirSync(OUT)) if (f.endsWith('.wav')) rmSync(join(OUT, f)); // 예전 합성음 정리
+if (!only) for (const f of readdirSync(OUT)) if (/.(wav|ogg|m4a)$/.test(f)) rmSync(join(OUT, f)); // 예전 합성음 정리
 const index = [];
 for (const s of SOUNDS) {
   if (only && !only.includes(s.id)) continue;
@@ -61,7 +63,10 @@ for (const s of SOUNDS) {
   const gain = (s.peak ?? -3) - maxVolume(tmp);
   ff(['-i', tmp, '-af', `volume=${gain.toFixed(2)}dB,afade=t=out:st=${Math.max(0, durationOf(tmp) / 1000 - 0.02)}:d=0.02`, '-ac', '1', '-c:a', 'pcm_s16le', join(OUT, `${s.id}.wav`)]);
   rmSync(tmp);
-  index.push({ id: s.id, group: s.group, label: s.label, note: s.note ?? '', candidate: s.candidate ?? null, ms: durationOf(join(OUT, `${s.id}.wav`)), sources: [...new Set(s.layers.map(l => l.src))] });
+  const TRIM = 'areverse,silenceremove=start_periods=1:start_threshold=-55dB:start_silence=0.03,areverse';
+  ff(['-i', join(OUT, `${s.id}.wav`), '-af', TRIM, '-ac', '1', '-c:a', 'libvorbis', '-q:a', '4', join(OUT, `${s.id}.ogg`)]);
+  ff(['-i', join(OUT, `${s.id}.wav`), '-af', TRIM, '-ac', '1', '-c:a', 'aac', ...(/^(parry-success|sentinel-cue)/.test(s.id) ? ['-b:a', '128k', '-cutoff', '20000'] : ['-b:a', '96k']), '-movflags', '+faststart', join(OUT, `${s.id}.m4a`)]);
+  index.push({ id: s.id, group: s.group, label: s.label, note: s.note ?? '', candidate: s.candidate ?? null, ms: durationOf(join(OUT, `${s.id}.wav`)), files: [`${s.id}.ogg`, `${s.id}.m4a`], sources: [...new Set(s.layers.map(l => l.src))] });
   process.stdout.write('.');
 }
 if (!only) writeFileSync(join(OUT, 'index.json'), JSON.stringify(index, null, 1) + '\n');
@@ -71,6 +76,6 @@ if (args.includes('--drop')) {
   const dest = join('C:/github-clones/_asset-drop/sfx', args[args.indexOf('--drop') + 1]);
   if (existsSync(dest)) { console.error('이미 있음: ' + dest); process.exit(1); }
   mkdirSync(dest, { recursive: true });
-  for (const f of [...index.map(x => x.id + '.wav'), 'index.json']) copyFileSync(join(OUT, f), join(dest, f));
+  for (const f of [...index.flatMap(x => [x.id + '.ogg', x.id + '.m4a']), 'index.json']) copyFileSync(join(OUT, f), join(dest, f));
   console.log('→ 전달: ' + dest);
 }
