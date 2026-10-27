@@ -7,12 +7,12 @@ D-030: 그래픽은 픽셀, 소리는 리얼 사운드. 모든 재료는 CC0 (�
 
 | id | 곡 | 만든 사람 | 라이선스 | 출처 | 가공 |
 |---|---|---|---|---|---|
-| bgm-part0 | Dungeon Ambience | yd | CC0 | https://opengameart.org/content/dungeon-ambience | 앞 0.93초·뒤 3.6초 무음 자름, 끝 4초를 처음 4초에 겹쳐 이음매 없는 반복 (197.4초) |
+| bgm-part0 | Dungeon Ambience | yd | CC0 | https://opengameart.org/content/dungeon-ambience | 앞 0.93초 자름, 104초 구간의 끝 4초를 처음 4초에 겹쳐 이음매 없는 반복 (100초, 모노) |
 | bgm-part1 | Dark Shrine Loop | qubodup (yd "Shrine" 리믹스) | CC0 | https://opengameart.org/content/dark-shrine-loop | 끝 1.5초 무음 자름, 끝 3초를 처음 3초에 겹쳐 반복 (52.1초) |
 | bgm-boss | Boss Battle Theme | Cleyton Kauffman | CC0 | https://opengameart.org/content/boss-battle-theme | 원곡이 반복용 — 그대로 ogg 변환 (171.5초) |
 
-- 모두 ogg vorbis q6, 44.1kHz 스테레오. 파일 전체를 그대로 반복 재생하면 된다 (loopStart 0, loopEnd = 끝).
-- 같은 곡의 `.m4a` (AAC 160k): ogg를 못 읽는 예전 사파리용 대체 (길이 동일).
+- D-049(웹 용량): `node scripts/bgm.mjs`로 원본에서 만듦. part0은 모노 40k(반복 100초로 줄임), part1은 80k, boss는 64k. 파일 전체를 그대로 반복 재생하면 된다 (loopStart 0, loopEnd = 끝).
+- 같은 곡의 `.m4a`(AAC, part0 48k 모노 · part1 96k · boss 64k): ogg를 못 읽는 예전 사파리용 대체 (길이 동일).
 - `export/bgm/loop-check/<id>-seam.ogg`: 끝 4초 + 처음 4초를 이어 붙인 이음매 확인용.
 
 ## 효과음 재료
