@@ -1,10 +1,11 @@
 // 공유 미리보기 og-image.png (1200×630) + 탭 아이콘 (D-050)
-// og: aseprite og-build.lua(400×210 픽셀) → 정수 3배 → 불씨 빛 번짐만 부드럽게(가우시안 두 겹, 화면 더하기). 300KB 넘으면 256색으로 줄임
+// og v2: 실제 타일셋으로 그린 던전 장면(og-scene.mjs) → 정수 3배. 제목·별 없음 (사용자 피드백: 우주처럼 보임 → 던전으로)
 // 아이콘: icon-32.png, icon-192.png, apple-touch-icon.png(180, 바탕 #0b0910) + favicon.ico(16·32·48 PNG 묶음). 이름은 엔진방 태그에 맞춤
 // 사용: node scripts/og.mjs [--drop v<n>]
 import { execFileSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const FF = process.env.FFMPEG || 'C:/Users/User/AppData/Local/Microsoft/WinGet/Links/ffmpeg.exe';
@@ -14,17 +15,14 @@ const LUA = join(ROOT, 'aseprite', '_shared', 'og-build.lua');
 const ff = a => execFileSync(FF, ['-hide_banner', '-loglevel', 'error', '-y', ...a]);
 const ase = p => execFileSync(ASE, ['-b', ...Object.entries(p).flatMap(([k, v]) => ['--script-param', `${k}=${v}`]), '--script', LUA]);
 
-// 1) og
-const base = join(OUT, '_og-base.png');
-ase({ which: 'og', root: ROOT, out: base });
-const glow = (r, a, col) => `color=c=black@0:s=1200x630,format=rgba,geq=r=${col[0]}:g=${col[1]}:b=${col[2]}:a='${a}*255*exp(-((X-600)*(X-600)+(Y-250)*(Y-250))/(2*${r}*${r}))'`;
+// 1) og (v2): 던전 장면 — scripts/og-scene.mjs. 300KB 넘으면 256색으로 줄임
 const og = join(OUT, 'og-image.png');
-ff(['-i', base, '-f', 'lavfi', '-i', glow(110, 0.30, [111, 184, 242]), '-f', 'lavfi', '-i', glow(36, 0.55, [191, 234, 255]),
-  '-filter_complex', '[0]scale=1200:630:flags=neighbor,format=rgba[b];[b][1]overlay=format=auto[c];[c][2]overlay=format=auto,format=rgb24', '-frames:v', '1', og]);
+const { buildScene } = await import(pathToFileURL(join(ROOT, 'scripts', 'og-scene.mjs')).href);
+buildScene(ROOT, FF, og);
 if (statSync(og).size > 300 * 1024) {
   ff(['-i', og, '-filter_complex', '[0]split[a][b];[a]palettegen=max_colors=256[p];[b][p]paletteuse=dither=none', '-frames:v', '1', og + '.tmp.png']);
-  copyFileSync(og + '.tmp.png', og); execFileSync('node', ['-e', `require('fs').rmSync(${JSON.stringify(og + '.tmp.png')}); require('fs').rmSync(${JSON.stringify(base)})`]);
-} else execFileSync('node', ['-e', `require('fs').rmSync(${JSON.stringify(base)})`]);
+  copyFileSync(og + '.tmp.png', og); execFileSync('node', ['-e', `require('fs').rmSync(${JSON.stringify(og + '.tmp.png')})`]);
+}
 
 // 2) 아이콘: 크기마다 직접 그린 판(art) × 정수 배율
 const ICONS = [['_ico-16.png', 16, 1], ['icon-32.png', 16, 2], ['_ico-48.png', 16, 3], ['icon-192.png', 32, 6], ['apple-touch-icon.png', 30, 6]];
