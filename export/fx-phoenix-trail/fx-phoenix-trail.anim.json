@@ -1,0 +1,25 @@
+{
+  "contract": 1,
+  "id": "fx-phoenix-trail",
+  "texture": "fx-phoenix-trail.png",
+  "frameSize": [14, 16],
+  "anchor": [7, 15],
+  "source": "ribs-assets@70989df",
+  "clips": {
+    "burn": { "loop": true, "frames": [
+        { "sx": 0, "sy": 0, "sWidth": 14, "sHeight": 16, "durationMs": 80, "tags": ["burn:start"] },
+        { "sx": 14, "sy": 0, "sWidth": 14, "sHeight": 16, "durationMs": 80 },
+        { "sx": 28, "sy": 0, "sWidth": 14, "sHeight": 16, "durationMs": 80 },
+        { "sx": 42, "sy": 0, "sWidth": 14, "sHeight": 16, "durationMs": 80 },
+        { "sx": 56, "sy": 0, "sWidth": 14, "sHeight": 16, "durationMs": 80 },
+        { "sx": 70, "sy": 0, "sWidth": 14, "sHeight": 16, "durationMs": 80 },
+        { "sx": 84, "sy": 0, "sWidth": 14, "sHeight": 16, "durationMs": 80 },
+        { "sx": 98, "sy": 0, "sWidth": 14, "sHeight": 16, "durationMs": 80 }
+    ] },
+    "out": { "loop": false, "frames": [
+        { "sx": 0, "sy": 16, "sWidth": 14, "sHeight": 16, "durationMs": 80 },
+        { "sx": 14, "sy": 16, "sWidth": 14, "sHeight": 16, "durationMs": 90 },
+        { "sx": 28, "sy": 16, "sWidth": 14, "sHeight": 16, "durationMs": 100 }
+    ] }
+  }
+}
