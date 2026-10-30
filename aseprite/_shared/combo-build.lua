@@ -60,13 +60,14 @@ if WHICH == "fx-fire-fan" then
     { 60, nil, function(i) blob(i, 12, 13, 3, { F.r, F.d, F.a }, 24, 1, 0.7); for k = 0, 5 do local a = k * 1.05; px(i, 12 + math.cos(a) * 9, 11 + math.sin(a) * 7 - 2, F.d) end end },
   } }
 
-elseif WHICH == "fx-fire-pillar-big" or WHICH == "fx-fire-pillar-quick" then
+elseif WHICH == "fx-fire-pillar-big" or WHICH == "fx-fire-pillar-quick" or WHICH == "fx-pillar-eternal" then
   -- D-043: 이글거리는 불길 (파이어월 감각). 한 덩어리 기둥이 아니라 높이·위상이 다른 혓바닥 여러 겹이 계속 위로 핥아 오름.
   -- 장면마다 손으로 그리지 않고 불길 세기(0~1)를 계산해 색 층으로 칠함: 흰 노랑 → 노랑 → 주황 → 빨강 → 어둠(디더로 흩어짐).
   -- 반복 구간은 시간 t(0~1)의 정수배 주기만 써서 끊김 없이 이어짐. 바닥 = 타는 고리(이글거리는 테), 불티·재가 위로.
-  local big = WHICH == "fx-fire-pillar-big"
+  local eternal = WHICH == "fx-pillar-eternal"   -- 진화 "에임라의 기둥": 같은 불길을 더 높고 하얗게 + 나선 불티 띠, 3초 잔불
+  local big = WHICH == "fx-fire-pillar-big" or eternal
   local R = big and 26 or 12
-  if big then FW, FH, ANCHOR = 64, 80, { 32, 70 } else FW, FH, ANCHOR = 32, 48, { 16, 42 } end
+  if eternal then FW, FH, ANCHOR = 64, 104, { 32, 94 } elseif big then FW, FH, ANCHOR = 64, 80, { 32, 70 } else FW, FH, ANCHOR = 32, 48, { 16, 42 } end
   local cx, by = ANCHOR[1], ANCHOR[2]
   local TAU = 2 * math.pi
   local BAYER = { { 0, 0.5 }, { 0.75, 0.25 } }
@@ -93,7 +94,7 @@ elseif WHICH == "fx-fire-pillar-big" or WHICH == "fx-fire-pillar-quick" then
   -- o: t(0~1) · hs 높이 비율 · is 세기 비율 · ring 고리 세기(0~1) · sp 불티 비율 · low(잔불: 낮은 혓바닥만)
   local function fire(i, o)
     local t, hs, is = o.t, o.hs or 1, o.is or 1
-    local H = (big and 60 or 30) * hs
+    local H = (big and 60 or 30) * hs * (eternal and 1.35 or 1)
     -- 고리 (뒤 반쪽 먼저)
     local function ring(front)
       if (o.ring or 0) <= 0 then return end
@@ -142,6 +143,15 @@ elseif WHICH == "fx-fire-pillar-big" or WHICH == "fx-fire-pillar-quick" then
       if u < 0.4 then px(i, x, tip + 1, shade((0.5 - u * 0.5) * is, math.floor(x), math.floor(tip) + 1)) end
     end end
     ring(true)
+    -- 에임라의 기둥: 두 가닥 나선 불티 띠가 기둥을 감아 오름 (앞쪽은 밝게, 뒤쪽은 어둡게)
+    if eternal and not o.low then
+      for strand = 0, 1 do for k = 0, 22 do
+        local u = (k / 22 + t) % 1; local a = TAU * (u * 2.2 + strand * 0.5 + t)
+        local x, y = cx + math.cos(a) * (R * 0.55) * (1 - u * 0.4), by - 4 - u * H * 0.95
+        local front = math.sin(a) > 0
+        if (k + strand) % 2 == 0 or front then px(i, x, y, front and (u < 0.5 and F.W or F.Y) or F.r) end
+      end end
+    end
     -- 불티·재
     local sp = o.sp or 1
     for k, s in ipairs(SPARKS) do if k <= #SPARKS * sp then
@@ -157,7 +167,13 @@ elseif WHICH == "fx-fire-pillar-big" or WHICH == "fx-fire-pillar-quick" then
       L[k] = { ms, nil, function(i) local o = opt(u, k); o.t = from + (to - from) * u; fire(i, o) end } end
     return L
   end
-  if big then
+  if eternal then
+    -- 3초 남아 타오름: linger(반복, 엔진이 3초 동안 돌림) → out(꺼짐). 속이 더 하얗게(is 1.15)
+    local L = seq(12, 75, 0, 1, function() return { ring = 1, is = 1.15 } end); L[1][2] = "linger:start"
+    CL[#CL+1] = { "linger", true, L }
+    local O = seq(6, 83, 0, 0.45, function(u) return { hs = 1 - u * 0.85, is = 1.1 - u * 0.6, ring = 1 - u * 0.6, sp = 1 - u * 0.5 } end); O[1][2] = "linger:end"
+    CL[#CL+1] = { "out", false, O }
+  elseif big then
     -- 오름 0.2초 → 이글거림 0.9초(반복 12장) → 잦아듦 0.5초 → 잔불 1초(반복 8장)
     local rise = seq(4, 50, 0, 0.2, function(u) return { hs = 0.25 + 0.75 * (u + 0.25), is = 1.15 - u * 0.15, ring = 0.4 + u * 0.6, sp = u } end)
     rise[1][2] = "pillar:start"
