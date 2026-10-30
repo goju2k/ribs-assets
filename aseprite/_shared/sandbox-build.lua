@@ -146,6 +146,15 @@ elseif WHICH == "sentinel-brute" then
   } }
   CL[#CL+1] = { "attack", false, { F(60, "attack:active", function(i) brute(i, { lean = -2, arm = "slam", lv = 3, dust = true }) end), F(80, nil, function(i) brute(i, { lean = -2, arm = "slam", lv = 2, slump = 1, dust = true }) end), F(300, "attack:recover", function(i) brute(i, { lean = -1, arm = "slam", lv = 1, slump = 1 }) end) } }
   CL[#CL+1] = { "hit", false, { F(60, "hit:start", function(i) brute(i, { lean = 1, lv = 3 }) end, true), F(90, nil, function(i) brute(i, { lean = 1 }) end) } }
+  -- stun (D-073 후속): 패링당해 뒤로 밀리고 1초 경직. 봉인 빛이 꺼졌다 켜지며 깜빡, 몸 둘레에 봉인 빛 불티 (근접형 stun과 같은 박자 250×4)
+  local function stunSparks(i, k) local P = { {6, 6}, {38, 10}, {8, 30}, {40, 26}, {22, 2}, {30, 34} }
+    for n = 1, 3 do local p = P[(k + n * 2) % #P + 1]; px(i, p[1], p[2], GL[3][1]); if n == 1 then px(i, p[1] + 1, p[2], GL[2][2]) end end end
+  CL[#CL+1] = { "stun", false, {
+    F(250, "stun:start", function(i) brute(i, { lean = 3, slump = 1, lv = 0 }); stunSparks(i, 0) end, true),
+    F(250, nil, function(i) brute(i, { lean = 3, slump = 2, lv = 2 }); stunSparks(i, 1) end),
+    F(250, nil, function(i) brute(i, { lean = 2, slump = 2, lv = 0 }); stunSparks(i, 2) end),
+    F(250, nil, function(i) brute(i, { lean = 2, slump = 1, lv = 1 }); stunSparks(i, 3) end),
+  } }
   CL[#CL+1] = { "down", false, { F(100, "down:start", function(i) brute(i, { lean = 2, slump = 2, lv = 0 }) end, true), F(120, nil, function(i) brute(i, { lean = 3, slump = 5, lv = 0 }); pebbles(i, 22, 38, 6, 30, 10, 41) end), F(140, nil, function(i) block(i, 8, 28, 36, 38, C.s, true); pebbles(i, 22, 38, 8, 34, 8, 43) end), F(400, nil, function(i) block(i, 10, 32, 34, 38, C.s, true); pebbles(i, 22, 39, 9, 38, 3, 45) end) } }
 
 elseif WHICH == "fx-enemy-bolt" then
