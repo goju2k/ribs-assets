@@ -1,0 +1,17 @@
+{
+  "contract": 1,
+  "id": "fx-peacock-flash",
+  "texture": "fx-peacock-flash.png",
+  "frameSize": [64, 64],
+  "anchor": [32, 32],
+  "source": "ribs-assets@70989df",
+  "clips": {
+    "flash": { "loop": false, "frames": [
+        { "sx": 0, "sy": 0, "sWidth": 64, "sHeight": 64, "durationMs": 40, "tags": ["flash:start"] },
+        { "sx": 64, "sy": 0, "sWidth": 64, "sHeight": 64, "durationMs": 50 },
+        { "sx": 128, "sy": 0, "sWidth": 64, "sHeight": 64, "durationMs": 60 },
+        { "sx": 192, "sy": 0, "sWidth": 64, "sHeight": 64, "durationMs": 80 },
+        { "sx": 256, "sy": 0, "sWidth": 64, "sHeight": 64, "durationMs": 80 }
+    ] }
+  }
+}

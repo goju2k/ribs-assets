@@ -1,0 +1,21 @@
+{
+  "contract": 1,
+  "id": "fx-stormspark",
+  "texture": "fx-stormspark.png",
+  "frameSize": [14, 10],
+  "anchor": [8, 5],
+  "source": "ribs-assets@70989df",
+  "clips": {
+    "projectile": { "loop": true, "frames": [
+        { "sx": 0, "sy": 0, "sWidth": 14, "sHeight": 10, "durationMs": 50 },
+        { "sx": 14, "sy": 0, "sWidth": 14, "sHeight": 10, "durationMs": 50 },
+        { "sx": 28, "sy": 0, "sWidth": 14, "sHeight": 10, "durationMs": 50 },
+        { "sx": 42, "sy": 0, "sWidth": 14, "sHeight": 10, "durationMs": 50 }
+    ] },
+    "impact": { "loop": false, "frames": [
+        { "sx": 0, "sy": 10, "sWidth": 14, "sHeight": 10, "durationMs": 40, "tags": ["impact:start"] },
+        { "sx": 14, "sy": 10, "sWidth": 14, "sHeight": 10, "durationMs": 50 },
+        { "sx": 28, "sy": 10, "sWidth": 14, "sHeight": 10, "durationMs": 60 }
+    ] }
+  }
+}
