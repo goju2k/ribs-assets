@@ -1,0 +1,45 @@
+{
+  "contract": 1,
+  "id": "sentinel-brute",
+  "texture": "sentinel-brute.png",
+  "frameSize": [44, 40],
+  "anchor": [22, 39],
+  "source": "ribs-assets@767b86e",
+  "clips": {
+    "idle": { "loop": true, "frames": [
+        { "sx": 0, "sy": 0, "sWidth": 44, "sHeight": 40, "durationMs": 180 },
+        { "sx": 44, "sy": 0, "sWidth": 44, "sHeight": 40, "durationMs": 180 },
+        { "sx": 88, "sy": 0, "sWidth": 44, "sHeight": 40, "durationMs": 180 },
+        { "sx": 132, "sy": 0, "sWidth": 44, "sHeight": 40, "durationMs": 180 }
+    ] },
+    "move": { "loop": true, "frames": [
+        { "sx": 0, "sy": 40, "sWidth": 44, "sHeight": 40, "durationMs": 100 },
+        { "sx": 44, "sy": 40, "sWidth": 44, "sHeight": 40, "durationMs": 100 },
+        { "sx": 88, "sy": 40, "sWidth": 44, "sHeight": 40, "durationMs": 100 },
+        { "sx": 132, "sy": 40, "sWidth": 44, "sHeight": 40, "durationMs": 100 }
+    ] },
+    "windup": { "loop": false, "frames": [
+        { "sx": 0, "sy": 80, "sWidth": 44, "sHeight": 40, "durationMs": 140, "tags": ["windup:start"] },
+        { "sx": 44, "sy": 80, "sWidth": 44, "sHeight": 40, "durationMs": 160 },
+        { "sx": 88, "sy": 80, "sWidth": 44, "sHeight": 40, "durationMs": 260 },
+        { "sx": 132, "sy": 80, "sWidth": 44, "sHeight": 40, "durationMs": 67, "tags": ["windup:cue"] },
+        { "sx": 176, "sy": 80, "sWidth": 44, "sHeight": 40, "durationMs": 67 },
+        { "sx": 220, "sy": 80, "sWidth": 44, "sHeight": 40, "durationMs": 66 }
+    ] },
+    "attack": { "loop": false, "frames": [
+        { "sx": 0, "sy": 120, "sWidth": 44, "sHeight": 40, "durationMs": 60, "tags": ["attack:active"] },
+        { "sx": 44, "sy": 120, "sWidth": 44, "sHeight": 40, "durationMs": 80 },
+        { "sx": 88, "sy": 120, "sWidth": 44, "sHeight": 40, "durationMs": 300, "tags": ["attack:recover"] }
+    ] },
+    "hit": { "loop": false, "frames": [
+        { "sx": 0, "sy": 160, "sWidth": 44, "sHeight": 40, "durationMs": 60, "tags": ["hit:start"] },
+        { "sx": 44, "sy": 160, "sWidth": 44, "sHeight": 40, "durationMs": 90 }
+    ] },
+    "down": { "loop": false, "frames": [
+        { "sx": 0, "sy": 200, "sWidth": 44, "sHeight": 40, "durationMs": 100, "tags": ["down:start"] },
+        { "sx": 44, "sy": 200, "sWidth": 44, "sHeight": 40, "durationMs": 120 },
+        { "sx": 88, "sy": 200, "sWidth": 44, "sHeight": 40, "durationMs": 140 },
+        { "sx": 132, "sy": 200, "sWidth": 44, "sHeight": 40, "durationMs": 400 }
+    ] }
+  }
+}
