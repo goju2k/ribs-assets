@@ -3,11 +3,11 @@
 --   fx-lance-charge  플레임 랜스 시전 36f(600ms): 불티가 손끝으로 모이며 심이 커짐. 24×24, 기준점 가운데
 --   fx-lance-beam    플레임 랜스 빔 조각 16×16, 기준점 [0,8](왼쪽 가운데). start(손끝) · body(16px마다 이어 붙임) · end(첫 벽, 가운데가 맞은 점)
 --                    각 조각 = 쏨(반복) / -fade(사라짐). 엔진: start 1개 + body를 길이만큼 + end를 맞은 점에
---   fx-fireshot      파이어 샷 원뿔(반각 30°, 사거리 56) 한 번 터짐 310ms. 64×48, 기준점 [2,24] = 손끝
+--   fx-fireshot      파이어 샷 원뿔(반각 30°, 사거리 56) 한 번 터짐 310ms. 64×60, 기준점 [2,30] = 손끝
 --   fx-breath        파이어 브레스 원뿔(반각 25°, 사거리 48) start / loop(반복) / end. 56×40, 기준점 [2,20]
 --   fx-burn-spread   연소가 옮겨 붙을 때 이웃으로 튀는 작은 불씨 10×8 (엔진이 포물선으로 옮김)
 --   fx-firespark     파이어 스트림 탄 (빠른 연사용 작은 탄) 12×6, 기준점 [8,3]
---   prop-fire-turret 파이어 터렛: summon / idle(반복) / fire(fire:release) / expire. 16×28, 기준점 [8,27]
+--   prop-fire-turret 파이어 터렛: summon(200ms) / idle(반복) / fire(fire:release) / expire. 16×28, 기준점 [8,27]
 local function H(h) return Color{r=tonumber(h:sub(1,2),16), g=tonumber(h:sub(3,4),16), b=tonumber(h:sub(5,6),16)} end
 local F = { W=H"fff7d6", Y=H"fbf236", y=H"df7126", r=H"ac3232", d=H"7a2018", a=H"5a4a44" }
 local WOOD = { o=H"0e0507", s=H"5e3a28", m=H"8f563b", l=H"b07048" }
@@ -75,7 +75,7 @@ elseif WHICH == "fx-lance-beam" then
   end
 
 elseif WHICH == "fx-fireshot" then
-  FW, FH, ANCHOR = 64, 48, { 2, 24 }
+  FW, FH, ANCHOR = 64, 60, { 2, 30 }   -- 반각 30°·사거리 56 → 끝이 위아래 28px, 높이 60에 들어감
   -- 근접 산탄: 손끝 섬광 → 불꽃 알갱이(짧은 줄)가 원뿔로 퍼짐(가까울수록 굵고 밝게) → 끝에서 불티로 흩어짐
   local HALF, RANGE = math.rad(30), 56
   local PEL = {}; seed = 81
@@ -83,7 +83,7 @@ elseif WHICH == "fx-fireshot" then
   local function pellets(i, r0, len, w)
     for _, p in ipairs(PEL) do local r = r0 * p.sp
       for d = 0, len do local rr = r - d; if rr > 3 and rr <= RANGE then
-        local x, y = 2 + math.cos(p.a) * rr, 24 + math.sin(p.a) * rr
+        local x, y = 2 + math.cos(p.a) * rr, 30 + math.sin(p.a) * rr
         local v = (1 - rr / RANGE) * 0.9 + 0.35 - d / (len + 1) * 0.4
         px(i, x, y, shade(v * w, math.floor(x), math.floor(y)))
         if rr < 24 and d == 0 then px(i, x, y + 1, shade(v * w - 0.2, math.floor(x), math.floor(y) + 1)) end
@@ -92,16 +92,16 @@ elseif WHICH == "fx-fireshot" then
   end
   local function wedge(i, rmax, w)   -- 손끝 쪽 불 부채 (가까울수록 진함)
     for y = 0, FH - 1 do for x = 2, FW - 1 do
-      local dx, dy = x - 2, y - 24; local r = math.sqrt(dx * dx + dy * dy); local a = math.abs(math.atan(dy, dx))
+      local dx, dy = x - 2, y - 30; local r = math.sqrt(dx * dx + dy * dy); local a = math.abs(math.atan(dy, dx))
       if r <= rmax and a <= HALF then local v = (1 - r / rmax) * w * (1 - a / HALF * 0.5); if v > 0.15 then px(i, x, y, shade(v, x, y)) end end
     end end
   end
   CL[#CL+1] = { "burst", false, {
-    F_(50, "shot:fire", function(i) wedge(i, 14, 1.1); blob(i, 4, 24, 4, 91) end),
+    F_(50, "shot:fire", function(i) wedge(i, 14, 1.1); blob(i, 4, 30, 4, 91) end),
     F_(50, nil, function(i) wedge(i, 22, 0.9); pellets(i, 26, 5, 1) end),
     F_(60, nil, function(i) wedge(i, 18, 0.55); pellets(i, 42, 4, 0.9) end),
     F_(70, nil, function(i) pellets(i, 54, 3, 0.7) end),
-    F_(80, nil, function(i) seed = 93; for k = 1, 9 do local a = (rnd() * 2 - 1) * HALF; local r = 30 + rnd() * 26; px(i, 2 + math.cos(a) * r, 24 + math.sin(a) * r - 2, k % 2 == 0 and F.y or F.r) end end),
+    F_(80, nil, function(i) seed = 93; for k = 1, 9 do local a = (rnd() * 2 - 1) * HALF; local r = 30 + rnd() * 26; px(i, 2 + math.cos(a) * r, 30 + math.sin(a) * r - 2, k % 2 == 0 and F.y or F.r) end end),
   } }
 
 elseif WHICH == "fx-breath" then
@@ -164,12 +164,13 @@ elseif WHICH == "prop-fire-turret" then
     if r >= 3 then for s = 0, 2 do local a = (s / 3 + k * 0.09) * TAU; px(i, 8 + math.cos(a) * (r + 3), cy + math.sin(a) * (r + 2) * 0.7, s == 0 and F.Y or F.y) end end
     px(i, 8 + (k % 2), cy - r - 2, F.y)
   end
+  -- summon 200ms: 엔진이 설치 12f(200ms) 뒤 첫 발을 쏨 (deployF와 맞춤)
   CL[#CL+1] = { "summon", false, {
-    F_(60, "summon:start", function(i) stake(i, 4) end),
-    F_(60, nil, function(i) stake(i, 9) end),
-    F_(70, nil, function(i) stake(i, 12); orb(i, 1, 0, 11) end),
-    F_(80, nil, function(i) stake(i, 12); orb(i, 3, 1, 10) end),
-    F_(80, nil, function(i) stake(i, 12); orb(i, 4, 2, 9) end),
+    F_(40, "summon:start", function(i) stake(i, 4) end),
+    F_(40, nil, function(i) stake(i, 9) end),
+    F_(40, nil, function(i) stake(i, 12); orb(i, 1, 0, 11) end),
+    F_(40, nil, function(i) stake(i, 12); orb(i, 3, 1, 10) end),
+    F_(40, nil, function(i) stake(i, 12); orb(i, 4, 2, 9) end),
   } }
   local IDLE = {}; for k = 1, 4 do IDLE[k] = F_(110, nil, function(i) stake(i, 12); orb(i, (k % 2 == 0) and 4 or 3, k, 9 - ((k == 2 or k == 3) and 1 or 0)) end) end
   CL[#CL+1] = { "idle", true, IDLE }
