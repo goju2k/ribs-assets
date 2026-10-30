@@ -107,7 +107,7 @@ elseif WHICH == "sentinel-archer" then
     F(120, "windup:start", function(i) archer(i, { lean = 1, draw = 1, lv = 2, charge = 0 }) end),
     F(160, nil, function(i) archer(i, { lean = 1, draw = 2, lv = 2, charge = 1 }) end),
     F(200, nil, function(i) archer(i, { lean = 2, draw = 2, lv = 3, charge = 2 }) end),
-    F(120, "windup:cue", function(i) archer(i, { lean = 2, draw = 2, lv = 4, charge = 2 }) end),
+    F(120, "windup:cue", function(i) archer(i, { lean = 2, draw = 2, lv = 3, charge = 2 }) end),   -- D-077: 패링 신호는 탄으로 옮겨 감(엔진이 탄에 흰 테두리) → 몸에는 흰 테두리 없음
   } }
   CL[#CL+1] = { "attack", false, { F(60, "attack:active", function(i) archer(i, { lean = -1, draw = 0, lv = 3 }); px(i, 1, 13, MG.a); px(i, 0, 13, MG.W) end), F(100, nil, function(i) archer(i, { lean = 1, lv = 2 }) end), F(140, "attack:recover", function(i) archer(i) end) } }
   CL[#CL+1] = { "hit", false, { F(60, "hit:start", function(i) archer(i, { lean = 2, lv = 3 }) end, true), F(90, nil, function(i) archer(i, { lean = 1 }) end) } }
