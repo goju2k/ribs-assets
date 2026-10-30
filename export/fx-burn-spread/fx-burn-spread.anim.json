@@ -1,0 +1,15 @@
+{
+  "contract": 1,
+  "id": "fx-burn-spread",
+  "texture": "fx-burn-spread.png",
+  "frameSize": [10, 8],
+  "anchor": [5, 4],
+  "source": "ribs-assets@77f280c",
+  "clips": {
+    "loop": { "loop": true, "frames": [
+        { "sx": 0, "sy": 0, "sWidth": 10, "sHeight": 8, "durationMs": 60 },
+        { "sx": 10, "sy": 0, "sWidth": 10, "sHeight": 8, "durationMs": 60 },
+        { "sx": 20, "sy": 0, "sWidth": 10, "sHeight": 8, "durationMs": 60 }
+    ] }
+  }
+}

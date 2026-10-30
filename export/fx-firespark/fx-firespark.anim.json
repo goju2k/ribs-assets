@@ -1,0 +1,20 @@
+{
+  "contract": 1,
+  "id": "fx-firespark",
+  "texture": "fx-firespark.png",
+  "frameSize": [12, 6],
+  "anchor": [8, 3],
+  "source": "ribs-assets@77f280c",
+  "clips": {
+    "projectile": { "loop": true, "frames": [
+        { "sx": 0, "sy": 0, "sWidth": 12, "sHeight": 6, "durationMs": 50 },
+        { "sx": 12, "sy": 0, "sWidth": 12, "sHeight": 6, "durationMs": 50 },
+        { "sx": 24, "sy": 0, "sWidth": 12, "sHeight": 6, "durationMs": 50 }
+    ] },
+    "impact": { "loop": false, "frames": [
+        { "sx": 0, "sy": 6, "sWidth": 12, "sHeight": 6, "durationMs": 40, "tags": ["impact:start"] },
+        { "sx": 12, "sy": 6, "sWidth": 12, "sHeight": 6, "durationMs": 50 },
+        { "sx": 24, "sy": 6, "sWidth": 12, "sHeight": 6, "durationMs": 60 }
+    ] }
+  }
+}
