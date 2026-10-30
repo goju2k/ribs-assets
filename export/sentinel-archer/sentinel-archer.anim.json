@@ -4,7 +4,7 @@
   "texture": "sentinel-archer.png",
   "frameSize": [24, 28],
   "anchor": [12, 27],
-  "source": "ribs-assets@767b86e",
+  "source": "ribs-assets@eb14168",
   "clips": {
     "idle": { "loop": true, "frames": [
         { "sx": 0, "sy": 0, "sWidth": 24, "sHeight": 28, "durationMs": 160 },
