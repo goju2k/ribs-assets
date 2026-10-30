@@ -1,0 +1,30 @@
+{
+  "id": "ui-inventory",
+  "layout": "L2 (D-073 사용자 선택) — 위 장비 한 줄 + 가방 + 마우스 옆에 뜨는 정보 창",
+  "screen": [480, 270],
+  "font": { "family": "Galmuri11", "size": 11 },
+  "dim": { "color": "#08060e", "alpha": 0.6, "note": "뒤 화면 어둡게 (게임 쪽 반투명)" },
+  "panel": { "rect": [96, 30, 288, 200], "frame": "export/lore/record-frame.png", "slice": 16 },
+  "labels": [
+    { "text": "장비", "pos": [114, 44], "color": "#cbdbfc" },
+    { "text": "가방", "pos": [114, 92], "color": "#cbdbfc" }
+  ],
+  "slot": { "size": [20, 20], "art": "ui-items.png 등급 테두리 (frames)", "iconOffset": [2, 2], "emptyFrame": "normal" },
+  "equipment": {
+    "origin": [114, 60], "step": [32, 0],
+    "order": ["crystal", "head", "body", "hand", "foot", "charm", "charm", "relic"],
+    "note": "8칸: 지팡이 수정 · 머리 · 몸 · 손 · 발 · 부적 2 · 유물 (45번 사양 순서). 빈 칸은 보통 테두리 + 슬롯 아이콘을 어둡게"
+  },
+  "bag": { "origin": [114, 108], "step": [25, 25], "cols": 10, "rows": 4 },
+  "tooltip": {
+    "width": 150, "padding": 8, "lineHeight": 14, "gapAfterHeader": 4,
+    "bg": "#16121c", "border": 2, "borderColor": "등급색",
+    "anchor": "가리킨 칸 오른쪽 아래 (+8, +14). 화면 밖으로 나가면 왼쪽·위로 뒤집음",
+    "lines": [
+      { "what": "이름", "color": "등급색" },
+      { "what": "슬롯 · 등급", "color": "#8a8f9c", "example": "지팡이 수정 · 상급" },
+      { "what": "수치 줄 (굴림 범위)", "color": "#e8e6e1", "format": "{이름} +{값}% ({최소}~{최대})", "example": "불 피해 +16% (10~18)" }
+    ]
+  },
+  "rarityColors": { "normal": "#ffffff", "rare": "#8fd46a", "epic": "#e8b84a" }
+}
