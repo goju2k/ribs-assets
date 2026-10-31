@@ -386,6 +386,23 @@ const crossStick = (id, label, hz) => add(id, '치명타', label, [
 crossStick('crit-hit-g', '치명타 G — 크로스스틱 낮게 (약 1.2kHz)', 1200);
 crossStick('crit-hit-h', '치명타 H — 크로스스틱 가운데 (약 1.7kHz)', 1700);
 crossStick('crit-hit-i', '치명타 I — 크로스스틱 높게 (약 2.4kHz)', 2400);
+// 두툼한 방향 (사용자 요청 "어쿠스틱 드럼처럼, 중저음 몸통"): 타격음을 원래 높이 근처로 써서 150~400Hz 몸통을 살리고, 스냅 + 잡음 + 짧은 공간 울림
+add('crit-hit-j', '치명타', '치명타 J — 두툼 (묵직한 타격 + 나무 스냅 + 잡음)', [
+  { src: 'punchH', t: 0.25, rate: 1.0, hp: 120, lp: 2500, fo: 0.1 },
+  { src: 'woodM', t: 0.1, rate: 1.3, hp: 900, gain: 8, fo: 0.05 },
+  { src: 'whoosh', ss: 2.4, t: 0.14, hp: 2500, gain: 28, fo: 0.11 },
+], { reverb: 'room', peak: -8, len: 0.26, tail: 0 });
+add('crit-hit-k', '치명타', '치명타 K — 부드러운 몸통 (둥근 타격 + 판 울림)', [
+  { src: 'softH', t: 0.25, rate: 1.7, hp: 170, lp: 2000, gain: 6, fo: 0.1 },
+  { src: 'plateM0', t: 0.12, rate: 0.9, hp: 800, gain: 0, fo: 0.08 },
+  { src: 'whoosh', ss: 2.4, t: 0.12, hp: 2500, gain: 26, fo: 0.09 },
+], { reverb: 'room', peak: -8, len: 0.26, tail: 0 });
+add('crit-hit-l', '치명타', '치명타 L — 단단한 팍 (중간 타격 두 겹 + 강한 스냅)', [
+  { src: 'punchM', t: 0.2, rate: 1.0, hp: 150, lp: 3000, fo: 0.08 },
+  { src: 'punchH', t: 0.2, rate: 1.25, hp: 180, lp: 1500, gain: -3, fo: 0.08 },
+  { src: 'woodL0', rate: 1.5, hp: 1500, gain: 10 },
+  { src: 'whoosh', ss: 2.4, t: 0.1, hp: 3000, gain: 30, fo: 0.08 },
+], { reverb: 'room', peak: -8, len: 0.22, tail: 0 });
 
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
 const PICK = { 'crit-hit': 'a', 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
