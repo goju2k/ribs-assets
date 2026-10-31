@@ -405,9 +405,9 @@ add('crit-hit-l', '치명타', '치명타 L — 단단한 팍 (중간 타격 두
 ], { reverb: 'room', peak: -8, len: 0.22, tail: 0 });
 
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
-const PICK = { 'crit-hit': 'a', 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
+const PICK = { 'crit-hit': 'k', 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
 for (const [id, k] of Object.entries(PICK)) {
   const src = S.find(x => x.id === `${id}-${k}`);
-  S.push({ ...src, id, candidate: null, label: src.label.replace(/ [A-D] — /, ' — ') + ` (선택: ${k.toUpperCase()})`, note: `후보 ${id}-${k}와 같은 소리` });
+  S.push({ ...src, id, candidate: null, label: src.label.replace(/ [A-Z] — /, ' — ') + ` (선택: ${k.toUpperCase()})`, note: `후보 ${id}-${k}와 같은 소리` });
 }
 export const SOUNDS = S;
