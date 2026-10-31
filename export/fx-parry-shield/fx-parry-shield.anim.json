@@ -1,0 +1,30 @@
+{
+  "contract": 1,
+  "id": "fx-parry-shield",
+  "texture": "fx-parry-shield.png",
+  "frameSize": [40, 40],
+  "anchor": [20, 20],
+  "source": "ribs-assets@9b9e08e",
+  "clips": {
+    "open": { "loop": false, "frames": [
+        { "sx": 0, "sy": 0, "sWidth": 40, "sHeight": 40, "durationMs": 33, "tags": ["parry:on"] },
+        { "sx": 40, "sy": 0, "sWidth": 40, "sHeight": 40, "durationMs": 33 }
+    ] },
+    "hold": { "loop": true, "frames": [
+        { "sx": 0, "sy": 40, "sWidth": 40, "sHeight": 40, "durationMs": 45 },
+        { "sx": 40, "sy": 40, "sWidth": 40, "sHeight": 40, "durationMs": 45 },
+        { "sx": 80, "sy": 40, "sWidth": 40, "sHeight": 40, "durationMs": 45 }
+    ] },
+    "fizzle": { "loop": false, "frames": [
+        { "sx": 0, "sy": 80, "sWidth": 40, "sHeight": 40, "durationMs": 70, "tags": ["parry:fizzle"] },
+        { "sx": 40, "sy": 80, "sWidth": 40, "sHeight": 40, "durationMs": 70 },
+        { "sx": 80, "sy": 80, "sWidth": 40, "sHeight": 40, "durationMs": 70 },
+        { "sx": 120, "sy": 80, "sWidth": 40, "sHeight": 40, "durationMs": 70 }
+    ] },
+    "pop": { "loop": false, "frames": [
+        { "sx": 0, "sy": 120, "sWidth": 40, "sHeight": 40, "durationMs": 40, "tags": ["parry:pop"] },
+        { "sx": 40, "sy": 120, "sWidth": 40, "sHeight": 40, "durationMs": 50 },
+        { "sx": 80, "sy": 120, "sWidth": 40, "sHeight": 40, "durationMs": 60 }
+    ] }
+  }
+}
