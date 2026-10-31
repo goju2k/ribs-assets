@@ -380,7 +380,7 @@ add('crit-hit-f', '치명타', '치명타 F — 밝은 크랙 (가장 높음)', 
 ], { reverb: 'none', peak: -6, len: 0.1, tail: 0 });
 // 크로스스틱 방향 (사용자 요청): 잡음 없이 마른 나무 클릭 + 짧고 또렷한 음높이. 나무 타격을 좁은 공명 필터에 통과시켜 그 음으로 잠깐 울림
 const crossStick = (id, label, hz) => add(id, '치명타', label, [
-  { src: 'woodL0', rate: 1.8, hp: 2600, gain: 8 },                                                     // 스틱 클릭
+  { src: 'woodL0', rate: 1.8, hp: 2600, eq: ['highpass=f=2600', 'highpass=f=2600'], gain: 14 },                                                     // 스틱 클릭
   { src: 'woodL1', rate: 1.4, hp: Math.round(hz * 0.8), eq: [`bandpass=f=${hz}:width_type=q:w=45`, `bandpass=f=${hz}:width_type=q:w=8`], gain: 26 },  // 림 공명 (음높이)
 ], { reverb: 'none', peak: -6, len: 0.09, tail: 0 });
 crossStick('crit-hit-g', '치명타 G — 크로스스틱 낮게 (약 1.2kHz)', 1200);
