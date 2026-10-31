@@ -364,6 +364,20 @@ add('crit-hit-c', '치명타', '치명타 C — 날 선 "팍" (타격 + 칼날 �
   { src: 'crackleC', ss: 8, t: 0.1, hp: 1200, gain: -4, fo: 0.05 },
   { src: 'knife1', t: 0.12, rate: 1.5, hp: 3000, gain: 0, fo: 0.06 },
 ], { reverb: 'none', peak: -6, len: 0.16, tail: 0 });
+// 스네어 방향 (사용자 요청 "더 높은, 드럼 스네어 같은"): 스냅(나무·타격을 높임) + 고음만 남긴 바람 = 잡음 줄. 불 느낌 없음
+add('crit-hit-d', '치명타', '치명타 D — 스네어 (몸통 조금 + 잡음)', [
+  { src: 'woodL0', rate: 1.6, hp: 400, lp: 6000 },
+  { src: 'whoosh', ss: 2.4, t: 0.1, hp: 3000, gain: 20, fo: 0.08 },
+], { reverb: 'none', peak: -6, len: 0.13, tail: 0 });
+add('crit-hit-e', '치명타', '치명타 E — 림샷 (아주 짧고 단단함)', [
+  { src: 'woodL1', rate: 2.3, hp: 900 },
+  { src: 'whoosh', ss: 2.4, t: 0.05, hp: 4000, gain: 20, fo: 0.04 },
+], { reverb: 'none', peak: -6, len: 0.08, tail: 0 });
+add('crit-hit-f', '치명타', '치명타 F — 밝은 크랙 (가장 높음)', [
+  { src: 'punchM', t: 0.1, rate: 2.6, hp: 1800, fo: 0.05 },
+  { src: 'whoosh', ss: 2.4, t: 0.08, rate: 1.4, hp: 5000, gain: 8, fo: 0.05 },
+  { src: 'cloth3', t: 0.06, rate: 1.5, hp: 4000, gain: -2, fo: 0.04 },
+], { reverb: 'none', peak: -6, len: 0.1, tail: 0 });
 
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
 const PICK = { 'crit-hit': 'a', 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
