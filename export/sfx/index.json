@@ -631,7 +631,7 @@
   "label": "큰 불기둥 — \"화르륵\" 솟고 이글거리다 잦아듦 (D-043, 그림 오름 0.2 + 이글 0.9 + 잦아듦 0.5에 맞춤)",
   "note": "",
   "candidate": null,
-  "ms": 2020,
+  "ms": 1900,
   "files": [
    "pillar-big.ogg",
    "pillar-big.m4a"
@@ -1075,6 +1075,222 @@
   "sources": [
    "whoosh",
    "bowl"
+  ]
+ },
+ {
+  "id": "crit-hit-a",
+  "group": "치명타",
+  "label": "치명타 A — 불꽃 \"팍\" (타닥 + 높인 타격)",
+  "note": "",
+  "candidate": null,
+  "ms": 100,
+  "files": [
+   "crit-hit-a.ogg",
+   "crit-hit-a.m4a"
+  ],
+  "sources": [
+   "punchM",
+   "crackleB"
+  ]
+ },
+ {
+  "id": "crit-hit-b",
+  "group": "치명타",
+  "label": "치명타 B — 맑은 \"팍\" (타격 + 유리 끝소리)",
+  "note": "",
+  "candidate": null,
+  "ms": 140,
+  "files": [
+   "crit-hit-b.ogg",
+   "crit-hit-b.m4a"
+  ],
+  "sources": [
+   "softM",
+   "crackleA",
+   "glass3"
+  ]
+ },
+ {
+  "id": "crit-hit-c",
+  "group": "치명타",
+  "label": "치명타 C — 날 선 \"팍\" (타격 + 칼날 끝소리)",
+  "note": "",
+  "candidate": null,
+  "ms": 100,
+  "files": [
+   "crit-hit-c.ogg",
+   "crit-hit-c.m4a"
+  ],
+  "sources": [
+   "punchM",
+   "crackleC",
+   "knife1"
+  ]
+ },
+ {
+  "id": "crit-hit-d",
+  "group": "치명타",
+  "label": "치명타 D — 스네어 (몸통 조금 + 잡음)",
+  "note": "",
+  "candidate": null,
+  "ms": 130,
+  "files": [
+   "crit-hit-d.ogg",
+   "crit-hit-d.m4a"
+  ],
+  "sources": [
+   "woodL0",
+   "whoosh"
+  ]
+ },
+ {
+  "id": "crit-hit-e",
+  "group": "치명타",
+  "label": "치명타 E — 림샷 (아주 짧고 단단함)",
+  "note": "",
+  "candidate": null,
+  "ms": 80,
+  "files": [
+   "crit-hit-e.ogg",
+   "crit-hit-e.m4a"
+  ],
+  "sources": [
+   "woodL1",
+   "whoosh"
+  ]
+ },
+ {
+  "id": "crit-hit-f",
+  "group": "치명타",
+  "label": "치명타 F — 밝은 크랙 (가장 높음)",
+  "note": "",
+  "candidate": null,
+  "ms": 60,
+  "files": [
+   "crit-hit-f.ogg",
+   "crit-hit-f.m4a"
+  ],
+  "sources": [
+   "punchM",
+   "whoosh",
+   "cloth3"
+  ]
+ },
+ {
+  "id": "crit-hit-g",
+  "group": "치명타",
+  "label": "치명타 G — 크로스스틱 낮게 (약 1.2kHz)",
+  "note": "",
+  "candidate": null,
+  "ms": 90,
+  "files": [
+   "crit-hit-g.ogg",
+   "crit-hit-g.m4a"
+  ],
+  "sources": [
+   "woodL0",
+   "woodL1"
+  ]
+ },
+ {
+  "id": "crit-hit-h",
+  "group": "치명타",
+  "label": "치명타 H — 크로스스틱 가운데 (약 1.7kHz)",
+  "note": "",
+  "candidate": null,
+  "ms": 90,
+  "files": [
+   "crit-hit-h.ogg",
+   "crit-hit-h.m4a"
+  ],
+  "sources": [
+   "woodL0",
+   "woodL1"
+  ]
+ },
+ {
+  "id": "crit-hit-i",
+  "group": "치명타",
+  "label": "치명타 I — 크로스스틱 높게 (약 2.4kHz)",
+  "note": "",
+  "candidate": null,
+  "ms": 90,
+  "files": [
+   "crit-hit-i.ogg",
+   "crit-hit-i.m4a"
+  ],
+  "sources": [
+   "woodL0",
+   "woodL1"
+  ]
+ },
+ {
+  "id": "crit-hit-j",
+  "group": "치명타",
+  "label": "치명타 J — 두툼 (묵직한 타격 + 나무 스냅 + 잡음)",
+  "note": "",
+  "candidate": null,
+  "ms": 260,
+  "files": [
+   "crit-hit-j.ogg",
+   "crit-hit-j.m4a"
+  ],
+  "sources": [
+   "punchH",
+   "woodM",
+   "whoosh"
+  ]
+ },
+ {
+  "id": "crit-hit-k",
+  "group": "치명타",
+  "label": "치명타 K — 부드러운 몸통 (둥근 타격 + 판 울림)",
+  "note": "",
+  "candidate": null,
+  "ms": 210,
+  "files": [
+   "crit-hit-k.ogg",
+   "crit-hit-k.m4a"
+  ],
+  "sources": [
+   "softH",
+   "plateM0",
+   "whoosh"
+  ]
+ },
+ {
+  "id": "crit-hit-l",
+  "group": "치명타",
+  "label": "치명타 L — 단단한 팍 (중간 타격 두 겹 + 강한 스냅)",
+  "note": "",
+  "candidate": null,
+  "ms": 220,
+  "files": [
+   "crit-hit-l.ogg",
+   "crit-hit-l.m4a"
+  ],
+  "sources": [
+   "punchM",
+   "punchH",
+   "woodL0",
+   "whoosh"
+  ]
+ },
+ {
+  "id": "crit-hit",
+  "group": "치명타",
+  "label": "치명타 — 부드러운 몸통 (둥근 타격 + 판 울림) (선택: K)",
+  "note": "후보 crit-hit-k와 같은 소리",
+  "candidate": null,
+  "ms": 210,
+  "files": [
+   "crit-hit.ogg",
+   "crit-hit.m4a"
+  ],
+  "sources": [
+   "softH",
+   "plateM0",
+   "whoosh"
   ]
  },
  {

@@ -349,10 +349,65 @@ add('vista-reveal', '전망', '드러남 — 공간의 크기를 알리는 낮�
   { src: 'bowl', ss: 1.42, t: 1.1, rate: 0.75, lp: 2000, fi: 0.5, fo: 0.9, delay: 200, gain: -10 },
 ], { reverb: 'hall', peak: -6, len: 2.2 });
 
+// ── 치명타 (D-084): 일반 타격보다 높은 짧은 "팍". 0.1초에 1번까지 반복 → 짧게(0.16초), 잔향 없이, 낮은 peak ──
+add('crit-hit-a', '치명타', '치명타 A — 불꽃 "팍" (타닥 + 높인 타격)', [
+  { src: 'punchM', t: 0.2, rate: 2.0, hp: 1400, fo: 0.08 },
+  { src: 'crackleB', ss: 3.1, t: 0.12, rate: 1.3, hp: 2500, gain: 4, fo: 0.05 },
+], { reverb: 'none', peak: -6, len: 0.16, tail: 0 });
+add('crit-hit-b', '치명타', '치명타 B — 맑은 "팍" (타격 + 유리 끝소리)', [
+  { src: 'softM', t: 0.2, rate: 1.8, hp: 500, fo: 0.08 },
+  { src: 'crackleA', ss: 12.4, t: 0.1, hp: 1500, gain: -4, fo: 0.05 },
+  { src: 'glass3', rate: 1.5, hp: 2500, gain: -9 },
+], { reverb: 'none', peak: -6, len: 0.16, tail: 0 });
+add('crit-hit-c', '치명타', '치명타 C — 날 선 "팍" (타격 + 칼날 끝소리)', [
+  { src: 'punchM', t: 0.2, rate: 2.1, hp: 1500, fo: 0.08 },
+  { src: 'crackleC', ss: 8, t: 0.1, hp: 1200, gain: -4, fo: 0.05 },
+  { src: 'knife1', t: 0.12, rate: 1.5, hp: 3000, gain: 0, fo: 0.06 },
+], { reverb: 'none', peak: -6, len: 0.16, tail: 0 });
+// 스네어 방향 (사용자 요청 "더 높은, 드럼 스네어 같은"): 스냅(나무·타격을 높임) + 고음만 남긴 바람 = 잡음 줄. 불 느낌 없음
+add('crit-hit-d', '치명타', '치명타 D — 스네어 (몸통 조금 + 잡음)', [
+  { src: 'woodL0', rate: 1.6, hp: 400, lp: 6000 },
+  { src: 'whoosh', ss: 2.4, t: 0.1, hp: 3000, gain: 20, fo: 0.08 },
+], { reverb: 'none', peak: -6, len: 0.13, tail: 0 });
+add('crit-hit-e', '치명타', '치명타 E — 림샷 (아주 짧고 단단함)', [
+  { src: 'woodL1', rate: 2.3, hp: 900 },
+  { src: 'whoosh', ss: 2.4, t: 0.05, hp: 4000, gain: 20, fo: 0.04 },
+], { reverb: 'none', peak: -6, len: 0.08, tail: 0 });
+add('crit-hit-f', '치명타', '치명타 F — 밝은 크랙 (가장 높음)', [
+  { src: 'punchM', t: 0.1, rate: 2.6, hp: 1800, fo: 0.05 },
+  { src: 'whoosh', ss: 2.4, t: 0.08, rate: 1.4, hp: 5000, gain: 8, fo: 0.05 },
+  { src: 'cloth3', t: 0.06, rate: 1.5, hp: 4000, gain: -2, fo: 0.04 },
+], { reverb: 'none', peak: -6, len: 0.1, tail: 0 });
+// 크로스스틱 방향 (사용자 요청): 잡음 없이 마른 나무 클릭 + 짧고 또렷한 음높이. 나무 타격을 좁은 공명 필터에 통과시켜 그 음으로 잠깐 울림
+const crossStick = (id, label, hz) => add(id, '치명타', label, [
+  { src: 'woodL0', rate: 1.8, hp: 2600, eq: ['highpass=f=2600', 'highpass=f=2600'], gain: 14 },                                                     // 스틱 클릭
+  { src: 'woodL1', rate: 1.4, hp: Math.round(hz * 0.8), eq: [`bandpass=f=${hz}:width_type=q:w=45`, `bandpass=f=${hz}:width_type=q:w=8`], gain: 26 },  // 림 공명 (음높이)
+], { reverb: 'none', peak: -6, len: 0.09, tail: 0 });
+crossStick('crit-hit-g', '치명타 G — 크로스스틱 낮게 (약 1.2kHz)', 1200);
+crossStick('crit-hit-h', '치명타 H — 크로스스틱 가운데 (약 1.7kHz)', 1700);
+crossStick('crit-hit-i', '치명타 I — 크로스스틱 높게 (약 2.4kHz)', 2400);
+// 두툼한 방향 (사용자 요청 "어쿠스틱 드럼처럼, 중저음 몸통"): 타격음을 원래 높이 근처로 써서 150~400Hz 몸통을 살리고, 스냅 + 잡음 + 짧은 공간 울림
+add('crit-hit-j', '치명타', '치명타 J — 두툼 (묵직한 타격 + 나무 스냅 + 잡음)', [
+  { src: 'punchH', t: 0.25, rate: 1.0, hp: 120, lp: 2500, fo: 0.1 },
+  { src: 'woodM', t: 0.1, rate: 1.3, hp: 900, gain: 8, fo: 0.05 },
+  { src: 'whoosh', ss: 2.4, t: 0.14, hp: 2500, gain: 28, fo: 0.11 },
+], { reverb: 'room', peak: -8, len: 0.26, tail: 0 });
+add('crit-hit-k', '치명타', '치명타 K — 부드러운 몸통 (둥근 타격 + 판 울림)', [
+  { src: 'softH', t: 0.25, rate: 1.7, hp: 170, lp: 2000, gain: 6, fo: 0.1 },
+  { src: 'plateM0', t: 0.12, rate: 0.9, hp: 800, gain: 0, fo: 0.08 },
+  { src: 'whoosh', ss: 2.4, t: 0.12, hp: 2500, gain: 26, fo: 0.09 },
+], { reverb: 'room', peak: -8, len: 0.26, tail: 0 });
+add('crit-hit-l', '치명타', '치명타 L — 단단한 팍 (중간 타격 두 겹 + 강한 스냅)', [
+  { src: 'punchM', t: 0.2, rate: 1.0, hp: 150, lp: 3000, fo: 0.08 },
+  { src: 'punchH', t: 0.2, rate: 1.25, hp: 180, lp: 1500, gain: -3, fo: 0.08 },
+  { src: 'woodL0', rate: 1.5, hp: 1500, gain: 10 },
+  { src: 'whoosh', ss: 2.4, t: 0.1, hp: 3000, gain: 30, fo: 0.08 },
+], { reverb: 'room', peak: -8, len: 0.22, tail: 0 });
+
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
-const PICK = { 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
+const PICK = { 'crit-hit': 'k', 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
 for (const [id, k] of Object.entries(PICK)) {
   const src = S.find(x => x.id === `${id}-${k}`);
-  S.push({ ...src, id, candidate: null, label: src.label.replace(/ [A-D] — /, ' — ') + ` (선택: ${k.toUpperCase()})`, note: `후보 ${id}-${k}와 같은 소리` });
+  S.push({ ...src, id, candidate: null, label: src.label.replace(/ [A-Z] — /, ' — ') + ` (선택: ${k.toUpperCase()})`, note: `후보 ${id}-${k}와 같은 소리` });
 }
 export const SOUNDS = S;
