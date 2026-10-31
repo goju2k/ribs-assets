@@ -42,6 +42,7 @@ button.play:active, button.play.on { background: var(--acc); color: #0f1015; }
     <div class="sel" data-k="w"><span>장전</span><button data-v="a" class="on">A</button><button data-v="b">B</button></div>
     <div class="sel" data-k="c"><span>팅</span><button data-v="a" class="on">A</button><button data-v="b">B</button><button data-v="c">C</button></div>
     <div class="sel" data-k="r"><span>결과</span><button data-v="parry-success-a" class="on">패링 A</button><button data-v="parry-success-b">패링 B</button><button data-v="parry-success-c">패링 C</button><button data-v="parry-success-d">패링 D</button><button data-v="sentinel-attack-a">맞음: 공격 A</button><button data-v="sentinel-attack-b">맞음: 공격 B</button></div>
+    <div class="sel" data-k="ck"><span>치명타</span><button data-v="crit-hit-a" class="on">A</button><button data-v="crit-hit-b">B</button><button data-v="crit-hit-c">C</button> <button id="crit1" class="go">▶ 한 번</button> <button id="crit10" class="go">▶ 0.1초 간격 10번</button></div>
     <button id="go" class="go">▶ 들어 보기</button> <button id="go3" class="go">▶ 세 번 연속 (공격 간격 1초)</button>
   </div>
 </header>
@@ -67,7 +68,7 @@ const play = id => { const a = cache[id] || (cache[id] = new Audio(BASE + id + '
   const load = async id => buf[id] || (buf[id] = await ac.decodeAudioData(await (await fetch(BASE + id + ".wav")).arrayBuffer()));
   const at = (b, t) => { const n = ac.createBufferSource(); n.buffer = b; n.connect(ac.destination); n.start(t); };
   const pick = {}; for (const g of document.querySelectorAll(".sel")) { pick[g.dataset.k] = g.querySelector(".on").dataset.v;
-    g.onclick = e => { if (e.target.tagName !== "BUTTON") return; g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === e.target)); pick[g.dataset.k] = e.target.dataset.v; }; }
+    g.onclick = e => { if (e.target.tagName !== "BUTTON" || !e.target.dataset.v) return; g.querySelectorAll("button[data-v]").forEach(x => x.classList.toggle("on", x === e.target)); pick[g.dataset.k] = e.target.dataset.v; }; }
   const flow = async times => {
     await ac.resume(); const easy = pick.mode === "e";
     const W = easy ? 0.9 : 0.6, C = easy ? 0.2 : 8 / 60, parry = pick.r.startsWith("parry");
@@ -75,6 +76,10 @@ const play = id => { const a = cache[id] || (cache[id] = new Audio(BASE + id + '
     let t0 = ac.currentTime + 0.05;
     for (let i = 0; i < times; i++) { at(w, t0); at(c, t0 + W - C); at(r, parry ? t0 + W - C + 0.1 : t0 + W); t0 += W + 1; }
   };
+  // 치명타: 실제 최대 빈도(0.1초에 1번) 연타
+  const critRun = async n => { await ac.resume(); const b = await load(pick.ck); const t0 = ac.currentTime + 0.05; for (let i = 0; i < n; i++) at(b, t0 + i * 0.1); };
+  document.getElementById("crit1").onclick = e => { e.stopPropagation(); critRun(1); };
+  document.getElementById("crit10").onclick = e => { e.stopPropagation(); critRun(10); };
   document.getElementById("go").onclick = () => flow(1);
   document.getElementById("go3").onclick = () => flow(3);
 })();

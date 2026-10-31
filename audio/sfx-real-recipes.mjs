@@ -349,8 +349,24 @@ add('vista-reveal', '전망', '드러남 — 공간의 크기를 알리는 낮�
   { src: 'bowl', ss: 1.42, t: 1.1, rate: 0.75, lp: 2000, fi: 0.5, fo: 0.9, delay: 200, gain: -10 },
 ], { reverb: 'hall', peak: -6, len: 2.2 });
 
+// ── 치명타 (D-084): 일반 타격보다 높은 짧은 "팍". 0.1초에 1번까지 반복 → 짧게(0.16초), 잔향 없이, 낮은 peak ──
+add('crit-hit-a', '치명타', '치명타 A — 불꽃 "팍" (타닥 + 높인 타격)', [
+  { src: 'punchM', t: 0.2, rate: 2.0, hp: 1400, fo: 0.08 },
+  { src: 'crackleB', ss: 3.1, t: 0.12, rate: 1.3, hp: 2500, gain: 4, fo: 0.05 },
+], { reverb: 'none', peak: -6, len: 0.16, tail: 0 });
+add('crit-hit-b', '치명타', '치명타 B — 맑은 "팍" (타격 + 유리 끝소리)', [
+  { src: 'softM', t: 0.2, rate: 1.8, hp: 500, fo: 0.08 },
+  { src: 'crackleA', ss: 12.4, t: 0.1, hp: 1500, gain: -4, fo: 0.05 },
+  { src: 'glass3', rate: 1.5, hp: 2500, gain: -9 },
+], { reverb: 'none', peak: -6, len: 0.16, tail: 0 });
+add('crit-hit-c', '치명타', '치명타 C — 날 선 "팍" (타격 + 칼날 끝소리)', [
+  { src: 'punchM', t: 0.2, rate: 2.1, hp: 1500, fo: 0.08 },
+  { src: 'crackleC', ss: 8, t: 0.1, hp: 1200, gain: -4, fo: 0.05 },
+  { src: 'knife1', t: 0.12, rate: 1.5, hp: 3000, gain: 0, fo: 0.06 },
+], { reverb: 'none', peak: -6, len: 0.16, tail: 0 });
+
 // 정식 이름 (게임이 쓰는 id): 사용자가 후보를 고르기 전까지 A
-const PICK = { 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
+const PICK = { 'crit-hit': 'a', 'parry-success': 'a', 'sentinel-windup': 'a', 'sentinel-windup-easy': 'a', 'sentinel-cue': 'a', 'sentinel-attack': 'a' };
 for (const [id, k] of Object.entries(PICK)) {
   const src = S.find(x => x.id === `${id}-${k}`);
   S.push({ ...src, id, candidate: null, label: src.label.replace(/ [A-D] — /, ' — ') + ` (선택: ${k.toUpperCase()})`, note: `후보 ${id}-${k}와 같은 소리` });
